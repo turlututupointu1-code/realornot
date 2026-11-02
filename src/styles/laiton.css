@@ -1,0 +1,74 @@
+/* src/styles/laiton.css version 1.0.0 */
+
+/* Couleurs de base pour le laiton et le fond sombre */
+:root {
+    --couleur-fond-laiton: #997A44; /* Base dorée/laiton sombre */
+    --couleur-laiton-claire: #C5A66E; /* Point de lumière sur le métal */
+    --couleur-laiton-sombre: #7A6237; /* Ombre profonde */
+    --couleur-primaire: #ff0000;
+}
+
+/* 1. Style du Conteneur (Le fond de la même couleur) */
+.conteneur-boutons {
+    display: flex;
+    gap: 25px;
+    padding: 60px;
+    /* Couleur et texture de base du fond */
+    background-color: var(--couleur-fond-laiton);
+    box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.4); 
+}
+
+/* 2. Style commun des Boutons (Laiton Incrusté) */
+.bouton-soft {
+    width: 60px; 
+    height: 60px; 
+    border: none;
+    border-radius: 50%; 
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+    /* Couleur du bouton (identique au fond pour l'incrustation) */
+    background-color: var(--couleur-fond-laiton);
+    
+    /* EFFET INCRUSTÉ PAR DÉFAUT (Concave) */
+    box-shadow: 
+        inset 5px 5px 12px var(--couleur-laiton-sombre), /* Ombre interne (laiton sombre) */
+        inset -5px -5px 12px var(--couleur-laiton-claire); /* Lumière interne (laiton clair) */
+    
+    transition: all 0.2s ease;
+}
+
+/* 3. Effet au survol (Léger relief) */
+.bouton-soft:hover {
+    box-shadow: 
+        5px 5px 10px var(--couleur-laiton-sombre),  /* Ombre externe */
+        -5px -5px 10px var(--couleur-laiton-claire); /* Lumière externe */
+}
+
+/* 4. Effet au clic (ENFONCEMENT + Contour Rouge) */
+.bouton-soft:active {
+    /* Ombre interne pour l'enfoncement (moins d'offset pour "aplatir") */
+    box-shadow: 
+        inset 2px 2px 5px var(--couleur-laiton-sombre), 
+        inset -2px -2px 5px var(--couleur-laiton-claire); 
+    
+    /* Contour rouge */
+    border: 2px solid var(--couleur-primaire); 
+}
+
+/* 5. Style de l'icône */
+.bouton-icone {
+    width: 25px; 
+    height: 25px;
+    color: #333333; /* Noir/Gris foncé pour contraster avec le laiton */
+    stroke: currentColor;
+    fill: none; 
+    transition: all 0.2s ease;
+}
+
+/* Effet au clic (ICÔNE ROUGE) */
+.bouton-soft:active .bouton-icone {
+    color: var(--couleur-primaire);
+}

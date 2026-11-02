@@ -1,0 +1,67 @@
+/* src/styles/personnage-menu-contextuel.css */
+
+.personnage-menu-contextuel-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.45);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 50;
+}
+
+/* Couleurs reprises de --box-bg/--box-border/--box-text, déjà définies par
+   chaque thème (voir .theme-beige/.theme-noir/.theme-cyberpunk/.theme-frosted)
+   pour les boîtes de texte génériques - une seule règle ici plutôt qu'une
+   copie par thème, la valeur par défaut (blanc/gris) ne sert que si un
+   thème ne définit pas encore ces variables. */
+.personnage-menu-contextuel-box {
+    width: auto;
+    min-width: 200px;
+    background: var(--box-bg, #fff);
+    border: var(--border-width);
+    border-radius: 14px;
+    padding: 8px 0;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+}
+
+.personnage-menu-contextuel-item {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    width: 100%;
+    padding: 14px 20px;
+    background: none;
+    border: none;
+    font-size: 1rem;
+    text-align: left;
+    color: var(--box-text, #333);
+    cursor: pointer;
+}
+
+.personnage-menu-contextuel-item:active {
+    background: rgba(128, 128, 128, 0.15);
+}
+
+.personnage-menu-contextuel-item svg {
+    width: 20px;
+    height: 20px;
+    flex-shrink: 0;
+}
+
+/* Confirmation "Rembobiner" - même boîte que le menu contextuel, avec un
+   texte d'avertissement au lieu de la liste d'actions. */
+.personnage-rembobiner-confirmation {
+    max-width: 280px;
+    padding: 18px 20px;
+}
+.personnage-rembobiner-confirmation-texte {
+    margin: 0 0 14px;
+    color: var(--box-text, #333);
+    font-size: 0.95rem;
+    text-align: center;
+}
+.personnage-rembobiner-confirmation-actions {
+    display: flex;
+    gap: 12px;
+}

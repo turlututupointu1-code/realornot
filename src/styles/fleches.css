@@ -1,0 +1,52 @@
+/* src/styles/fleches.css */
+/* Style unique pour TOUTES les images de flèche (fleche.png, utilisée à la
+   fois pour "continuer" et pour "retour" - le sens retour est obtenu par un
+   flip CSS via .fleche-retour, pas par un fichier différent), quel que soit
+   l'endroit où elles apparaissent - ciblées directement par leur nom de
+   fichier dans l'attribut src, pas par une classe à coller sur chaque
+   <img>. Ça couvre automatiquement tout usage futur de cette image, même
+   dans un fichier qui n'existe pas encore, sans rien à modifier ici. Un
+   seul endroit à changer si la taille doit évoluer, au lieu de règles
+   éparpillées par composant/page. */
+img[src*="fleche"] {
+    height: 14px;
+    width: auto;
+    display: inline-block;
+    vertical-align: middle;
+    object-fit: contain;
+    transition: transform 0.2s ease;
+}
+
+/* Sens "retour" : même image que "continuer", simplement retournée à
+   l'horizontale - à ajouter en plus de la classe de taille/position propre
+   à chaque contexte (fleche-icone, pagination-arrow-img...), jamais seule. */
+.fleche-retour {
+    transform: scaleX(-1);
+}
+
+/* Toutes les flèches ouvragées (gothique, cyberpunk, beige, frosted) ont
+   besoin de plus de place que le trait simple d'origine pour rester
+   lisibles - même taille et traitement pour les 4 thèmes désormais. */
+img[src*="fleche"] {
+    height: 30px;
+    filter: drop-shadow(0 0 3px #000000cc);
+}
+/*.theme-noir img[src*="fleche"],
+img[src*="fleche"] {
+    height: 30px;
+    filter: drop-shadow(0 0 3px #000000cc);
+}.theme-beige img[src*="fleche"],
+.theme-frosted img[src*="fleche"] {
+    height: 30px;
+    filter: drop-shadow(0 0 3px #000000cc);
+}
+
+/* Cyberpunk : le fond (skyline néon bleu/violet très chargé) a des teintes
+   proches de la flèche elle-même, qui devient difficile à repérer à 14px -
+   agrandie et détachée du fond par une ombre portée sombre. */
+/*.theme-cyberpunk img[src*="fleche"] {
+    height: 30px;
+    filter: drop-shadow(0 0 3px #000000cc);
+}
+*/
+

@@ -1,0 +1,80 @@
+/* src/styles/vert_encapsule.css version 1.0.0 */
+
+/* Boutons "Vert Encapsulé" (Neumorphisme Personnalisé) */
+
+:root {
+    /* Couleurs pour l'effet encastré et le bouton */
+    --couleur-fond-vert-fonce: #597c5c;       /* Fond vert un peu plus foncé */
+    --couleur-bouton-vert-clair: #678e6b;     /* Fond des boutons */
+    --couleur-ombre-sombre: #456248;          /* Ombre (pour le fond encastré et les boutons) */
+    --couleur-lumiere-claire: #8ab78e;        /* Lumière (pour le fond encastré et les boutons) */
+    
+    /* Couleurs des icônes et de l'activation */
+    --couleur-icone: #ffffff;                 /* Icônes blanches */
+    --couleur-activation: #ff4500;            /* Rouge Vif (Orange Red) pour l'icône enfoncée */
+}
+
+/* 1. Style du Conteneur (Fond Encapsulé) */
+.conteneur-boutons {
+    display: flex;
+    gap: 30px;
+    padding: 60px;
+    background-color: var(--couleur-fond-vert-fonce);
+    
+    /* Effet d'encastrement sur le fond */
+    box-shadow: 
+        inset 5px 5px 10px var(--couleur-ombre-sombre), 
+        inset -5px -5px 10px var(--couleur-lumiere-claire);
+}
+
+/* 2. Style commun des Boutons (Effet de Relief) */
+.bouton-soft {
+    width: 68px; 
+    height: 68px; 
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+    background-color: var(--couleur-bouton-vert-clair);
+    
+    /* Ombre de relief classique Neumorphisme */
+    box-shadow: 
+        6px 6px 12px var(--couleur-ombre-sombre), 
+        -6px -6px 12px var(--couleur-lumiere-claire);
+    
+    transition: all 0.2s ease;
+}
+
+/* 3. Effet au survol */
+.bouton-soft:hover {
+    box-shadow: 
+        8px 8px 16px var(--couleur-ombre-sombre), 
+        -8px -8px 16px var(--couleur-lumiere-claire);
+}
+
+/* 4. Effet au clic (ENFONCEMENT) */
+.bouton-soft:active {
+    /* Effet incrusté (sans bordure rouge) */
+    box-shadow: 
+        inset 3px 3px 7px var(--couleur-ombre-sombre), 
+        inset -3px -3px 7px var(--couleur-lumiere-claire); 
+    transform: scale(0.98);
+}
+
+/* 5. Style de l'icône */
+.bouton-icone {
+    color: var(--couleur-icone); /* Icônes en blanc par défaut */
+    stroke: currentColor;
+    fill: none; 
+    transition: all 0.2s ease;
+    /* Épaisseur fine conservée */
+    stroke-width: 1.5px;
+}
+
+/* Effet au clic (ICÔNE ROUGE) */
+.bouton-soft:active .bouton-icone {
+    color: var(--couleur-activation); /* Icône devient Rouge Vif */
+}

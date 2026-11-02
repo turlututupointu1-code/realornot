@@ -1,0 +1,2934 @@
+// src/styles/base.scss
+
+// Couleurs communes à toute l'app (hors variables de thème, définies dans chaque .scss de thème) - fixées à la compilation, pas de repli à faire varier par thème.
+
+// Génériques
+$c-white: #ffffff; // blanc générique
+$c-black: #000000; // noir générique
+
+// Texte
+$c-sync-error: #D9534F; // texte d'erreur (compte, synchronisation)
+
+// Bordure
+$c-popup-accueil-border: #6b4a2f; // bordure des champs du popup pseudo/mot de passe de l'accueil
+
+// Fond
+$c-accent-default: #C4A876; // beige/or par défaut (repli des variables de thème --box-accent/--box-border/...)
+$c-photo-overlay: #000000e6; // fond de l'overlay photo plein écran
+$c-compat-badge-bg: #00000099; // fond du badge de compatibilité
+
+// Accents, dégradés et statuts
+$c-halo-grey: #c2c2c2; // dégradé du halo "+" (case vide)
+$c-halo-dark: #333333; // dégradé du halo "+" (case vide)
+$c-danger: #d92b2b; // pastille d'alerte (photo de couverture)
+$c-success: #2ECC71; // point vert (statut en ligne)
+$c-error: #E74C3C; // point rouge (statut hors ligne)
+$c-favorite-red: #ff4757; // badge "favori"/admin
+$c-genre-pink: #ff4fa3; // symbole de genre 1
+$c-genre-blue: #3d8bfd; // symbole de genre 2
+$c-genre-purple: #b565f0; // symbole de genre 3
+
+
+// Zones sécurisées (encoche, barre système) : secours natif Android si env(safe-area-inset-*) renvoie 0.
+:root {
+    --safe-top: max(env(safe-area-inset-top), var(--native-safe-top, 0px));
+    --safe-bottom: max(env(safe-area-inset-bottom), var(--native-safe-bottom, 0px));
+}
+
+// Fond général, identique pour tous les thèmes (.app-root-container porte la classe du thème actif) - seules --theme-bg-color/--theme-text-color changent par thème.
+.app-root-container,
+.crop-overlay,
+.camera-controls-panel {
+    background-image: var(--wallpaper);
+    background-size: cover;
+    background-position: center;
+}
+.app-root-container {
+    background-color: var(--theme-bg-color);
+    background-attachment: fixed;
+    min-height: 100vh;
+    color: var(--theme-text-color);
+}
+
+
+// Contenu de chaque page : réserve en haut la place du bandeau fixe (burger + barre sur une ligne),
+// pour que les cartes ne passent pas dessous. Valeur à ajuster à l'écran.
+.page-content-container {
+    min-height: 100vh;
+    padding: 12px;
+    // Espace réservé au bandeau du haut (burger et barre de recherche sur une ligne).
+    padding-top: calc(120px + var(--safe-top));
+    padding-bottom: 20px;
+    position: relative;
+}
+
+.page-content-container.has-pagination {
+    padding-bottom: 70px;
+}
+
+// Téléphone uniquement (moins de 700 px) : remonte la liste de cartes de 15 px (120px - 15px).
+// Cible les pages avec pagination (page recherche). Sur PC, la règle de la coque garde son propre réglage.
+@media (max-width: 699px) {
+    .page-content-container.has-pagination {
+        padding-top: calc(105px + var(--safe-top));
+    }
+}
+
+// Boîte fixe en haut de l'écran : contient le burger et la barre de recherche.
+// Les deux sont sur la même ligne (burger à gauche, barre qui prend la largeur restante).
+// Identique sur les 4 thèmes.
+.top-bar-box {
+    position: fixed;
+    // Remontée de 20 px par rapport à avant (avant : calc(12px + var(--safe-top))).
+    top: calc(var(--safe-top) - 8px);
+    left: 12px;
+    right: 12px;
+    z-index: 20;
+    @extend %flex-v-center; // ligne flex, éléments centrés verticalement
+    gap: 8px; // espace entre le burger et la barre
+    padding: 8px 12px;
+    border-radius: var(--radius-large);
+    box-sizing: border-box;
+}
+.texte-vide-centre {
+    text-align: center;
+    opacity: 0.7;
+}
+
+// Sur PC (coque de smartphone) : sticky plutôt que fixed, pour éviter un bug d'affichage dans le conteneur scrollable de la coque.
+@media (min-width: 700px) {
+    .top-bar-box {
+        position: sticky;
+        left: auto;
+        right: auto;
+        // Même remontée de 20 px que sur téléphone (avant : calc(12px + var(--safe-top))).
+        margin: calc(var(--safe-top) - 8px) 12px 0;
+    }
+    .page-content-container {
+        padding-top: 12px;
+    }
+}
+
+// Sous-pages "Personne réelle" sans bouton burger : pas besoin de réserver sa place en haut.
+.rencontre-souspage {
+    padding-top: calc(12px + var(--safe-top)) !important;
+}
+.rencontre-bio-box {
+    margin-top: 20px;
+    border-width: 5px;
+}
+// Message de bienvenue (compte déjà existant) centré sous le bandeau-titre.
+.rencontre-bienvenue-centre {
+    @extend %flex-center;
+    min-height: calc(100vh - 220px);
+}
+.rencontre-bienvenue-centre .rencontre-bio-box {
+    margin-top: 0;
+    width: 100%;
+}
+// Page "Mes photos" : 5 emplacements, 3 en pleine largeur puis 2 centrés en dessous.
+.rencontre-photos-grille {
+    display: grid;
+    gap: 12px;
+    margin-top: 16px;
+}
+.rencontre-photos-grille--haut {
+    grid-template-columns: repeat(3, 1fr);
+}
+.rencontre-photos-grille--bas {
+    grid-template-columns: repeat(2, 1fr);
+    width: 66.6%;
+    margin-left: auto;
+    margin-right: auto;
+}
+.rencontre-photo-case {
+    position: relative;
+    aspect-ratio: 1 / 1;
+    border-radius: 14px;
+    overflow: hidden;
+    cursor: pointer;
+    padding: 0;
+}
+.rencontre-photo-case--vide {
+    @extend %flex-center;
+    // Même couleur que la bordure des boîtes du questionnaire (--box-border).
+    border: 1.5px dashed var(--box-border);
+    // Dégradé opaque : un fond translucide rendait le "+" à peine visible sur l'image de fond.
+    background: linear-gradient(135deg, $c-halo-grey, $c-halo-dark);
+    font-size: 2em;
+    font-weight: 700;
+    color: $c-white;
+}
+.rencontre-photo-case img {
+    @extend %full-bleed-cover;
+    display: block;
+    border: var(--border-width) solid var(--photo-border-color);
+    border-radius: 14px;
+    box-sizing: border-box;
+}
+.rencontre-photo-case--presentation {
+    background: var(--box-border);
+}
+.rencontre-photo-case--presentation img {
+    border: var(--border-width) solid var(--box-border);
+}
+.rencontre-photo-supprimer {
+    @extend %flex-center;
+    position: absolute;
+    top: 6px;
+    right: 6px;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    border: var(--border-width) solid $c-white;
+    background: $c-danger;
+    color: $c-white;
+    cursor: pointer;
+    font-size: 1.1em;
+    font-weight: 700;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.5);
+    padding: 0;
+}
+.rencontre-photo-bandeau {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: var(--box-border);
+    color: var(--photo-bandeau-text);
+    font-size: 0.7em;
+    font-weight: 600;
+    text-align: center;
+    padding: 3px 0;
+}
+.rencontre-aucune-photo {
+    text-align: center;
+}
+// Bouton "prendre une photo" sous la grille, même style que les cases vides ; grisé une fois les 5 photos prises.
+.rencontre-prendre-photo-btn {
+    @extend %flex-center;
+    gap: 10px;
+    width: 100%;
+    margin-top: 16px;
+    padding: 12px;
+    border: none;
+    background-color: transparent;
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    color: $c-white;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    background-image: var(--img-btn-prendre-photo);
+}
+.rencontre-prendre-photo-btn img {
+    width: 28px;
+    height: 28px;
+    object-fit: contain;
+}
+// Photo agrandie en plein écran au clic sur une vignette, touche n'importe où pour refermer.
+.rencontre-photo-agrandie-overlay {
+    @extend %flex-center;
+    position: fixed;
+    inset: 0;
+    background: $c-photo-overlay;
+    z-index: 60;
+    padding: 24px;
+    box-sizing: border-box;
+}
+.rencontre-photo-agrandie-img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    border-radius: var(--radius-small);
+}
+// Photo de présentation réduite en tête du profil consulté (simple point d'entrée, pas la page de détail).
+.rencontre-profil-photo {
+    display: block;
+    max-width: 100%;
+    max-height: 32vh;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+    border-radius: 14px;
+    margin: 20px auto;
+    border: var(--border-width) solid $c-popup-accueil-border;
+}
+// Langue(s), genre, orientation : grille à 3 colonnes fixes pour que les boutons s'alignent en colonne.
+.rencontre-reponses-verticales .details-suggestions-row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+}
+
+// Menu déroulant par catégorie : un bouton par catégorie, les questions apparaissent en dessous au clic.
+.rencontre-categorie-toggle .details-voix-content {
+    justify-content: center;
+    gap: 8px;
+}
+.rencontre-categorie-toggle .moi-avatar-chevron {
+    font-size: 1.4em;
+    position: absolute;
+    right: 18px;
+}
+.rencontre-categorie-toggle .details-voix-label {
+    color: var(--categorie-label-color);
+    font-weight: var(--categorie-label-weight);
+    // Même taille que .create-textarea, pour rester cohérent.
+    font-size: 0.9em;
+}
+.rencontre-categorie-contenu-wrapper {
+    display: grid;
+    grid-template-rows: 0fr;
+    margin-top: 0;
+    // margin-top volontairement hors de la transition, pour rester accroché au bouton pendant l'animation.
+    transition: grid-template-rows 0.25s ease-out;
+}
+.rencontre-categorie-contenu-wrapper.ouvert {
+    grid-template-rows: 1fr;
+}
+// Élément intermédiaire (overflow:hidden + min-height:0) pour que l'accordéon se réduise vraiment à 0.
+.rencontre-categorie-contenu-clip {
+    overflow: hidden;
+    min-height: 0;
+}
+.rencontre-btn-enregistrer {
+    margin-top: 24px;
+}
+
+// Conteneur de la barre de recherche : prend toute la largeur laissée par le burger.
+// min-width: 0 l'autorise à rétrécir sur un écran étroit au lieu de déborder.
+.search-bar-wrapper {
+    @extend %flex-v-center;
+    position: relative;
+    flex: 1;
+    min-width: 0;
+    // Identique sur les 4 thèmes.
+    align-self: stretch;
+}
+
+.search-bar {
+    width: 100%;
+    padding: var(--search-bar-padding-top) 14px 10px 56px;
+    border-radius: var(--search-bar-radius);
+    font-size: 0.9em;
+    box-sizing: border-box;
+    // Communes aux 4 thèmes - ratio/padding/couleur pilotés par thème, repli pour ceux pas encore migrés.
+    border: none;
+    background-image: var(--img-search-bar);
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    background-color: transparent;
+    // Ratio/padding/couleur pilotés par thème via --search-bar-ratio/--search-bar-padding-left/--search-bar-text-color.
+    aspect-ratio: 1280 / 308;
+    // Décalage du mot « Recherche » depuis la gauche (après la loupe du dessin) : réglé par thème dans le fichier du thème (dentelle.scss, etc.).
+    padding-left: var(--search-bar-padding-left);
+    color: var(--search-bar-text-color);
+}
+.search-bar:focus {
+    outline: var(--search-bar-focus-outline);
+}
+
+.creation-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+}
+.pagination-bar {
+    @extend %flex-center;
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    gap: 20px;
+    padding: 10px 0 calc(10px + var(--safe-bottom));
+    margin: 0;
+    background-color: var(--pagination-bar-bg);
+    border-top: 1px solid var(--pagination-bar-border-color);
+    z-index: 9;
+}
+// Reset bouton bare (icône seule, pas de style natif) : flèche retour, drapeau signaler, pagination, icône avatar sur bannière.
+.nav-arrow-btn,
+.signaler-btn,
+.pagination-arrow,
+.personnage-user-avatar-banner-btn,
+.profil-conversation-avatar-btn {
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+}
+
+.pagination-arrow {
+    @extend %flex-v-center;
+}
+.pagination-arrow-img {
+    // Même taille que .nav-arrow-img (même image).
+    height: 15px;
+    width: auto;
+    object-fit: contain;
+}
+.pagination-label {
+    opacity: 0.8;
+    color: var(--pagination-label-color);
+    background-color: var(--pagination-label-bg);
+    border: var(--border-width) solid var(--pagination-label-border-color);
+    padding: 4px 10px;
+    border-radius: var(--radius-pill);
+}
+.creation-card {
+    @extend %flex-col;
+    aspect-ratio: 1 / 1.4;
+    border-radius: 12px;
+    overflow: hidden;
+    cursor: pointer;
+    border: var(--border-width) solid var(--creation-card-border);
+    box-shadow: var(--creation-card-shadow);
+}
+.creation-card:hover {
+    transform: scale(1.02);
+    transition: transform 0.2s ease;
+}
+// Bordure des cartes en cycle de 3 couleurs (identiques sauf sur les thèmes qui les différencient, voir --creation-card-border-1/2/3).
+.creation-grid .creation-card:nth-child(3n + 1) {
+    border-color: var(--creation-card-border-1);
+}
+.creation-grid .creation-card:nth-child(3n + 2) {
+    border-color: var(--creation-card-border-2);
+}
+.creation-grid .creation-card:nth-child(3n + 3) {
+    border-color: var(--creation-card-border-3);
+}
+.creation-card-image {
+    position: relative;
+    flex: 1 1 auto;
+    background-size: cover;
+    background-position: center;
+    background-color: var(--creation-card-image-bg);
+}
+
+// Filigrane discret sur les photos de personnages, en CSS superposé (jamais écrit sur le fichier original).
+.creation-card-image::after,
+.create-preview-box::after,
+.personnage-bg::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background-repeat: repeat;
+    background-size: 180px 180px;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><text x='-10' y='55' transform='rotate(-30 100 100)' font-family='Arial, sans-serif' font-size='17' font-weight='700' fill='rgba(255,255,255,0.16)' stroke='rgba(0,0,0,0.12)' stroke-width='0.5'>RealOrNot</text><text x='-10' y='155' transform='rotate(-30 100 100)' font-family='Arial, sans-serif' font-size='17' font-weight='700' fill='rgba(255,255,255,0.16)' stroke='rgba(0,0,0,0.12)' stroke-width='0.5'>RealOrNot</text></svg>");
+}
+.creation-card-compat {
+    position: absolute;
+    top: 6px;
+    right: 6px;
+    padding: 3px 7px;
+    font-size: 0.68em;
+    font-weight: 700;
+    color: $c-white;
+    background-color: $c-compat-badge-bg;
+    border-radius: var(--radius-small);
+    z-index: 1;
+}
+// Badge en haut à gauche de la photo : nombre de fois où on a adressé la parole au personnage (<1k, >1k, >2k...).
+.creation-card-count {
+    position: absolute;
+    top: 6px;
+    left: 6px;
+    padding: 3px 7px;
+    font-size: 0.68em;
+    font-weight: 700;
+    color: var(--creation-card-count-color);
+    background-color: var(--creation-card-count-bg);
+    border-radius: var(--radius-small);
+    z-index: 1;
+}
+.creation-card-creator {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    padding: 4px 8px;
+    font-size: 0.62em;
+    font-weight: 700;
+    color: var(--creation-card-creator-color);
+    text-shadow: var(--creation-card-creator-shadow);
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.85), transparent);
+    z-index: 1;
+}
+.creation-card-info {
+    padding: 8px 10px;
+    flex-shrink: 0;
+    background: var(--creation-card-gradient);
+}
+.creation-card-title {
+    font-size: 0.8em;
+    font-weight: bold;
+    color: var(--creation-card-title-color);
+    text-shadow: var(--creation-card-text-shadow);
+}
+.creation-card-bio {
+    font-size: 0.68em;
+    margin-top: 4px;
+    color: var(--creation-card-bio-color);
+    text-shadow: var(--creation-card-text-shadow);
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    line-height: 1.3;
+    opacity: 0.75;
+}
+
+.bouton-icone {
+    width: 24px;
+    height: 24px;
+}
+.bouton-icone-fond {
+    @extend %flex-center;
+}
+// Icône Messages du menu burger (mode réel) avec une petite pastille verte quand il y a des messages non lus
+.burger-icone-avec-pastille {
+    position: relative;
+}
+.burger-pastille-verte {
+    position: absolute;
+    top: -2px;
+    right: -2px;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: #2ECC71;
+}
+
+.burger-icon {
+    @extend %flex-col;
+    flex-shrink: 0;
+    background: none;
+    border: none;
+    width: 32px;
+    height: 32px;
+    justify-content: center;
+    gap: 6px;
+    cursor: pointer;
+}
+.burger-icon span {
+    display: block;
+    width: 100%;
+    height: 2px;
+    background-color: var(--burger-icon-color);
+}
+.burger-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 30;
+    background: var(--burger-overlay-bg);
+}
+.burger-panel {
+    @extend %flex-col;
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 220px;
+    padding: calc(clamp(20px, 6vh, 48px) + var(--safe-top)) 16px calc(10px + var(--safe-bottom)) 16px;
+}
+// Zone défilante des items (hors bouton Fermer, toujours visible).
+.burger-panel-scroll {
+    @extend %flex-col;
+    flex: 1 1 auto;
+    min-height: 0;
+    overflow-y: auto;
+    gap: clamp(0px, 0.3vh, 6px);
+}
+.burger-item {
+    font-size: clamp(0.75em, 2vh, 0.95em);
+    padding: clamp(1px, 0.7vh, 10px) 8px;
+    border-radius: 6px;
+    cursor: pointer;
+    flex-shrink: 0;
+}
+.burger-separator {
+    height: 1px;
+    margin: clamp(1px, 0.5vh, 8px) 0;
+    flex-shrink: 0;
+}
+.burger-separator-fixed {
+    flex-shrink: 0;
+    margin-top: clamp(1px, 0.5vh, 8px);
+}
+.burger-item-expandable {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.burger-item-icon {
+    @extend %flex-v-center;
+    gap: 12px;
+}
+.burger-bottom-row {
+    @extend %flex-center;
+    gap: 14px;
+    flex-shrink: 0;
+}
+.burger-close-btn {
+    padding: 4px 8px;
+    cursor: pointer;
+    background: none;
+    border: none;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    flex-shrink: 0;
+}
+.burger-bottom-row .burger-close-btn {
+    width: auto;
+}
+.burger-close-btn-img {
+    height: clamp(36px, 7vh, 80px);
+    width: auto;
+    object-fit: contain;
+}
+.burger-admin-btn {
+    @extend %btn-reset-icon3;
+    position: relative;
+    font-size: 32px;
+    line-height: 1;
+    padding: 4px 8px;
+    color: inherit;
+    flex-shrink: 0;
+}
+.burger-admin-badge {
+    position: absolute;
+    top: -2px;
+    right: -2px;
+    min-width: 16px;
+    height: 16px;
+    padding: 0 4px;
+    border-radius: var(--radius-pill);
+    background: $c-favorite-red;
+    color: $c-white;
+    font-size: 11px;
+    font-weight: 700;
+    line-height: 16px;
+    text-align: center;
+}
+.burger-chevron {
+    font-size: 1.4em;
+}
+// Flèche vers la droite, poussée au bord droit de la ligne (entrées Messages/Moi et Créer du burger).
+.burger-chevron-droite {
+    margin-left: auto;
+}
+// Chevron d'accordéon en image, rotation gérée en inline par le composant.
+.chevron-arrow {
+    height: 14px;
+    width: auto;
+    display: inline-block;
+    vertical-align: middle;
+    transition: transform 0.2s ease;
+}
+.burger-submenu {
+    @extend %flex-col;
+    border-radius: 6px;
+    padding: 4px;
+    gap: 2px;
+    margin-bottom: 4px;
+}
+.burger-subitem {
+    font-size: 0.85em;
+    padding: 8px;
+    border-radius: 6px;
+    cursor: pointer;
+}
+.burger-subitem-active,
+.burger-subitem-compte {
+    font-weight: 600;
+}
+// Sous-menu "Compatibilité" : nombre de profils centré sous le libellé de la tranche.
+.burger-subitem-compat {
+    @extend %flex-col-center;
+    text-align: center;
+}
+
+.create-page {
+    @extend %flex-col;
+    padding-bottom: calc(24px + var(--safe-bottom));
+    padding-top: calc(40px + var(--safe-top));
+    min-height: 100vh;
+    box-sizing: border-box;
+    position: relative;
+}
+.create-header {
+    @extend %flex-v-center;
+    gap: 12px;
+    margin-top: 16px;
+    margin-bottom: 24px;
+    padding: 0 16px;
+}
+.create-header-badge {
+    justify-content: center;
+    margin-top: 0;
+}
+.style-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 14px;
+    padding: 0 24px;
+    margin-top: 32px;
+}
+.style-card {
+    @extend %btn-reset-icon2;
+    @extend %flex-col-center;
+    gap: 0;
+    padding: 0;
+    cursor: pointer;
+}
+.style-card-image-wrap {
+    display: block;
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    border-radius: var(--radius-box) var(--radius-box) 0 0;
+    border: var(--border-width) solid var(--box-border);
+    overflow: hidden;
+}
+.style-card-label {
+    font-weight: bold;
+    font-size: 0.8em;
+    // Communes aux 4 thèmes (le reste est piloté par leurs variables --style-card-*).
+    padding: 8px 10px;
+    width: 100%;
+    box-sizing: border-box;
+    text-align: center;
+    background: var(--style-card-gradient);
+    color: var(--style-card-label-color);
+    border: var(--style-card-border);
+    border-radius: var(--style-card-radius);
+    text-shadow: var(--style-card-text-shadow);
+    // Jamais de trait entre l'image et le libellé : un seul bloc visuel.
+    border-top: none;
+}
+.create-buttons {
+    @extend %flex-col;
+    gap: 14px;
+    padding: 0 24px;
+}
+.create-btn {
+    padding: 14px;
+    border-radius: var(--radius-large);
+    border: none;
+    font-size: 1em;
+    font-weight: bold;
+    cursor: pointer;
+    text-align: center;
+    display: block;
+}
+.create-btn-image {
+    position: relative;
+    padding: 0;
+    border-radius: var(--radius-large);
+    overflow: hidden;
+    display: block;
+    line-height: 0;
+    background: none;
+    width: 100%;
+}
+.create-btn-faded {
+    opacity: 0.45;
+    filter: grayscale(1);
+    transition: opacity 0.3s ease, filter 0.3s ease;
+}
+.create-btn-image img.create-banner-icon {
+    width: 7.5%;
+    height: auto;
+    object-fit: contain;
+    // Position de l'icône dans les boutons-images, réglée par thème dans le fichier du thème (indépendante de l'icône du titre).
+    transform: translate(calc(-50% + var(--btn-icone-dx)), calc(-50% + var(--btn-icone-dy)));
+}
+.create-btn-caption {
+    @extend %flex-col-center;
+    position: absolute;
+    top: 18%;
+    right: 7%;
+    bottom: 36%;
+    left: 18.5%;
+    justify-content: center;
+    text-align: center;
+}
+.create-btn-title {
+    color: $c-white;
+    font-weight: 800;
+    font-size: clamp(11px, 3.4vw, 15px);
+    line-height: 1.15;
+    text-shadow: 0 1px 3px rgba(0,0,0,0.35);
+}
+.create-btn-subtitle {
+    color: $c-white;
+    font-weight: 500;
+    font-size: clamp(8.5px, 2.5vw, 11px);
+    line-height: 1.15;
+    margin-top: 3px;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+}
+.create-silhouette-wrapper {
+    @extend %flex-center;
+    flex: 1;
+    min-height: 0;
+}
+.create-silhouette {
+    display: block;
+    width: 100%;
+    height: 500px;
+    object-fit: contain;
+    padding: 0 24px;
+    box-sizing: border-box;
+}
+.telecharger-photo-page .create-silhouette {
+    height: 400px;
+    margin-top: -50px;
+    // Décalage vertical direct de l'illustration (positif = vers le bas), sans changer la mise en page autour.
+    position: relative;
+    top: 30px;
+}
+.create-banner-icon {
+    position: absolute;
+    left: 10.3%;
+    top: 42.2%;
+    width: 7.5%;
+    height: auto;
+    transform: translate(calc(-50% + var(--icon-profil-dx)), calc(-50% + var(--icon-profil-dy)));
+    @extend %icon-contain-static;
+}
+// Page "Vos créations" : décale l'icône palette de la bannière (2px droite, 4px bas).
+.vos-creations-page .create-banner-icon {
+    transform: translate(calc(-50% + var(--icon-profil-dx) + 8%), calc(-50% + var(--icon-profil-dy) + 15%)); // 8% et 15% de l'icône (≈ 2px et 4px sur téléphone) : suit la taille de la bannière
+}
+.create-banner-text {
+    @extend %flex-center;
+    // Centrage simple sur toute la bannière titre.png, sans réserver de place pour l'icône.
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    text-align: center;
+    color: $c-white;
+    font-weight: 800;
+    font-size: clamp(10px, 3.3vw, 14px);
+    line-height: 1.15;
+    white-space: nowrap;
+    text-shadow: 0 1px 3px rgba(0,0,0,0.35);
+    // Décalage du titre, réglé par thème dans le fichier du thème : dx horizontal (négatif = vers la gauche), dy vertical (négatif = vers le haut).
+    transform: translate(var(--banner-title-dx), var(--banner-title-dy));
+}
+.create-box {
+    border-radius: var(--radius-box);
+    border: var(--box-border-width) solid var(--box-border);
+    padding: 12px;
+}
+// Boîte de la bannière titre : sert de repère à l'icône et au titre (position absolue), pour qu'ils restent dans la barre et pas dans la page.
+.create-banner-title {
+    position: relative;
+}
+// Ascenseurs (barres de défilement) : même style que le graphisme actif. Seulement avec une souris (PC, navigateur), pas sur le téléphone. Les couleurs se règlent par thème dans le fichier du thème.
+@media (hover: hover) and (pointer: fine) {
+    *::-webkit-scrollbar {
+        width: 14px;
+        height: 14px;
+    }
+    *::-webkit-scrollbar-track {
+        background: var(--pagination-bar-bg);
+        border-radius: 8px;
+        box-shadow: inset 0 0 4px rgba(0, 0, 0, 0.6);
+    }
+    *::-webkit-scrollbar-thumb {
+        background: var(--pagination-label-bg);
+        border: 2px solid var(--pagination-label-border-color);
+        border-radius: 8px;
+    }
+    *::-webkit-scrollbar-thumb:hover {
+        background: var(--pagination-label-color);
+    }
+    // Flèches de l'ascenseur vertical : les images du thème (haut et bas). Les flèches de l'ascenseur horizontal sont cachées.
+    *::-webkit-scrollbar-button:single-button {
+        display: block;
+        width: 18px;
+        height: 18px;
+        background-color: var(--pagination-bar-bg);
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: contain;
+    }
+    *::-webkit-scrollbar-button:single-button:vertical:decrement {
+        background-image: var(--img-fleche-haut);
+    }
+    *::-webkit-scrollbar-button:single-button:vertical:increment {
+        background-image: var(--img-fleche-bas);
+    }
+    *::-webkit-scrollbar-button:single-button:horizontal {
+        display: none;
+    }
+    *::-webkit-scrollbar-corner {
+        background: var(--scroll-track, #222);
+    }
+}
+// Firefox ne connaît pas les règles ci-dessus : couleurs simples seulement.
+@supports not selector(::-webkit-scrollbar) {
+    * {
+        scrollbar-color: var(--scroll-thumb, #888) var(--scroll-track, #222);
+    }
+}
+// Ces 3 variantes gardent une variable qui contient la bordure entière (largeur incluse, pas juste la couleur).
+.create-box.personnage-histoire-box {
+    background-color: var(--histoire-box-bg);
+    border: var(--border-width) solid var(--histoire-box-border-color);
+//    border: var(--histoire-box-border);
+}
+.create-box.personnage-salutation-box {
+    background-color: var(--salutation-box-bg);
+    border: var(--border-width) solid var(--salutation-box-border-color);
+//    border: var(--salutation-box-border);
+}
+.create-box.personnage-user-box {
+    background-color: var(--user-box-bg);
+    border: var(--border-width) solid var(--user-box-border-color);
+//    border: var(--user-box-border);
+}
+.search-bar::placeholder {
+    color: var(--search-bar-placeholder-color);
+    opacity: var(--search-bar-placeholder-opacity);
+    font-size: var(--search-bar-placeholder-size, inherit);
+}
+// Fond uniquement sur les boîtes de saisie "nues", pas sur les bulles/aperçus qui restent transparents.
+.create-box:not(.personnage-bubble):not(.personnage-histoire-box):not(.create-preview-box):not(.moi-info-box):not(.create-upload-box) {
+    background-color: var(--box-bg);
+}
+.create-upload-box {
+    @extend %flex-center;
+    min-height: 260px;
+    text-align: center;
+    background-color: transparent;
+    border: var(--border-width) solid var(--box-border);
+    border-radius: var(--radius-box);
+    cursor: pointer;
+    margin: -14px 24px 0;
+    padding: 0;
+    overflow: hidden;
+}
+.create-upload-placeholder {
+    font-size: 0.95em;
+    font-weight: 600;
+    opacity: 0.7;
+}
+.upload-choice-row {
+    display: flex;
+    align-items: flex-start; // les deux téléphones restent alignés en haut, même si un texte est plus long
+    gap: 16px;
+    margin: 12px 24px 0; // avant : -50px, quand le bouton faisait 220px de haut avec l'image centrée dedans (62px de plus)
+}
+// Un choix = le téléphone (bouton) et son texte en dessous.
+.upload-choice {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px; // espace entre l'image du téléphone et son texte
+}
+.upload-choice .upload-choice-box {
+    flex: 0 0 auto; // le bouton garde sa hauteur : il ne s'étire plus avec le texte
+    width: 100%;
+    min-height: 0; // la hauteur suit l'image (sinon du vide s'ajoute sous le téléphone)
+}
+// Textes sous les téléphones : même couleur et même ombre que le texte posé sur les photos des vignettes (lisible sur tout fond).
+.upload-choice .upload-choice-label {
+    color: var(--creation-card-creator-color);
+    text-shadow: var(--creation-card-creator-shadow);
+}
+// Avertissement sous les deux choix : rouge (couleur réglée par thème), centré sur toute la largeur.
+.upload-choice-note {
+    margin: 14px 24px 0;
+    font-size: 0.8rem;
+    line-height: 1.3;
+    text-align: center;
+    color: var(--upload-note-color);
+}
+.upload-choice-box {
+    @extend %flex-col-center;
+    flex: 1;
+    min-height: 220px;
+    justify-content: center;
+    gap: 12px;
+    border-radius: var(--radius-box);
+    cursor: pointer;
+}
+.upload-choice-icon {
+    width: 96px;
+    height: 96px;
+    object-fit: contain;
+}
+.upload-choice-label {
+    font-size: 0.95rem;
+    font-weight: 600;
+    text-align: center;
+}
+:root {
+    // Épaisseur de bordure unique pour toute l'app (la couleur reste par thème).
+    --border-width: 1px;
+    // Rayon des coins des boîtes rectangulaires (les éléments "pilule" utilisent --radius-pill).
+    // Petits éléments arrondis (miniatures, badges...).
+    --radius-small: 10px;
+    --radius-box: 16px;
+    // Grands conteneurs arrondis (barre du haut, boutons pleine largeur, popups).
+    --radius-large: 24px;
+    --radius-pill: 999px;
+}
+
+.create-textarea {
+    width: 100%;
+    background-color: transparent;
+    color: var(--box-text);
+    border: none;
+    outline: none;
+    font-size: 0.9em;
+    resize: none;
+    box-sizing: border-box;
+}
+.create-textarea::placeholder {
+    color: var(--textarea-placeholder-color);
+}
+.create-preview-box {
+    position: relative;
+    display: block;
+    padding: 0;
+    overflow: hidden;
+}
+
+.upload-options {
+    display: flex;
+    flex-direction: row;
+    gap: 16px;
+    justify-content: center;
+    margin-top: 4px;
+}
+.upload-icon {
+    width: 26px;
+    height: 26px;
+    object-fit: contain;
+}
+
+.generating-text {
+    text-align: center;
+    margin-top: 10px;
+    color: var(--generating-text-color);
+}
+
+.progress-bar {
+    position: relative;
+    line-height: 0;
+    width: 100%;
+    // Empêche la sélection de texte/image pendant un glissement sur la barre.
+    user-select: none;
+    -webkit-user-select: none;
+    -webkit-user-drag: none;
+}
+// Zone où se remplit la progression : réglée par thème dans le fichier du thème (--progress-slot-*)
+.progress-bar-slot {
+    position: absolute;
+    top: var(--progress-slot-top);
+    bottom: var(--progress-slot-bottom);
+    left: var(--progress-slot-left);
+    right: var(--progress-slot-right);
+    border-radius: var(--radius-pill);
+    overflow: hidden;
+}
+.progress-bar-fill {
+    @extend %absolute-inset;
+    width: 0;
+    border-radius: var(--radius-pill);
+    // Couleurs pilotées par --progress-fill-* (défaut ci-dessous = ancien rendu cyan/magenta).
+    background: linear-gradient(
+        90deg,
+        var(--progress-fill-start),
+        var(--progress-fill-end)
+    );
+    box-shadow:
+        0 0 10px 2px var(--progress-glow),
+        inset 0 2px 3px rgba(255, 255, 255, 0.65),
+        inset 0 -4px 6px rgba(0, 0, 0, 0.25);
+    transition: width 0.3s linear;
+}
+.progress-bar-fill::after {
+    content: '';
+    position: absolute;
+    top: 8%;
+    left: 3%;
+    right: 3%;
+    height: 38%;
+    border-radius: var(--radius-pill);
+    background: linear-gradient(to bottom, rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0));
+}
+// Variante "indéterminée" (traitement quasi instantané) : remplissage qui boucle plutôt qu'un vrai pourcentage.
+.progress-bar-fill-indeterminate {
+    @extend %absolute-inset;
+    border-radius: var(--radius-pill);
+    overflow: hidden;
+}
+.progress-bar-fill-indeterminate::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 40%;
+    border-radius: var(--radius-pill);
+    // Mêmes variables de thème que .progress-bar-fill, voir plus haut.
+    background: linear-gradient(
+        90deg,
+        var(--progress-fill-start),
+        var(--progress-fill-end)
+    );
+    box-shadow:
+        0 0 10px 2px var(--progress-glow),
+        inset 0 2px 3px rgba(255, 255, 255, 0.65),
+        inset 0 -4px 6px rgba(0, 0, 0, 0.25);
+    animation: progress-bar-indeterminate-sweep 1.1s ease-in-out infinite;
+}
+@keyframes progress-bar-indeterminate-sweep {
+    0% { left: -40%; }
+    100% { left: 100%; }
+}
+.camera-capture-progress {
+    margin: 12px 0;
+}
+
+// --- Flèches de navigation (NavArrow) ---
+.nav-arrow-btn {
+    position: fixed;
+    z-index: 50;
+}
+.nav-arrow-back {
+    top: calc(6px + var(--safe-top));
+    left: 16px;
+}
+.nav-arrow-continue {
+    bottom: calc(16px + var(--safe-bottom));
+    right: 16px;
+}
+.nav-arrow-btn:disabled {
+    cursor: default;
+    opacity: 0.6;
+}
+// Boîte commune à la flèche retour et au texte "créé par..." : un seul décalage de zone sécurisée pour les deux.
+// Boîte flèche + titre + drapeau : flex row, flèche et drapeau restent alignés automatiquement.
+// Boîte commune à la flèche retour (et au drapeau signaler, si présent) sur "Mon profil" et la conversation avec un personnage.
+.personnage-header-fixed,
+.profil-conversation-header-fixed {
+    position: fixed;
+    top: calc(var(--safe-top) + 5px);
+    left: 0;
+    right: 0;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 16px;
+    box-sizing: border-box;
+    // z-index 100 : sinon caché sous la coque décorative en vue navigateur large.
+    z-index: 100;
+    pointer-events: none;
+}
+.personnage-header-fixed .nav-arrow-btn,
+.personnage-header-fixed .signaler-btn,
+.profil-conversation-header-fixed .nav-arrow-btn,
+.profil-conversation-header-fixed .signaler-btn {
+    position: static;
+    pointer-events: auto;
+}
+.personnage-header-fixed .personnage-creator-banner {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+}
+.personnage-creator-banner {
+    text-align: center;
+    font-size: 0.7em;
+    font-weight: 600;
+    padding: 0 24px 6px;
+    box-sizing: border-box;
+}
+
+// --- Galerie personnalisée (MediaGallery) ---
+.gallery-page {
+    padding-top: calc(76px + var(--safe-top));
+}
+.gallery-back-btn {
+    position: fixed;
+    top: calc(16px + var(--safe-top));
+    left: 16px;
+    z-index: 20;
+}
+.gallery-loading {
+    text-align: center;
+    margin-top: 60px;
+    opacity: 0.7;
+}
+.gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    padding: 0 16px;
+}
+.gallery-thumb {
+    aspect-ratio: 1 / 1;
+    border-radius: var(--radius-small);
+    overflow: hidden;
+    border: var(--border-width) solid var(--box-border);
+    padding: 0;
+    cursor: pointer;
+}
+
+// --- Overlay caméra (camera-preview) ---
+// Overlay plein écran (caméra, recadrage, popup de mise à jour, fond de conversation).
+.personnage-bg,
+.crop-overlay,
+.camera-overlay,
+.update-prompt-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}
+
+.camera-overlay {
+    z-index: 100;
+    background: none;
+    pointer-events: none;
+}
+
+// --- Recadrage de photo (CropPhoto) ---
+.crop-overlay {
+    @extend %flex-col;
+    z-index: 100;
+    align-items: stretch;
+    padding: 12px;
+    padding-top: calc(12px + var(--safe-top));
+    padding-bottom: calc(12px + var(--safe-bottom));
+    box-sizing: border-box;
+    overflow-y: auto;
+    // Communes aux 4 thèmes (fond d'écran + couleur de secours pendant le chargement).
+    background-color: var(--crop-overlay-bg);
+}
+.crop-overlay .create-banner-title {
+    margin-top: 0;
+    margin-bottom: 8px;
+    flex-shrink: 0;
+    width: 85%;
+    margin-left: auto;
+    margin-right: auto;
+}
+.crop-overlay .create-banner-text {
+    left: 10%;
+    right: 10%;
+}
+.crop-body {
+    @extend %flex-col-center;
+    flex: 1;
+    justify-content: center;
+    gap: 16px;
+}
+.crop-viewport {
+    position: relative;
+    width: min(75vw, 320px);
+    aspect-ratio: 9 / 16;
+    overflow: hidden;
+    border-radius: var(--radius-box);
+    border: var(--border-width) solid var(--box-border);
+    background-color: $c-black;
+    touch-action: none;
+    cursor: grab;
+}
+.crop-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    max-width: none;
+    transform-origin: top left;
+    user-select: none;
+    -webkit-user-drag: none;
+}
+.zoom-bar {
+    position: relative;
+    width: min(75vw, 320px);
+    line-height: 0;
+    cursor: pointer;
+    touch-action: none;
+    // Empêche la sélection de texte/image pendant le glissement du zoom.
+    user-select: none;
+    -webkit-user-select: none;
+    -webkit-user-drag: none;
+}
+.zoom-label {
+    display: block;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    color: var(--zoom-label-color);
+    text-shadow: var(--zoom-label-shadow);
+    pointer-events: none;
+}
+.zoom-slot {
+    position: absolute;
+    top: var(--zoom-slot-top);
+    bottom: var(--zoom-slot-bottom);
+    left: var(--zoom-slot-left);
+    right: var(--zoom-slot-right);
+    border-radius: var(--radius-pill);
+    overflow: hidden;
+}
+.zoom-fill {
+    position: absolute;
+    inset: 0;
+    width: 0;
+    border-radius: var(--radius-pill);
+    background: linear-gradient(
+        90deg,
+        var(--zoom-fill-start),
+        var(--zoom-fill-end)
+    );
+    box-shadow:
+        0 0 10px 2px var(--progress-glow),
+        inset 0 2px 3px rgba(255, 255, 255, 0.65),
+        inset 0 -4px 6px rgba(0, 0, 0, 0.25);
+}
+.crop-actions {
+    display: flex;
+    gap: 12px;
+    width: min(75vw, 320px);
+}
+// Boutons Annuler / Continuer de l'écran de recadrage : images annuler.png et continuer.png du thème.
+// Construits comme les boutons-images des popups ; le texte est centré au milieu de l'image (proportion 400 x 113).
+.crop-actions .crop-btn {
+    flex: 1;
+    display: flex;
+    align-items: center; // texte centré verticalement
+    justify-content: center; // texte centré horizontalement
+    padding: 0;
+    aspect-ratio: 400 / 113;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    text-align: center;
+    background-color: transparent;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 100% 100%;
+    color: $c-white;
+}
+.crop-actions .crop-btn.crop-btn-cancel {
+    background-image: var(--img-btn-continuer);
+}
+.crop-actions .crop-btn.crop-btn-confirm {
+    background-image: var(--img-btn-annuler);
+}
+// Page résultat de « Générer ma photo » : boutons du recadrage, centrés sous la photo
+.generer-resultat-page .crop-actions {
+    margin: 12px auto 0;
+}
+// Silhouette sous le bouton « Générer ma photo » (hauteur réduite pour tenir à l'écran)
+.generer-photo-page .create-silhouette {
+    height: 300px;
+    margin-top: 12px;
+}
+.camera-controls-panel {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    @extend %flex-col-center;
+    gap: 16px;
+    padding: 18px 0 calc(28px + var(--safe-bottom));
+    pointer-events: auto;
+    // Fond d'écran du thème sur le bandeau de contrôles caméra (plutôt qu'un panneau noir uni), boutons ancrés en bas.
+    min-height: 9vh;
+    justify-content: flex-end;
+    border-radius: 0;
+    box-shadow: var(--camera-panel-shadow);
+}
+.camera-controls-row {
+    @extend %flex-center;
+    gap: 28px;
+}
+.camera-bottom-row {
+    @extend %flex-center;
+    position: relative;
+    width: 100%;
+}
+.camera-back-app-btn {
+    position: absolute;
+    left: 8px;
+    top: 75%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    padding: 6px;
+    cursor: pointer;
+}
+.camera-btn {
+    @extend %flex-center;
+    position: relative;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    border: none;
+    background: none;
+    cursor: pointer;
+    padding: 0;
+}
+.camera-btn[data-active="true"] .camera-btn-icon {
+    filter: drop-shadow(0 0 6px $c-accent-default) drop-shadow(0 0 10px $c-accent-default);
+}
+.camera-capture-btn {
+    @extend %btn-reset-icon2;
+    position: relative;
+    width: 76px;
+    height: 76px;
+    border-radius: 50%;
+    cursor: pointer;
+    padding: 0;
+}
+
+// --- Page Details Personnage ---
+.details-field-label {
+    font-weight: 700;
+    font-size: 0.9em;
+    margin: 0 0 8px 4px;
+}
+// Page "Détails du personnage", identique dans les 4 thèmes (couleur via --box-text).
+.details-personnage-page .details-field-label {
+    color: var(--box-text);
+    font-weight: 600;
+}
+.details-personnage-page .voix-choisie-row {
+    margin-bottom: 14px;
+}
+.details-field-hint {
+    font-weight: 400;
+    opacity: 0.6;
+    font-size: 0.85em;
+}
+.details-field-sublabel {
+    font-weight: 400;
+    font-size: 0.85em;
+    opacity: 0.8;
+    margin-top: 6px;
+}
+.personnage-field-text {
+    font-size: 0.95em;
+    line-height: 1.4;
+    margin: 0;
+    white-space: pre-wrap;
+}
+.personnage-page {
+    position: relative;
+    z-index: 0;
+    // Hauteur réservée en bas de la page pour la barre de saisie fixe (.personnage-chat-input-bar, ~55px)
+    // plus un peu d'air, pour que le dernier message et ses petits boutons restent visibles. Réutilisée ailleurs.
+    --input-bar-hauteur: 70px;
+    padding-top: calc(40px + var(--safe-top));
+    padding-bottom: calc(var(--input-bar-hauteur) + var(--safe-bottom));
+    // Empêche la sélection de texte / le menu contextuel natif pendant l'appui long sur la photo.
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    user-select: none;
+}
+.personnage-page .personnage-chat-input {
+    -webkit-user-select: text;
+    user-select: text;
+}
+// RencontreConversationPage.tsx réutilise la même racine que PersonnagePage.tsx, pas de correctif spécifique nécessaire.
+// Boîte autour des messages, même style que les autres boîtes "Personne réelle" (pas les bulles flottantes de l'IA).
+.rencontre-conversation-box {
+    min-height: 40vh;
+    margin-bottom: 16px;
+}
+// Boîte de saisie : même style que les autres champs "Personne réelle" (pas le style brun du chat IA).
+// Barre de saisie fixe en bas (comme WhatsApp/SMS), plus fiable que le flux normal pour suivre le clavier.
+.personnage-histoire-box .personnage-field-text {
+    color: var(--histoire-box-text);
+}
+.personnage-salutation-box .personnage-field-text {
+    color: var(--salutation-box-text);
+}
+.personnage-user-box .personnage-field-text {
+    color: var(--user-box-text);
+}
+.personnage-chat {
+    @extend %flex-col;
+    gap: 12px;
+}
+.personnage-bubble {
+    max-width: 85%;
+}
+.personnage-user-box {
+    align-self: flex-end;
+}
+.personnage-bubble-editing {
+    width: 100%;
+    max-width: 100%;
+    align-self: stretch;
+}
+.personnage-chat-end {
+    // Marge pour que scrollIntoView s'arrête au-dessus de la barre de saisie fixe, zone de sécurité incluse.
+    scroll-margin-bottom: calc(var(--input-bar-hauteur) + var(--safe-bottom));
+}
+
+// --- Page moi ---
+.moi-info-box {
+    width: 85%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 12px;
+    box-sizing: border-box;
+    border-color: var(--moi-info-border-color);
+    background-color: var(--box-bg);
+    font-style: italic;
+    opacity: 0.85;
+}
+.moi-info-box .personnage-field-text {
+    font-size: 0.85em;
+}
+.moi-genre-row,
+.moi-avatar-dropdown {
+    margin-top: 18px;
+}
+.moi-avatar-chevron {
+    opacity: 0.9;
+}
+.moi-caractere-toggle .details-voix-content,
+.moi-avatar-toggle .details-voix-content,
+.moi-pseudo-toggle .details-voix-content,
+.moi-nav-row .details-voix-content,
+.voix-choisie-row .details-voix-content {
+    justify-content: center;
+}
+.moi-avatar-toggle-right {
+    @extend %flex-v-center;
+    position: absolute;
+    right: 18px;
+    top: 50%;
+    transform: translateY(-50%);
+    gap: 8px;
+}
+.moi-avatar-toggle-img {
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: var(--border-width) solid var(--box-border);
+}
+.moi-avatar-grid {
+    margin-top: 0; // la grille touche la barre Avatar au-dessus
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 10px;
+    padding: 12px;
+    border-radius: var(--radius-box);
+    border: var(--border-width) solid var(--moi-avatar-grid-border-color);
+}
+button.moi-avatar-item {
+    @extend %flex-center;
+    aspect-ratio: 1;
+    font-size: 1.6em;
+    border-radius: 50%;
+    border: var(--border-width) solid var(--moi-avatar-item-border-color);
+    background-color: var(--moi-avatar-item-bg) !important;
+    cursor: pointer;
+    overflow: hidden;
+    padding: 0;
+}
+.moi-avatar-img {
+    @extend %full-bleed-cover;
+    border-radius: 50%;
+}
+button.moi-avatar-item.moi-avatar-item-active {
+    border-color: var(--moi-avatar-item-active-border-color);
+    background-color: var(--moi-avatar-item-active-bg) !important;
+}
+.moi-nav-row {
+    margin-top: 14px !important;
+}
+.moi-nav-row .details-voix-arrow,
+.voix-choisie-row .details-voix-arrow {
+    position: absolute;
+    right: 18px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+// Panneau purement fonctionnel (marge/largeur/animation) : l'élément qu'il contient a déjà son propre fond/bordure.
+.moi-panel {
+    margin-top: 0; // le champ touche la barre du bouton au-dessus
+    width: 100%;
+    box-sizing: border-box;
+    padding: 0 16px 16px; // aucune marge en haut : le champ touche la barre ; marges sur les côtés et en bas
+    background-color: var(--moi-panel-bg);
+    border: var(--border-width) solid var(--moi-panel-border-color);
+    transform-origin: top;
+    animation: moi-panel-slide-down 0.25s ease-out;
+}
+@keyframes moi-panel-slide-down {
+    from { transform: translateY(-14px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+// Champ de saisie de la page "Moi" (pseudonyme = <input>, caractère = <textarea>) : toutes ses couleurs viennent des variables --champ-* déclarées dans chaque thème.
+.moi-champ {
+    width: 100%;
+    box-sizing: border-box;
+    border-radius: var(--radius-box);
+    border: var(--border-width) solid var(--champ-border-color);
+    padding: 10px 12px;
+    font-size: 0.9em;
+    font-family: inherit;
+    resize: vertical;
+    background-color: var(--champ-bg);
+    color: var(--champ-text);
+}
+.moi-champ::placeholder,
+.pseudo-popup-input::placeholder {
+    color: var(--champ-placeholder-color);
+    opacity: var(--champ-placeholder-opacity);
+}
+
+.moi-champ:focus,
+.pseudo-popup-input:focus {
+    outline: none;
+    border-color: var(--champ-focus-border-color);
+    box-shadow: var(--champ-focus-shadow);
+}
+
+.moi-discussions-list {
+    @extend %flex-col;
+    gap: 10px;
+    margin-top: 12px;
+}
+.moi-discussion-item {
+    @extend %flex-v-center;
+    gap: 12px;
+    padding: 10px;
+    border-radius: var(--radius-box);
+    border: var(--discussion-item-border);
+    background: var(--discussion-item-bg);
+    cursor: pointer;
+}
+.moi-discussion-avatar {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    background-color: $c-accent-default;
+    background-size: cover;
+    background-position: center;
+}
+.moi-discussion-info {
+    min-width: 0;
+}
+.moi-discussion-title {
+    font-weight: 700;
+    font-size: 0.9em;
+    color: var(--discussion-item-title-color);
+}
+// Avatar-lettre pour la messagerie entre vrais comptes (pas de photo de profil chargée).
+.rencontre-avatar-lettre {
+    @extend %flex-center;
+    color: $c-white;
+    font-weight: 700;
+    font-size: 1.1em;
+}
+.rencontre-conversation-non-lus {
+    display: inline-flex;
+    @extend %center-content;
+    min-width: 18px;
+    height: 18px;
+    padding: 0 5px;
+    margin-left: 6px;
+    border-radius: 9px;
+    background: var(--box-border);
+    color: var(--photo-bandeau-text);
+    font-size: 0.75em;
+    font-weight: 700;
+}
+.moi-discussion-preview {
+    font-size: 0.8em;
+    opacity: 0.7;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    color: var(--discussion-item-preview-color);
+}
+// Transition entre pages : PUSH/REPLACE entre par la droite, POP (retour) réapparaît par la gauche.
+.page-transition-forward {
+    animation: page-transition-back-anim 0.10s ease-out;// durée de l'animation : plus petit = plus rapide
+}
+@keyframes page-transition-forward-anim {
+    from { transform: translateX(40px); opacity: 0; }
+    to { transform: translateX(0); opacity: 1; }
+}
+.page-transition-back {
+    animation: page-transition-forward-anim 0.10s ease-out;// durée de l'animation : plus petit = plus rapide
+}
+@keyframes page-transition-back-anim {
+    from { transform: translateX(-40px); opacity: 0; }
+    to { transform: translateX(0); opacity: 1; }
+}
+.personnage-chat-input-bar {
+    @extend %flex-v-center;
+    position: fixed;
+    left: 0;
+    right: 0;
+    // Position de la barre selon l'état du clavier (adjustResize) : 0 clavier ouvert, var(--safe-bottom) clavier fermé.
+    bottom: max(0px, var(--safe-bottom, 0px) - var(--native-keyboard-height, 0px) * 1000);
+    z-index: 2;
+    gap: 10px;
+    padding: 2px 16px;
+    background-color: var(--chat-bar-bg);
+    border-top: 1px solid var(--chat-bar-border-color);
+    transition: opacity 0.25s ease;
+}
+.personnage-chat-input-bar-masque,
+.personnage-content-masque {
+    opacity: 0;
+    pointer-events: none;
+}
+.personnage-chat-input {
+    flex: 1;
+    border-radius: var(--radius-pill);
+    border: var(--border-width) solid var(--chat-input-border);
+    padding: 10px 16px;
+    font-size: 0.9em;
+    background-color: var(--input-bg);
+    color: var(--input-text);
+    outline: none;
+}
+.personnage-chat-input::placeholder {
+    color: var(--chat-input-placeholder-color);
+}.personnage-chat-input:focus {
+    border-color: var(--chat-input-focus-border-color);
+}
+
+.personnage-chat-send {
+    @extend %btn-reset-icon3;
+    flex-shrink: 0;
+}
+.personnage-chat-send img {
+    // Même taille que .nav-arrow-img (même image, flechecontinuer).
+    height: 15px;
+    width: auto;
+}
+.personnage-bg {
+    background-size: cover;
+    background-position: center;
+    z-index: 0;
+}
+.personnage-content {
+    position: relative;
+    z-index: 1;
+    transition: opacity 0.25s ease;
+}
+.details-suggestions-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 8px;
+}
+button.details-suggestion-chip {
+    @extend %flex-v-center;
+    padding: 2px 2px;
+    height: 100%;
+    border-radius: var(--radius-pill);
+    border: none;
+    background: none !important;
+    color: $c-white;
+    font-size: 0.68em;
+    font-weight: 700;
+    white-space: nowrap;
+    flex-shrink: 0;
+    cursor: pointer;
+}
+button.details-suggestion-chip.details-suggestion-chip-active {
+    background-image: var(--img-suggestion-active) !important;
+    background-size: 100% calc(100% - var(--fond-retrait)) !important; // hauteur réglée par thème avec --fond-retrait
+    background-repeat: no-repeat !important;
+    background-position: center !important;
+    color: $c-white;
+    font-weight: 700;
+    border-radius: 0;
+}
+
+// Page "Personne réelle" uniquement : cadre visible autour de chaque réponse (texte blanc illisible sinon sur fond clair).
+.rencontre-page button.details-suggestion-chip {
+    padding: 8px 14px;
+    border: var(--border-width) solid var(--box-border);
+    border-radius: var(--radius-small);
+    background: var(--box-bg) !important;
+    color: var(--box-text);
+}
+// Classe répétée pour gagner en spécificité sur la règle de thème équivalente, chargée après base.css.
+.rencontre-page.rencontre-page button.details-suggestion-chip.details-suggestion-chip-active {
+    background: var(--box-border) !important;
+    color: var(--box-text);
+    font-weight: 700;
+    border-radius: var(--radius-small);
+}
+
+// Toutes les questions dans un seul cadre, juste une ligne de séparation entre elles.
+.rencontre-questions-box {
+    @extend %flex-col;
+    gap: 16px;
+}
+.rencontre-question {
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--box-border);
+}
+.rencontre-question:last-child {
+    padding-bottom: 0;
+    border-bottom: none;
+}
+.rencontre-question-categorie {
+    margin: 4px 0 -4px;
+    font-size: 0.75em;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    opacity: 0.7;
+}
+.rencontre-precision-input {
+    margin-top: 8px;
+}
+.rencontre-point-comparaison {
+    display: inline-block;
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    margin-right: 7px;
+}
+.rencontre-point-vert {
+    background-color: $c-success;
+}
+.rencontre-point-rouge {
+    background-color: $c-error;
+}
+
+.details-categories-row {
+    position: relative;
+    width: 85%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 12px;
+}
+.details-categories-bg {
+    display: block;
+    width: 100%;
+    // Hauteur naturelle : laisse barre1.png (ratio 1271x210) garder ses vraies proportions.
+    height: auto;
+}
+// Voix actuellement sélectionnée : grisée pour se distinguer (même image barre1.png partout).
+.details-categories-bg-selected {
+    filter: grayscale(1) brightness(0.75);
+}
+.details-categories-buttons {
+    @extend %absolute-inset;
+    flex-wrap: nowrap;
+    align-items: stretch;
+    justify-content: center;
+    padding: 0 3px;
+    margin: 0;
+    gap: 10px;
+    overflow-x: auto;
+}
+.details-genre-row {
+    position: relative;
+    width: 85%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 14px;
+}
+// Hauteur naturelle : cette rangée plus étroite (55%) était davantage écrasée par la hauteur fixe.
+.details-genre-row .details-categories-bg {
+    height: auto;
+}
+.details-voix-row {
+    @extend %btn-reset-icon2;
+    position: relative;
+    display: block;
+    width: 85%;
+    margin: 14px auto 0;
+    padding: 0;
+    cursor: pointer;
+}
+.details-voix-content,
+.voix-item-content {
+    @extend %flex-v-center;
+    position: absolute;
+    inset: 0;
+    justify-content: space-between;
+    padding: 0 18px;
+}
+.details-voix-label,
+.voix-item-label {
+    color: $c-white;
+}
+.details-voix-arrow {
+    height: 14px;
+    width: auto;
+}
+.details-genre-items {
+    @extend %absolute-inset;
+    display: flex;
+    align-items: stretch;
+    justify-content: center;
+    gap: 14px;
+    padding: 0 16px;
+}
+button.details-genre-symbol {
+    @extend %flex-center;
+    width: 30px;
+    height: 100%;
+    border-radius: 0;
+    border: none;
+    background: none !important;
+    font-size: 1.5em;
+    font-weight: 700;
+    cursor: pointer;
+    transition: transform 0.15s ease;
+}
+button.details-genre-symbol-0 { color: $c-genre-pink; }
+button.details-genre-symbol-1 { color: $c-genre-blue; }
+button.details-genre-symbol-2 { color: $c-genre-purple; }
+.details-genre-flag {
+    width: 20px;
+    height: 14px;
+    display: block;
+    border-radius: 2px;
+    overflow: hidden;
+}
+
+// Symbole de genre sélectionné : fond.png du thème derrière le symbole (même image que les suggestions sélectionnées).
+// Concerne la page « Mon profil », la page « Moi » et la page Détails du personnage.
+button.details-genre-symbol.details-genre-symbol-active {
+    background-image: var(--img-suggestion-active) !important;
+    background-size: 100% calc(100% - var(--fond-retrait)) !important; // hauteur réglée par thème avec --fond-retrait
+    background-repeat: no-repeat !important;
+    background-position: center !important;
+}
+
+.details-genre-tooltip {
+    position: absolute;
+    bottom: calc(100% + 6px);
+    left: 50%;
+    transform: translateX(-50%);
+    // Même style que l'onglet « dossier » : fond opaque, bordure et texte du thème (variables déjà réglées dans chaque fichier de thème).
+    background-color: var(--dossier-onglet-bg);
+    color: var(--box-text);
+    border: max(var(--box-border-width), var(--border-width)) solid var(--box-border);
+    font-weight: 700;
+    font-size: 0.75em;
+    padding: 4px 10px;
+    border-radius: 8px;
+    white-space: nowrap;
+    z-index: 5;
+}
+.details-photo-preview {
+    margin: 4px 24px 0;
+    aspect-ratio: 16 / 9;
+}
+.details-photo-preview .create-preview-img {
+    @extend %full-bleed-cover;
+}
+
+// --- Popup de mise à jour de l'app ---
+.update-prompt-overlay {
+    background: rgba(0, 0, 0, 0.5);
+    @extend %flex-center;
+    z-index: 200;
+    padding: 24px;
+}
+.update-prompt-box {
+    background-color: var(--update-prompt-bg);
+    border-radius: var(--radius-box);
+    border: var(--border-width) solid var(--update-prompt-border-color);
+    padding: 20px;
+    max-width: 320px;
+    width: 100%;
+}
+
+// Popup « Signaler » : fenêtre qui monte du bas de l'écran, arrondie sur ses 4 coins, légèrement décollée des bords,
+// et qui redescend quand le choix est fait.
+.signaler-feuille-overlay {
+    align-items: flex-end; // fenêtre en bas de l'écran
+    padding: 0 12px calc(12px + var(--safe-bottom)); // marge autour : le bas est arrondi et visible
+}
+.signaler-feuille {
+    max-width: none; // pleine largeur (moins les marges de l'overlay)
+    max-height: 85vh;
+    overflow-y: auto; // défile si le contenu est trop haut (clavier ouvert)
+    box-sizing: border-box;
+    animation: signaler-feuille-monte 0.3s ease-out; // monte depuis le bas
+}
+.signaler-feuille-sortie {
+    animation: signaler-feuille-descend 0.3s ease-in forwards; // redescend, puis reste en bas jusqu'au retrait
+}
+.signaler-feuille-overlay-sortie {
+    opacity: 0; // le fond assombri s'efface pendant la descente
+    transition: opacity 0.3s ease-in;
+}
+@keyframes signaler-feuille-monte {
+    from { transform: translateY(120%); }
+    to { transform: translateY(0); }
+}
+// Page « Passer en mode réel » : vraie page plein écran (pas un popup).
+// Elle monte du bas (même animation que « Signaler ») et prend le fond d'écran du thème.
+.mode-reel-page {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 100;
+    overflow-y: auto;
+    background-color: var(--theme-bg-color);
+    background-image: var(--wallpaper);
+    background-size: cover;
+    background-position: center;
+    }
+    // La montée n'est jouée que si la page n'est pas en train de redescendre (sinon elle écraserait signaler-feuille-sortie)
+    .mode-reel-page:not(.signaler-feuille-sortie) {
+        animation: signaler-feuille-monte 0.3s ease-out;
+    }
+// Le conteneur du popup devient le contenu de la page : plus de fond assombri, contenu centré verticalement
+.mode-reel-page .update-prompt-overlay {
+    position: absolute;
+    background: none;
+    padding: calc(64px + var(--safe-top)) 24px calc(24px + var(--safe-bottom)); // place pour la croix en haut
+    box-sizing: border-box;
+}
+// Boîte de la page « mode réel » : même fond et même bordure que les boîtes des autres pages,
+// pour que les textes (couleur --box-text) restent lisibles sur le fond d'écran
+.mode-reel-page .update-prompt-box {
+    background-color: var(--box-bg);
+    border: var(--border-width) solid var(--box-border);
+    border-radius: var(--radius-box);
+    padding: 20px;
+    max-width: 420px;
+}
+// Texte du bouton « Se connecter » de la page « mode réel » : couleur réglée par thème (--mode-reel-btn-text)
+.app-root-container .mode-reel-page .update-prompt-btn-primary {
+    color: var(--mode-reel-btn-text);
+}
+// Croix de fermeture en haut à droite (image fermer.png du thème)
+.mode-reel-page-fermer {
+    position: absolute;
+    top: calc(12px + var(--safe-top));
+    right: 12px;
+    z-index: 300; // au-dessus du contenu
+    width: 44px;
+    height: 44px;
+    padding: 0;
+    border: none;
+    background: none;
+    cursor: pointer;
+}
+.mode-reel-page-fermer img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+// Animation de descente du popup « Signaler » (ligne rétablie)
+@keyframes signaler-feuille-descend {
+    from { transform: translateY(0); }
+    to { transform: translateY(120%); }
+}
+
+// Popup pseudo/mot de passe de l'accueil : couleur fixe (indépendante du thème), classe doublée pour gagner en spécificité.
+.pseudo-popup-accueil.pseudo-popup-accueil .update-prompt-text,
+.pseudo-popup-accueil.pseudo-popup-accueil .compte-lien-secondaire,
+.pseudo-popup-accueil.pseudo-popup-accueil .compte-question-exemple,
+.pseudo-popup-accueil.pseudo-popup-accueil .pseudo-popup-aide {
+    color: var(--box-text);
+}
+.update-prompt-text {
+    color: var(--box-text);
+    font-size: 0.95em;
+    margin: 0 0 16px;
+    text-align: center;
+    white-space: pre-line;
+}
+.update-prompt-actions {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+}
+// 5 étoiles cliquables : choix immédiat au clic (pas de survol, pour rester utilisable au toucher).
+.avis-etoiles {
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+    margin-bottom: 16px;
+}
+.avis-etoile-btn {
+    @extend %btn-reset-icon3;
+    font-size: 2.2em;
+    line-height: 1;
+    padding: 4px;
+    // --box-text plutôt que --box-border : garanti lisible sur le fond clair de .update-prompt-box.
+    color: var(--box-text);
+    opacity: 0.6;
+}
+.avis-etoile-btn:hover,
+.avis-etoile-btn:focus-visible {
+    opacity: 1;
+}
+// Variante avec les boutons-image des barres de thème (empilés, pas côte à côte, images conçues pleine largeur).
+.update-prompt-actions-images {
+    @extend %flex-col;
+    gap: 10px;
+}
+.update-prompt-btn {
+    flex: 1;
+    padding: 10px 16px;
+    border-radius: var(--radius-large);
+    cursor: pointer;
+}
+// Actions "Bloquer"/"Signaler", accessibles depuis le profil consulté (grand) et l'en-tête de conversation (compact).
+.rencontre-actions-blocage {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    margin-top: 16px;
+}
+// Couleurs fixes (pas les variables de thème) : ces boutons sont superposés à une photo, pas à une boîte du thème.
+.rencontre-action-bouton-grand {
+    background: rgba(0, 0, 0, 0.35);
+    border: var(--border-width) solid rgba(255, 255, 255, 0.7);
+    border-radius: 20px;
+    padding: 8px 18px;
+    color: $c-white;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.8);
+    font-size: 0.9em;
+}
+.rencontre-header-actions {
+    position: absolute;
+    top: 3px;
+    right: 16px;
+    display: flex;
+    gap: 8px;
+    pointer-events: auto;
+}
+.rencontre-action-bouton-compact {
+    background: rgba(0, 0, 0, 0.35);
+    border: var(--border-width) solid rgba(255, 255, 255, 0.7);
+    border-radius: 12px;
+    padding: 2px 8px;
+    font-size: 0.7em;
+    color: $c-white;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.8);
+}
+.update-prompt-btn-secondary {
+    background-color: var(--btn-secondary-bg);
+    color: var(--btn-secondary-text);
+    border: var(--border-width) solid var(--btn-secondary-border-color);
+}
+.update-prompt-btn-primary {
+    background-color: var(--btn-primary-bg);
+    color: var(--btn-primary-text);
+    border: none;
+}.update-prompt-btn-primary:active {
+    background-color: var(--btn-primary-active-bg);
+}
+
+.update-prompt-btn-primary:disabled {
+    opacity: 0.5;
+    cursor: default;
+}
+.update-prompt-progress {
+    width: 100%;
+    height: 10px;
+    border-radius: var(--radius-pill);
+    background-color: var(--popup-progress-track-bg);
+    overflow: hidden;
+}
+.update-prompt-progress-fill {
+    height: 100%;
+    background-color: var(--popup-progress-fill-bg);
+    transition: width 0.2s linear;
+}
+.pseudo-popup-input {
+    display: block;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 10px 14px;
+    margin-bottom: 16px;
+    border-radius: var(--radius-large);
+    border: var(--border-width) solid var(--champ-border-color);
+    background-color: var(--champ-bg);
+    color: var(--champ-text);
+    font-size: 0.95em;
+}
+// Rogne le halo natif Android d'auto-remplissage (non stylable en CSS), via un conteneur ajusté avec overflow caché.
+.pseudo-popup-halo-masque {
+    overflow: hidden;
+    border-radius: var(--radius-large);
+    margin-bottom: 16px;
+}
+.pseudo-popup-halo-masque .pseudo-popup-input {
+    margin-bottom: 0;
+}
+.pseudo-popup-halo-masque .compte-mot-de-passe-oeil {
+    bottom: 0;
+}
+.compte-mot-de-passe-input {
+    padding-right: 42px;
+}
+.compte-mot-de-passe-oeil {
+    position: absolute;
+    right: 6px;
+    top: 0;
+    bottom: 16px;
+    @extend %flex-v-center;
+    @extend %btn-reset-icon3;
+    font-size: 1.1em;
+    padding: 0 8px;
+    line-height: 1;
+}
+
+// Popup de compte : lien secondaire ("J'ai déjà un compte") et message d'erreur sous le formulaire.
+.compte-lien-secondaire {
+    display: block;
+    width: 100%;
+    background: none;
+    border: none;
+    padding: 0;
+    margin: 14px 0 0;
+    font-size: 0.85em;
+    text-decoration: underline;
+    text-align: center;
+    cursor: pointer;
+    color: var(--box-text);
+}
+.compte-erreur-texte {
+    color: $c-sync-error;
+    font-size: 0.85em;
+    text-align: center;
+    margin: -8px 0 12px;
+}
+// Exemple sous la question secrète, rendu défilable au doigt plutôt que raccourci (certaines langues sont trop longues).
+.compte-question-exemple {
+    white-space: nowrap;
+    overflow-x: auto;
+    font-size: 0.8em;
+    opacity: 0.75;
+    margin: -8px 0 8px;
+    padding: 0 2px;
+    color: var(--box-text);
+}
+.pseudo-popup-aide {
+    font-size: 0.78em;
+    opacity: 0.75;
+    margin: -6px 0 8px;
+    padding: 0 2px;
+    line-height: 1.3;
+}
+.signaler-btn {
+    position: fixed;
+    top: calc(16px + var(--safe-top));
+    right: 16px;
+    // z-index 100 : sinon le drapeau "Signaler" est caché sous la coque décorative en vue navigateur large.
+    z-index: 100;
+    width: 26px;
+    height: 26px;
+}
+
+.signaler-btn-img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    object-position: top center;
+}
+.signaler-motifs {
+    @extend %flex-col;
+    gap: 8px;
+    margin-bottom: 16px;
+}
+.signaler-motif-btn {
+    padding: 10px 16px;
+    border-radius: var(--radius-large);
+    border: var(--border-width) solid var(--btn-secondary-border-color);
+    background-color: var(--btn-secondary-bg);
+    color: var(--btn-secondary-text);
+    cursor: pointer;
+}
+.signaler-motif-btn-actif {
+    background-color: var(--btn-primary-bg);
+    border-color: var(--btn-primary-bg);
+    color: var(--btn-primary-text);
+}
+.signaler-commentaire {
+    resize: none;
+}
+
+// Boutons "annuler"/"continuer" des popups (Signaler, Rembobiner) : chaque thème ne fournit plus que --img-btn-annuler/--img-btn-continuer.
+.update-prompt-box:has(.signaler-motifs) .update-prompt-btn-secondary,
+.update-prompt-box:has(.signaler-motifs) .signaler-motif-btn:not(.signaler-motif-btn-actif),
+.personnage-rembobiner-confirmation .update-prompt-btn-secondary,
+.profil-recommencer-confirmation .update-prompt-btn-secondary { // confirmation « recommencer la conversation » : image annuler.png
+    background-image: var(--img-btn-annuler);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-color: transparent;
+    border: none;
+    color: $c-white;
+}
+.update-prompt-box:has(.signaler-motifs) .update-prompt-btn-primary,
+.update-prompt-box:has(.signaler-motifs) .signaler-motif-btn-actif,
+.personnage-rembobiner-confirmation .update-prompt-btn-primary,
+.profil-recommencer-confirmation .update-prompt-btn-primary { // confirmation « recommencer la conversation » : image continuer.png
+    background-image: var(--img-btn-continuer);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-color: transparent;
+    border: none;
+    color: $c-white;
+    // Position du texte réglée par thème dans le fichier du thème (--btn-page-padding-*)
+    padding-left: var(--btn-page-padding-left);
+    padding-top: var(--btn-page-padding-top);
+    padding-bottom: var(--btn-page-padding-bottom);
+    text-align: center;
+}
+
+// Confirmation « recommencer » (Oui / Non) : texte court, centré exactement au milieu de l'image du bouton
+// (annule le décalage prévu pour les textes longs des autres popups). Proportion de l'image : 400 x 113.
+.profil-recommencer-confirmation .update-prompt-btn {
+    display: flex;
+    align-items: center; // centré verticalement
+    justify-content: center; // centré horizontalement
+    padding: 0;
+    aspect-ratio: 400 / 113;
+    line-height: 1;
+    text-align: center;
+}
+
+// --- Petit indicateur de chargement (connexion au serveur) ---
+.sync-spinner {
+    position: fixed;
+    top: 84px;
+    right: 16px;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    border: var(--border-width) solid rgba(196, 168, 118, 0.35);
+    border-top-color: $c-accent-default;
+    animation: sync-spin 0.7s linear infinite;
+    z-index: 40;
+}
+@keyframes sync-spin {
+    to { transform: rotate(360deg); }
+}
+
+.personnage-typing {
+    display: flex;
+    gap: 5px;
+    align-items: center;
+    padding: 16px 20px;
+}
+.personnage-typing-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background-color: var(--box-text-on-dark);
+    opacity: 0.5;
+    animation: personnage-typing-bounce 1s infinite ease-in-out;
+}
+.personnage-typing-dot:nth-child(2) { animation-delay: 0.15s; }
+.personnage-typing-dot:nth-child(3) { animation-delay: 0.3s; }
+@keyframes personnage-typing-bounce {
+    0%, 60%, 100% { opacity: 0.35; transform: translateY(0); }
+    30% { opacity: 1; transform: translateY(-3px); }
+}
+.personnage-typing-inline {
+    display: inline-flex;
+    gap: 5px;
+    align-items: center;
+    padding: 4px 0;
+}
+// Ligne d'un message : l'icône et la bulle côte à côte, sur une même ligne.
+.personnage-bubble-group {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 6px;
+}
+// Message de l'IA : icône à gauche de la bulle.
+.personnage-bubble-group-character {
+    justify-content: flex-start;
+}
+// Message de l'utilisateur : icône à droite de la bulle.
+.personnage-bubble-group-user {
+    justify-content: flex-end;
+}
+.personnage-bubble-column {
+    @extend %flex-col;
+    flex: 1 1 auto;
+    min-width: 0;
+}
+// Taille/bordure/couleur de ces avatars : voir avatars.css.
+.personnage-user-avatar-banner-btn,
+.profil-conversation-avatar-btn {
+    // Prend exactement l'emplacement de l'icône palette (mêmes coordonnées que .create-banner-icon).
+    position: absolute;
+    left: 10.3%;
+    top: 42.2%;
+    width: 9%;
+    aspect-ratio: 1 / 1;
+    z-index: 2;
+}
+.personnage-user-avatar-banner-btn {
+    transform: translate(calc(-50% + var(--avatar-user-dx)), calc(-50% + var(--avatar-user-dy)));
+}
+.profil-conversation-avatar-btn {
+    transform: translate(calc(-50% + var(--icon-profil-dx)), calc(-50% + var(--icon-profil-dy)));
+}
+.create-textarea-readonly {
+    opacity: 0.7;
+    cursor: default;
+}
+.profil-conversation-sections {
+    @extend %flex-col;
+    gap: 14px;
+}
+.profil-conversation-boxed {
+    padding: 0 24px;
+}
+
+// Onglet de dossier papier : le titre est collé en haut à gauche de la boîte, de la même couleur et avec la même bordure,
+// sans bordure en bas pour se fondre dans la boîte. Sa largeur suit le texte (autre langue = autre largeur) ;
+// un texte très long passe sur plusieurs lignes sans dépasser de la boîte.
+.profil-dossier-onglet {
+    position: relative; // au-dessus de la boîte, pour couvrir sa bordure haute sous l'onglet
+    z-index: 1;
+    display: block;
+    width: fit-content; // s'agrandit avec le texte
+    max-width: 100%;
+    box-sizing: border-box;
+    // Chevauche la bordure haute de la boîte (la plus épaisse des deux variables de bordure, selon le thème).
+    margin: 0 0 calc(-1 * max(var(--box-border-width), var(--border-width)));
+    padding: 6px 16px 5px;
+    font-size: 0.9em;
+    font-weight: 700;
+    line-height: 1.25;
+    color: var(--box-text);
+    // Fond opaque (réglé par thème) : un fond transparent laisserait voir la bordure de la boîte dessous.
+    background-color: var(--dossier-onglet-bg);
+    border: max(var(--box-border-width), var(--border-width)) solid var(--box-border);
+    border-bottom: none;
+    border-radius: 12px 12px 0 0; // coins arrondis en haut seulement
+}
+// Coin haut gauche de la boîte carré : c'est là que l'onglet est collé.
+// Classe doublée pour gagner en spécificité sur les règles .create-box des thèmes (dentelle, frosted).
+.profil-dossier.profil-dossier .create-box {
+    border-top-left-radius: 0;
+}
+
+.profil-conversation-restart-btn .create-btn-title {
+    font-size: clamp(10px, 3.1vw, 13px);
+    line-height: 1.15;
+    color: $c-white;
+    text-shadow: 0 1px 3px rgba(0,0,0,0.35);
+}
+.profil-conversation-restart-btn .create-btn-caption {
+    top: 0;
+    bottom: 0;
+    left: 7%;
+}
+button.details-genre-symbol:disabled {
+    cursor: default;
+    opacity: 0.85;
+}
+.personnage-bubble-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 4px;
+    padding-left: 4px;
+}
+// Message resté sans réponse : styles dans personnage-bubble-erreur.css, pas ici.
+.personnage-bubble-action-btn {
+    background: none;
+    border: none;
+    padding: 4px;
+    cursor: pointer;
+    color: $c-accent-default;
+    opacity: 0.75;
+}
+.personnage-bubble-action-btn svg {
+    width: 16px;
+    height: 16px;
+    display: block;
+}
+// Léger décalage vers le haut : l'icône Feather pèse plus vers le bas que l'icône haut-parleur, à taille de boîte identique.
+.personnage-bubble-action-btn:not(.personnage-bubble-action-voix) svg {
+    transform: translateY(-2px);
+}
+// Couleur gothique de ces icônes supprimée (approche abandonnée), retombent sur le doré générique.
+.personnage-bubble-text-btn {
+    font-size: 0.8em;
+    font-weight: bold;
+    padding: 4px 10px;
+    border: var(--border-width) solid var(--bubble-text-btn-border-color);
+    border-radius: var(--radius-small);
+    opacity: 1;
+}
+.personnage-bubble-save-btn {
+    background-color: var(--bubble-save-btn-bg);
+    color: var(--bubble-save-btn-text);
+}
+.personnage-edit-textarea {
+    width: 100%;
+    min-height: 60px;
+    background: transparent;
+    border: none;
+    outline: none;
+    resize: none;
+    font-size: 0.95em;
+    line-height: 1.4;
+    // Même couleur que le texte normal de la bulle (--bulle-ia-text) : une couleur fixe était illisible sur les thèmes clairs.
+    color: var(--bulle-ia-text);
+    font-family: inherit;
+}
+
+// --- Page "Voix" ---
+.voix-section-title {
+    margin-top: 24px;
+    margin-left: 24px;
+}
+.voix-subsection {
+    margin-top: 14px;
+}
+.voix-subsection-title {
+    margin-left: 24px;
+    font-size: 0.8em;
+    opacity: 0.75;
+    margin-bottom: 6px;
+}
+.voix-list {
+    @extend %flex-col;
+    gap: 12px;
+    padding: 0 24px;
+}
+.voix-item {
+    @extend %btn-reset-icon2;
+    position: relative;
+    display: block;
+    width: 100%;
+    // Pas de hauteur fixe : le bouton doit grandir avec la vraie hauteur de barre1.png (ratio 1271x210).
+    padding: 0;
+    cursor: pointer;
+}
+.voix-item-speaker {
+    display: flex;
+    color: $c-white;
+}
+.voix-item-speaker svg {
+    width: 18px;
+    height: 18px;
+}
+
+// Taille de texte commune à tous les petits boutons "pilule", en px fixes (pas em, pour rester cohérent partout).
+.update-prompt-btn,
+.signaler-motif-btn,
+.details-voix-label,
+.voix-item-label,
+.pagination-label,
+.crop-btn {
+    font-size: 15px;
+    font-weight: normal;
+}
+
+// Page publique de téléchargement : une carte par plateforme, style générique --box-* (accessible avant tout choix de thème).
+.telechargement-page {
+    @extend %flex-col;
+    padding-top: 90px;
+    gap: 20px;
+}
+.telechargement-carte {
+    background-color: var(--box-bg);
+    border-color: var(--box-border);
+    color: var(--box-text);
+}
+.telechargement-plateforme {
+    margin: 0 0 8px;
+}
+.telechargement-version {
+    font-size: 0.9em;
+    opacity: 0.8;
+    margin: 0 0 8px;
+}
+.telechargement-changelog {
+    white-space: pre-line;
+    margin: 0 0 14px;
+}
+.telechargement-bouton {
+    margin-top: 4px;
+}
+
+// --- Motifs génériques réutilisés par des éléments sans rapport entre eux (voir @extend dans chaque règle) ---
+%center-content { // Centrage horizontal + vertical seul (sans display, pour flex ET inline-flex).
+    align-items: center;
+    justify-content: center;
+}
+%flex-center { // Centré horizontalement et verticalement en flex.
+    display: flex;
+    @extend %center-content;
+}
+%flex-v-center { // Alignement vertical centré en flex (sans centrage horizontal).
+    display: flex;
+    align-items: center;
+}
+%flex-col-center { // Colonne flex centrée horizontalement.
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+%flex-col { // Colonne flex simple.
+    display: flex;
+    flex-direction: column;
+}
+%btn-reset-icon3 { // Bouton sans style natif (fond/bordure), curseur pointeur.
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+%btn-reset-icon2 { // Bouton sans style natif (fond/bordure).
+    border: none;
+    background: none;
+}
+%full-bleed-cover { // Image qui remplit tout son cadre (recadrée).
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+%icon-contain-static { // Icône statique (ne capte pas les clics).
+    object-fit: contain;
+    pointer-events: none;
+}
+%absolute-inset { // Recouvre entièrement son parent positionné.
+    position: absolute;
+    inset: 0;
+}
+
+// --- Utilitaires communs (règles identiques réutilisées par des éléments sans rapport entre eux) ---
+
+// Retire le contour bleu par défaut du navigateur (champs de saisie + barres de zoom/progression).
+input:focus,
+textarea:focus,
+select:focus,
+.zoom-slot,
+.zoom-track,
+.zoom-fill,
+.progress-bar,
+.progress-bar-track,
+.progress-bar-fill,
+.zoom-slot input[type="range"],
+input[type="range"].zoom-input {
+    outline: none;
+}
+
+// Cases/bouton photo désactivés (grille "Mes photos" pleine).
+.rencontre-photo-case--vide:disabled,
+.rencontre-prendre-photo-btn:disabled {
+    opacity: 0.4;
+    cursor: default;
+}
+
+// Espacement entre blocs de la page "Personne réelle" et boutons de profil consulté.
+.rencontre-page > .create-box + .create-box,
+.rencontre-profil-bouton {
+    margin-top: 16px;
+}
+
+// Espacement du menu déroulant par catégorie du questionnaire.
+.rencontre-categorie-accordeon,
+.rencontre-categorie-accordeon .details-voix-row {
+    margin-top: 7px;
+}
+
+// Flèche de pagination et bouton d'action sur une bulle, désactivés.
+.pagination-arrow:disabled,
+.personnage-bubble-action-btn:disabled {
+    opacity: 0.3;
+    cursor: default;
+}
+
+// Annule une marge du haut héritée ailleurs.
+.create-page .create-banner-title,
+.personnage-content .create-banner-title,
+.rencontre-question-categorie:first-child,
+.profil-conversation-genre-row {
+    margin-top: 0;
+}
+
+// Image qui remplit tout son cadre carré (recadrée).
+.style-card-preview,
+.gallery-thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+// Boutons-image désactivés.
+.create-btn-image:disabled,
+.crop-btn:disabled {
+    opacity: 0.6;
+    cursor: default;
+}
+
+// Image qui remplit toute la largeur de son cadre (recadrée).
+.create-btn-image img,
+.create-banner-bg {
+    width: 100%;
+    height: auto;
+    display: block;
+    object-fit: cover;
+}
+
+// Image/barre qui prend toute la largeur disponible (proportions respectées).
+.create-preview-img,
+.progress-bar-track,
+.zoom-track {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+// Icône flèche retour, même taille partout où elle apparaît.
+.nav-arrow-img,
+.camera-back-app-icon {
+    height: 15px;
+    width: auto;
+    object-fit: contain;
+    display: block;
+}
+
+// Icônes des boutons de l'écran caméra.
+.camera-btn-icon,
+.camera-capture-btn-icon {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    pointer-events: none;
+}
+
+// Bulle/boîte alignée à gauche plutôt qu'à droite.
+.personnage-salutation-box.personnage-bubble,
+.rencontre-conversation-page .personnage-user-box {
+    align-self: flex-start;
+}
+
+// Sert de repère de positionnement pour un enfant en position absolute.
+.details-genre-item,
+.compte-mot-de-passe-wrapper {
+    position: relative;
+}
+
+// ============================================================================
+// Règles qui lisent les variables de thème. Le préfixe .app-root-container donne la même priorité
+// qu'avaient les règles de chaque fichier de thème (.theme-xxx), pour que rien ne change dans l'ordre d'application.
+// ============================================================================
+.app-root-container .moi-info-box .personnage-field-text {
+    color: var(--moi-info-text-color);
+}
+.app-root-container .rencontre-bienvenue-centre .rencontre-bio-box p {
+    color: var(--bio-box-text-color);
+}
+.app-root-container .rencontre-conversation-page .personnage-user-box .personnage-field-text {
+    color: var(--rencontre-user-text-color);
+}
+.app-root-container .moi-page .details-voix-label,
+.app-root-container .moi-page .moi-avatar-chevron {
+    color: var(--moi-bar-text-color);
+}
+.app-root-container .details-personnage-page .generating-text {
+    color: var(--details-generating-text-color);
+}
+.app-root-container .details-personnage-page .create-textarea::placeholder {
+    color: var(--details-textarea-placeholder-color);
+    opacity: var(--details-textarea-placeholder-opacity);
+}
+.app-root-container .create-box:focus-within {
+    border-color: var(--box-focus-border-color);
+    box-shadow: var(--box-focus-shadow);
+}
+.app-root-container .crop-viewport {
+    border-color: var(--crop-viewport-border-color);
+}
+.app-root-container .burger-item.burger-item-contact-admin {
+    color: var(--burger-contact-color);
+}
+.app-root-container .personnage-creator-banner {
+    color: var(--creator-banner-color);
+}
+.app-root-container img[src*="basculer"],
+.app-root-container img[src*="capture"],
+.app-root-container img[src*="flash"],
+.app-root-container img[src*="creer"],
+.app-root-container img[src*="drapeau"],
+.app-root-container img[src*="messages"],
+.app-root-container img[src*="palette"],
+.app-root-container img[src*="appareilphoto"],
+.app-root-container img[src*="compatibilite"],
+.app-root-container img[src*="cadenas"],
+.app-root-container img[src*="supprimer"],
+.app-root-container img[src*="profil-homme"],
+.app-root-container img[src*="profil-femme"],
+.app-root-container .personnage-user-avatar-banner-img,
+.app-root-container .profil-conversation-avatar-img {
+    filter: var(--icone-filtre);
+}
+// Cartes de style : bordure de la vignette et du libellé en cycle de 3 (identiques sauf sur les thèmes qui les différencient).
+.app-root-container .style-grid .style-card:nth-child(3n + 1) .style-card-image-wrap {
+    border-color: var(--style-card-image-border-1);
+}
+.app-root-container .style-grid .style-card:nth-child(3n + 2) .style-card-image-wrap {
+    border-color: var(--style-card-image-border-2);
+}
+.app-root-container .style-grid .style-card:nth-child(3n + 3) .style-card-image-wrap {
+    border-color: var(--style-card-image-border-3);
+}
+.app-root-container .style-grid .style-card:nth-child(3n + 1) .style-card-label {
+    border-color: var(--style-card-label-border-1);
+}
+.app-root-container .style-grid .style-card:nth-child(3n + 2) .style-card-label {
+    border-color: var(--style-card-label-border-2);
+}
+.app-root-container .style-grid .style-card:nth-child(3n + 3) .style-card-label {
+    border-color: var(--style-card-label-border-3);
+}
+.burger-icon-img {
+    width: 28px;
+    height: 28px;
+    object-fit: contain;
+}
+// « Créer » grisé dans le menu burger tant que la page « Moi » n'est pas remplie entièrement
+.burger-item.burger-item-grise {
+    opacity: 0.4;
+    cursor: not-allowed;
+}
+// Point rouge qui clignote doucement : sur l'icône du menu burger et sur la ligne « Moi », tant que « Moi » n'est pas complète
+.burger-icon {
+    position: relative; // pour placer le point dans le coin de l'icône
+}
+.burger-point-rouge {
+    position: absolute;
+    top: -2px;
+    right: -2px;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: #E53935;
+    pointer-events: none; // le point ne bloque pas le clic sur le bouton
+    animation: burger-point-rouge-clignote 1.8s ease-in-out infinite;
+}
+@keyframes burger-point-rouge-clignote {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.25; }
+}
+// Petit texte sous « Créer » : « Remplis d'abord Moi »
+.burger-indice-moi {
+    padding: 0 16px 8px;
+    text-align: center; // texte centré sous « Créer »
+    font-size: 0.75rem;
+    opacity: 0.85;
+    color: var(--burger-text);
+}
+// Le point rouge est un <span> dans .burger-icon : la règle ".burger-icon span" (traits du burger) lui donnait une largeur de 100 % et 2px de haut.
+// Cette règle plus précise remet un vrai petit rond.
+.burger-icon .burger-point-rouge {
+    width: 10px;
+    height: 10px;
+    background-color: #E53935;
+}
+// Ligne « Prévenir si nouvelle IA » de la page Moi : texte à gauche, boutons Oui / Non à droite avec un espace entre eux.
+// Aucun bouton actif = pas encore de réponse. Les couleurs reprennent celles des avatars de la page Moi.
+.moi-prevenir-row {
+    cursor: default; // la ligne n'est pas un bouton, seuls Oui et Non le sont
+}
+.moi-prevenir-row .details-voix-content {
+    justify-content: center; // texte centré dans la barre, comme les autres lignes
+}
+// Barre « Prévenir si nouvelle IA » : 3 zones cliquables : Oui (1er quart), phrase (moitié centrale = pas de réponse), Non (dernier quart).
+// Le choix actif est vert, les deux autres sont rouges. Au départ la phrase est active (verte), Oui et Non sont rouges.
+.moi-prevenir-row .details-voix-content {
+    display: grid;
+    grid-template-columns: 1fr 2fr 1fr; // quart | moitié | quart
+    padding: 0; // les zones vont jusqu'aux bords de la barre
+    gap: 0;
+}
+button.moi-prevenir-btn {
+    height: 100%;
+    min-width: 0;
+    padding: 0 4px;
+    border: none;
+    border-radius: 0;
+    background: none !important;
+    font-weight: 700;
+    font-size: clamp(11px, 3.2vw, 14px);
+    line-height: 1.15;
+    text-align: center;
+    color: #FB7185; // rouge : choix non actif
+    text-shadow: 0 0 3px rgba(0, 0, 0, 0.7); // lisible sur tous les fonds de barre
+    cursor: pointer;
+}
+button.moi-prevenir-btn.moi-prevenir-btn-actif {
+    color: #34D399; // vert : choix actif
+}
+// Fines lignes de chaque côté de la phrase pour montrer les 3 zones
+button.moi-prevenir-btn-milieu {
+    border-left: 1px solid rgba(255, 255, 255, 0.35);
+    border-right: 1px solid rgba(255, 255, 255, 0.35);
+}
+// Côté « Personne réelle » (classe mode-reel posée par App.tsx) : autre fond d'écran (fondecran2) et autre coque (coque2).
+// Chaque thème choisit ses images avec --wallpaper-reel et --img-coque-reel.
+.app-root-container.mode-reel {
+    --wallpaper: var(--wallpaper-reel);
+}
+:root:has(.app-root-container.mode-reel) {
+    --img-coque: var(--img-coque-reel);
+}
+// Accueil « Personne réelle » : la barre de titre est dans la barre du haut, à côté du burger.
+.top-bar-box .create-banner-title {
+    margin: 0; // la barre du haut gère déjà les espaces
+}
+@media (max-width: 699px) {
+    .rencontre-accueil {
+        padding-top: calc(100px + var(--safe-top)); // le contenu commence sous la barre du haut (la barre de titre n'est plus dans la page)
+    }
+}
+// Accueil « Personne réelle » : la barre de titre est dans la barre du haut, à côté du burger.
+.top-bar-box .create-banner-title {
+    margin: 0; // la barre du haut gère déjà les espaces
+}
+@media (max-width: 699px) {
+    .rencontre-accueil {
+        padding-top: calc(100px + var(--safe-top)); // le contenu commence sous la barre du haut (la barre de titre n'est plus dans la page)
+    }
+}

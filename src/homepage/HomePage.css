@@ -1,0 +1,111 @@
+/* src/pages/HomePage.css */
+
+/* position: fixed + inset plutôt que width/height: 100vh - sur PC, le
+   contenu est enfermé dans le cadre "coque de smartphone" (voir gothique.scss/
+   dentelle.scss/cyberpunk.scss/frosted.scss), qui a lui-même un transform : ça
+   fait de ce cadre le référentiel des éléments position:fixed qu'il
+   contient, au lieu du viewport entier (100vh déborderait largement du
+   cadre, voir la même remarque sur .update-prompt-overlay dans base.css). */
+.home-page {
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+}
+
+.home-page__bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Provisoire, tant que src/images/home-choice.png n'existe pas - à
+   remplacer par la balise <img> d'origine une fois l'image ajoutée. */
+.home-page__bg-placeholder {
+  background: linear-gradient(160deg, var(--onboarding-text-dark), #6b4a2c 55%, #e8a13c);
+}
+
+/* Dégradé sombre en bas pour que les boutons restent lisibles quelle que soit l'image */
+.home-page__overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0) 60%,
+    rgba(0, 0, 0, 0.55) 100%
+  );
+  pointer-events: none;
+}
+
+.home-page__buttons {
+  position: absolute;
+  bottom: 6%;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  padding: 0 16px;
+  z-index: 2;
+}
+
+.home-page__btn {
+  flex: 1;
+  /* Sans ça, un bouton flex ne rétrécit jamais sous la largeur de son texte
+     (min-width:auto par défaut) : dans le cadre "coque" étroit sur PC (voir
+     gothique.scss/dentelle.scss/cyberpunk.scss/frosted.scss), ce texte plus long
+     ("Intelligence Artificielle") poussait l'autre bouton et les deux
+     finissaient de tailles très inégales au lieu de se partager l'espace à
+     parts égales. */
+  min-width: 0;
+  max-width: 220px;
+  padding: 14px 18px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  border-radius: 999px;
+  border: 2px solid transparent;
+  cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+  backdrop-filter: blur(4px);
+}
+
+.home-page__btn:active {
+  transform: scale(0.96);
+}
+
+/* Bouton côté "réel" — ton chaud, doré/ambre, en accord avec le visuel */
+.home-page__btn--real {
+  background: rgba(255, 255, 255, 0.85);
+  color: #6b4a2c;
+  border-color: rgba(255, 255, 255, 0.9);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
+}
+
+/* Bouton côté "IA" — accent lumineux qui reprend le doré/particules */
+.home-page__btn--ai {
+  background: linear-gradient(135deg, #f5c26b, #e8a13c);
+  color: var(--onboarding-text-dark);
+  border-color: rgba(255, 255, 255, 0.4);
+  box-shadow: 0 4px 14px rgba(232, 161, 60, 0.45);
+}
+
+@media (max-width: 380px) {
+  .home-page__btn {
+    font-size: 0.85rem;
+    padding: 12px 10px;
+  }
+}
+
+/* Sur PC (cadre "coque" étroit, voir gothique.scss/dentelle.scss/cyberpunk.scss/
+   frosted.scss), le texte des boutons passe sur 2 lignes faute de place :
+   padding vertical réduit pour que les boutons restent bas plutôt que de
+   grandir avec le texte. Police également réduite (0.78rem au lieu du
+   0.95rem par défaut), un peu plus petite pour rester confortable sur PC. */
+@media (min-width: 700px) {
+  .home-page__btn {
+    padding: 8px 14px;
+    font-size: 0.78rem;
+  }
+}

@@ -1,0 +1,63 @@
+/* src/styles/neumorph.css version 1.0.0 */
+
+/* STYLES GLOBAUX DU THÈME NEUMORPH */
+/* Le body a déjà le fond #e0e0e0 dans index.css */
+
+/* CONTENEUR */
+.conteneur-boutons {
+    display: flex;
+    gap: 30px;
+    padding: 50px;
+    background-color: #e0e0e0;
+    border-radius: 15px;
+}
+
+/* BOUTONS : Styles Neumorph (Incrusté par défaut) */
+.bouton-soft {
+    width: 80px;
+    height: 80px;
+    background-color: #e0e0e0;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    /* OMBRES INCRUSTÉES PAR DÉFAUT (Simule le bouton enfoncé) */
+    box-shadow:
+        inset 5px 5px 10px rgba(174, 174, 192, 0.4),
+        inset -5px -5px 10px rgba(255, 255, 255, 0.9);
+
+    transition: all 0.2s ease;
+}
+
+/* HOVER : Fait ressortir le bouton au survol */
+.bouton-soft:hover {
+    box-shadow:
+        7px 7px 15px rgba(174, 174, 192, 0.6),
+        -7px -7px 15px rgba(255, 255, 255, 1);
+}
+
+/* ACTIVE : Simule le clic (revient à l'état incrusté) */
+.bouton-soft:active {
+    box-shadow:
+        inset 3px 3px 7px rgba(174, 174, 192, 0.4),
+        inset -3px -3px 7px rgba(255, 255, 255, 0.9);
+    border: 2px solid #ff0000; /* Contour rouge */
+}
+
+/* ICÔNES */
+.bouton-icone {
+    width: 35px;
+    height: 35px;
+    color: #4a4a4a;
+    stroke: currentColor;
+    fill: none;
+    transition: all 0.2s ease;
+}
+
+/* Changement de couleur de l'icône au clic */
+.bouton-soft:active .bouton-icone {
+    color: #ff0000;
+}

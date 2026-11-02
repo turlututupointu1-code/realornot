@@ -1,0 +1,10 @@
+/* src/pages/onboarding-common.css
+   Couleurs partagées par les écrans d'inscription (AgeGate, PrenomGate) et,
+   pour une seule d'entre elles, la page d'accueil (HomePage) - à importer
+   avant ces 3 fichiers. */
+:root {
+    --onboarding-border: #6b4a2f;
+    --onboarding-wheel-bg: #c9a878;
+    --onboarding-highlight: #b98d5e;
+    --onboarding-text-dark: #2b1a05;
+}

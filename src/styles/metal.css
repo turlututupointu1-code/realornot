@@ -1,0 +1,77 @@
+/* src/styles/metal.css version 1.0.0 */
+
+/* Couleur de base et simulation de la texture d'acier brossé */
+:root {
+    --couleur-acier-base: #c8c8c8;
+    --couleur-ombre-sombre: #b5b5b5; 
+    --couleur-lumiere: #ffffff; 
+    /* Dégradé pour simuler les lignes de brossage */
+    --texture-acier: repeating-linear-gradient(
+        45deg,
+        var(--couleur-acier-base),
+        var(--couleur-acier-base) 1px,
+        #e0e0e0 2px,
+        #e0e0e0 4px
+    );
+}
+
+/* Style du conteneur (Le fond) */
+.conteneur-boutons {
+    display: flex;
+    gap: 30px;
+    padding: 70px;
+    background: var(--texture-acier); 
+    background-color: var(--couleur-acier-base); 
+    box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.2); 
+}
+
+/* Style commun pour les boutons */
+.bouton-soft {
+    width: 70px; 
+    height: 70px; 
+    background: var(--texture-acier); 
+    background-color: var(--couleur-acier-base);
+    border: none;
+    border-radius: 50%; 
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+    /* EFFET INCRUSTÉ PAR DÉFAUT (Concave) */
+    box-shadow: 
+        inset 5px 5px 12px var(--couleur-ombre-sombre), 
+        inset -5px -5px 12px var(--couleur-lumiere); 
+    
+    transition: all 0.2s ease;
+}
+
+/* EFFET AU SURVOL (Relief normal) */
+.bouton-soft:hover {
+    box-shadow: 
+        5px 5px 10px var(--couleur-ombre-sombre),  
+        -5px -5px 10px var(--couleur-lumiere); 
+}
+
+/* EFFET AU CLIC (Bouton enfoncé + Contour Rouge) */
+.bouton-soft:active {
+    box-shadow: 
+        inset 2px 2px 5px var(--couleur-ombre-sombre), 
+        inset -2px -2px 5px var(--couleur-lumiere); 
+    border: 2px solid #ff0000; 
+}
+
+/* Style de l'icône */
+.bouton-icone {
+    width: 30px; 
+    height: 30px;
+    color: #4a4a4a;
+    stroke: currentColor;
+    fill: none; 
+    transition: all 0.2s ease;
+}
+
+/* Effet au clic (ICÔNE ROUGE) */
+.bouton-soft:active .bouton-icone {
+    color: #ff0000;
+}

@@ -1,0 +1,154 @@
+/* src/pages/AgeGate.css */
+
+.age-gate {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* Couleur moyenne extraite de homepage_with_logo.png (le fond de l'accueil). */
+  background: rgba(156, 119, 88, 0.85);
+  /* Pas de backdrop-filter (essayé : blur(6px)) - ce type de filtre est connu
+     pour désynchroniser par moments la zone tactile réelle de l'affichage
+     visuel sur certains WebView Android (bug de compositing GPU), ce qui a
+     empêché le bouton "Valider" de répondre au toucher sur un des
+     téléphones de test alors que tout fonctionnait par ailleurs (clic
+     simulé en JS réussi, aucun élément ne recouvrait le bouton). */
+}
+
+.age-gate__card {
+  width: 90%;
+  max-width: 340px;
+  /* Couleur moyenne extraite de homepage_with_logo.png (le fond de l'accueil) -
+     même palette que le popup pseudo/mot de passe de l'étape précédente
+     (voir .pseudo-popup-accueil dans base.css). */
+  background: #9c7758;
+  border: 3px solid var(--onboarding-border);
+  border-radius: 16px;
+  padding: 24px 20px;
+  box-sizing: border-box;
+  text-align: center;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.35);
+}
+
+.age-gate__card h2 {
+  margin: 0 0 6px;
+  font-size: 1.2rem;
+  color: #ffffff;
+}
+
+.age-gate__card p {
+  margin: 0 0 18px;
+  font-size: 0.9rem;
+  color: #f0e2d4;
+}
+
+.age-gate__wheel-labels {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+
+.age-gate__wheel-labels span {
+  width: 70px;
+  text-align: center;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #f0e2d4;
+}
+
+.age-gate__wheels {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  height: 200px;
+  margin-bottom: 20px;
+}
+
+.age-gate__wheel-outer {
+  position: relative;
+  width: 70px;
+  height: 100%;
+}
+
+.age-gate__wheel {
+  width: 100%;
+  height: 100%;
+  overflow-y: scroll;
+  scroll-snap-type: y mandatory;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  background: var(--onboarding-wheel-bg);
+  border: 1px solid var(--onboarding-border);
+  border-radius: 10px;
+}
+
+.age-gate__wheel::-webkit-scrollbar {
+  display: none;
+}
+
+.age-gate__wheel-item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  scroll-snap-align: center;
+  font-size: 1rem;
+  color: #999;
+  transition: color 0.15s ease, font-weight 0.15s ease;
+}
+
+.age-gate__wheel-item.is-selected {
+  color: var(--onboarding-text-dark);
+  font-weight: 700;
+  font-size: 1.15rem;
+}
+
+.age-gate__wheel-spacer {
+  flex-shrink: 0;
+}
+
+/* Bande centrale fixe qui indique la valeur sélectionnée */
+.age-gate__wheel-highlight {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  transform: translateY(-50%);
+  border-top: 1px solid var(--onboarding-highlight);
+  border-bottom: 1px solid var(--onboarding-highlight);
+  pointer-events: none;
+}
+
+.age-gate__error {
+  color: #c0392b;
+  font-size: 0.85rem;
+  margin-bottom: 12px;
+}
+
+.age-gate__actions {
+  display: flex;
+  gap: 10px;
+}
+
+.age-gate__confirm,
+.age-gate__cancel {
+  flex: 1;
+  padding: 12px;
+  border: none;
+  border-radius: 999px;
+  /* Marron plus foncé que le fond de la carte (#9c7758) - même couleur que
+     le bouton "Créer le compte" de l'étape précédente. */
+  background: var(--onboarding-border);
+  color: #ffffff;
+  font-weight: 600;
+  font-size: 0.95rem;
+  cursor: pointer;
+}
+
+.age-gate__confirm:active,
+.age-gate__cancel:active {
+  transform: scale(0.97);
+}

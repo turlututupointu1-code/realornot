@@ -1,0 +1,77 @@
+/* src/styles/vinyle.css version 1.0.0 */
+
+/* Boutons "Disque Vinyle" Mauve */
+
+/* Couleurs de base */
+:root {
+    --couleur-fond: #cccccc;         /* Fond gris neutre */
+    --couleur-mauve: #6A0DAD;        /* Mauve/Violet principal */
+    --couleur-mauve-sombre: #4A0082; /* Ombre profonde */
+    --couleur-mauve-clair: #9E7BBF;  /* Lumière subtile */
+    --couleur-activation: #ff0000;   /* Rouge d'activation */
+    --couleur-icone: #ffffff;        /* Icônes blanches pour un bon contraste */
+}
+
+/* 1. Style du Conteneur */
+.conteneur-boutons {
+    display: flex;
+    gap: 25px;
+    padding: 60px;
+    background-color: var(--couleur-fond);
+}
+
+/* 2. Style commun des Boutons (Effet Disque Vinyle) */
+.bouton-soft {
+    width: 60px; 
+    height: 60px; 
+    border: none;
+    border-radius: 50%; 
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+    /* Couleur de base et texture (simulée par une ombre interne) */
+    background-color: var(--couleur-mauve);
+    
+    /* Effet mat et léger biseau (Neumorphisme léger/plat) */
+    box-shadow: 
+        5px 5px 10px var(--couleur-mauve-sombre),  /* Ombre externe */
+        -5px -5px 10px var(--couleur-mauve-clair); /* Lumière externe */
+    
+    /* Simule la texture du vinyle/CD avec un reflet discret */
+    background-image: radial-gradient(circle at center, rgba(255,255,255,0.1) 10%, transparent 70%);
+
+    transition: all 0.2s ease-out;
+}
+
+/* 3. Effet au survol */
+.bouton-soft:hover {
+    box-shadow: 
+        7px 7px 15px var(--couleur-mauve-sombre),  
+        -7px -7px 15px var(--couleur-mauve-clair); 
+}
+
+/* 4. Effet au clic (ENFONCEMENT) */
+.bouton-soft:active {
+    /* Effet incrusté */
+    box-shadow: 
+        inset 3px 3px 7px var(--couleur-mauve-sombre), 
+        inset -3px -3px 7px var(--couleur-mauve-clair); 
+    transform: scale(0.95);
+    border: none; 
+}
+
+/* 5. Style de l'icône */
+.bouton-icone {
+    color: var(--couleur-icone); /* Blanc */
+    fill: none; 
+    transition: all 0.2s ease;
+    /* Dimensions (28px / 2px) viennent de BoutonsIcones.tsx */
+}
+
+/* Effet au clic (ICÔNE ROUGE) */
+.bouton-soft:active .bouton-icone {
+    color: var(--couleur-activation); /* Rouge */
+    /* L'épaisseur est gérée par BoutonsIcones.tsx */
+}

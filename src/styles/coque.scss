@@ -1,0 +1,80 @@
+/* src/styles/coque.scss
+   Habillage "coque de smartphone" affiché sur écran large (tablette, navigateur, Linux, Windows). Sur smartphone (moins de 700 px) il n'y a pas de coque.
+
+   coque.png contient maintenant le fond d'écran : l'image est posée DERRIÈRE le contenu (z-index 999 contre 1000) et le contenu est
+   transparent. Elle n'a plus de trou transparent. Ses valeurs propres à chaque thème sont ailleurs :
+     - images.scss  : --img-coque (l'image) et --coque-radius (arrondi de l'ouverture)
+     - fichier du thème : --coque-bg (fond autour de la coque) et --coque-shadow (ombre de la coque)
+   Rien à ajouter ici pour un nouveau thème : le squelette utilise .app-root-container (la div racine, qui porte la classe du thème actif).
+
+   Pourquoi ces variables sont sur :root et pas sur le thème : body::before n'est pas un descendant de .app-root-container. */
+@media (min-width: 700px) {
+
+    /* --- Dimensions communes à tous les thèmes (coque.png fait 580 x 883 partout) ---
+       coque-frame-* : dimensions totales de coque.png
+       coque-hole-*  : fenêtre où s'affiche le contenu = ouverture visible du cadre, réduite de ~6 px de chaque côté
+                       pour que le contenu ne touche pas les ornements.  >>> VALEURS ESTIMÉES : à ajuster sur tes images <<< */
+    :root:has(.app-root-container) {
+        --coque-frame-w: 580;
+        --coque-frame-h: 883;
+        --coque-hole-w: 448;
+        --coque-hole-h: 761;
+        /* Posé ici (comme --coque-radius, défini dans images.scss sur :root) pour que le calc() de --coque-radius soit résolu. */
+        --coque-h: 100vh;
+    }
+
+    body:has(.app-root-container) {
+        background: var(--coque-bg);
+    }
+    // Fond de la page = dégradé du thème, fixé à la fenêtre : le body n'a pas de hauteur car la coque est en position fixe.
+    html:has(.app-root-container) {
+        background: var(--coque-bg) fixed;
+    }
+    body:has(.app-root-container)::before {
+        content: '';
+        position: fixed;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        width: calc(var(--coque-h) * var(--coque-frame-w) / var(--coque-frame-h));
+        height: var(--coque-h);
+        background-image: var(--img-coque);
+        background-size: 100% 100%;
+        background-repeat: no-repeat;
+        filter: drop-shadow(var(--coque-shadow));
+        pointer-events: none;
+        /* Derrière le contenu (1000) : l'image contient déjà le fond d'écran. */
+        z-index: 999;
+    }
+    .app-root-container {
+        position: fixed;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        z-index: 1000;
+        width: auto;
+        height: calc(var(--coque-h) * var(--coque-hole-h) / var(--coque-frame-h));
+        /* !important : la même règle existe dans base.scss (min-height: 100vh, fond d'écran) avec la même priorité. */
+        min-height: 0 !important;
+        background: none !important;
+        aspect-ratio: var(--coque-hole-w) / var(--coque-hole-h);
+        border-radius: var(--coque-radius);
+        overflow-y: auto;
+        overflow-x: hidden;
+    }
+    // Menu burger : dans la coque, « fixed » défile avec le contenu. On le colle donc en haut de la zone visible avec « sticky », sur toute la hauteur de la coque, sans prendre de place dans la page.
+    .app-root-container .burger-overlay {
+        --hauteur-coque-visible: calc(var(--coque-h) * var(--coque-hole-h) / var(--coque-frame-h));
+        position: sticky;
+        top: 0;
+        left: auto;
+        width: 100%;
+        height: var(--hauteur-coque-visible);
+        margin-top: -12px; // compense le décalage de 12px en haut de la page sur PC
+        margin-bottom: calc(12px - var(--hauteur-coque-visible));
+    }
+    // Le panneau se place dans l'overlay (et non plus dans l'écran entier).
+    .app-root-container .burger-overlay .burger-panel {
+        position: absolute;
+    }
+}

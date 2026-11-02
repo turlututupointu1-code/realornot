@@ -1,0 +1,79 @@
+/* src/styles/vaporwave.css version 1.0.0 */
+
+/* Boutons Vaporwave Rétro / Esthétique */
+
+/* Couleurs de base */
+:root {
+    --couleur-fond: #2a2a4a;        /* Violet-bleu nuit */
+    --deg-rose-pastel: #FF99CC;     /* Rose pastel doux */
+    --deg-bleu-pastel: #99CCFF;     /* Bleu ciel pastel */
+    --bordure-blanche-lumineuse: #FFFFFF; /* Blanc pur pour la bordure */
+    --ombre-douce: rgba(0, 0, 0, 0.3); /* Ombre diffuse */
+    --icone-couleur: #FFFFFF;       /* Icônes blanches */
+    --icone-activation: #FF33CC;    /* Rose vif pour icône activée */
+}
+
+/* Style du Conteneur (Base) */
+.conteneur-boutons {
+    display: flex;
+    gap: 30px; /* Espacement entre les boutons */
+    padding: 20px;
+    background-color: var(--couleur-fond); /* Le fond du conteneur lui-même */
+}
+
+/* 2. Style commun des Boutons */
+.bouton-vaporwave {
+    width: 80px; /* Taille des boutons ronds */
+    height: 80px;
+    border-radius: 50%; /* Parfaitement rond */
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+    /* Dégradé de fond par défaut (Rose -> Bleu) */
+    background: linear-gradient(135deg, var(--deg-rose-pastel) 0%, var(--deg-bleu-pastel) 100%);
+    
+    /* Bordure blanche lumineuse et Ombre douce */
+    border: 2px solid var(--bordure-blanche-lumineuse);
+    box-shadow: 
+        0 0 10px rgba(255, 255, 255, 0.6), /* Halo blanc pour la lumière */
+        0 8px 15px var(--ombre-douce);     /* Ombre douce en dessous */
+    
+    transition: all 0.3s ease-in-out;
+    position: relative;
+}
+
+/* 3. Effet au survol */
+.bouton-vaporwave:hover {
+    transform: translateY(-3px); /* Léger soulèvement */
+    box-shadow: 
+        0 0 15px rgba(255, 255, 255, 0.8), 
+        0 12px 20px var(--ombre-douce);
+}
+
+/* 4. Effet d'activation (Bouton enfoncé) */
+.bouton-vaporwave.active {
+    /* Dégradé inversé (Bleu -> Rose) */
+    background: linear-gradient(135deg, var(--deg-bleu-pastel) 0%, var(--deg-rose-pastel) 100%);
+    transform: translateY(1px); /* Légèrement enfoncé */
+    box-shadow: 
+        0 0 5px rgba(255, 255, 255, 0.4), 
+        0 3px 5px var(--ombre-douce);
+    border-color: var(--bordure-blanche-lumineuse); 
+}
+
+/* 5. Style de l'icône */
+.bouton-vaporwave svg {
+    width: 35px; /* Taille de l'icône */
+    height: 35px;
+    color: var(--icone-couleur); /* Icônes blanches par défaut */
+    stroke-width: 2px; /* Épaisseur de la ligne */
+    fill: none;
+    transition: color 0.3s ease-in-out;
+}
+
+/* Effet d'activation de l'icône */
+.bouton-vaporwave.active svg {
+    color: var(--icone-activation); /* Icône devient rose vif */
+}

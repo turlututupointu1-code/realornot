@@ -1,0 +1,24 @@
+/* src/styles/burger.css */
+.burger-panel {
+    background-color: var(--burger-bg);
+    border-right: 1px solid var(--burger-border);
+}
+.burger-item,
+.burger-close-btn,
+.burger-chevron,
+.burger-subitem {
+    color: var(--burger-text);
+}
+.burger-item:hover,
+.burger-close-btn:hover,
+.burger-subitem:hover,
+.burger-subitem-active {
+    background-color: var(--burger-hover);
+}
+.burger-separator {
+    background-color: var(--burger-border);
+}
+.burger-submenu {
+    background-color: var(--burger-bg);
+    border: 1px solid var(--burger-border);
+}

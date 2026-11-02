@@ -1,0 +1,98 @@
+/* src/styles/avatars.css
+   Tout ce qui règle l'apparence des avatars (utilisateur et personnage), en
+   un seul endroit - avant, ces règles étaient éparpillées dans base.css au
+   milieu d'autres sections sans rapport. Trois emplacements différents
+   affichent un avatar, chacun avec sa propre taille :
+     - bulle de chat (.personnage-character-avatar / .personnage-user-avatar)
+     - bannière titre (.personnage-user-avatar-banner-img /
+       .profil-conversation-avatar-img)
+     - grand avatar, page "Profil de conversation" (.profil-conversation-avatar-large)
+   Import après base.css (et après les fichiers de thème, pour que
+   --box-border soit déjà définie).
+
+   Ne couvre PAS le positionnement de l'icône avatar dans la bannière en bois
+   (.personnage-user-avatar-banner-btn, .profil-conversation-avatar-btn) :
+   ces coordonnées en % sont calées sur l'image de bannière elle-même, pas
+   sur l'avatar - restées dans base.css à côté du reste de la bannière. */
+:root {
+    --avatar-bubble-size: 32px;
+    --avatar-bubble-border: var(--border-width);
+    --avatar-banner-border: var(--border-width);
+    --avatar-large-size: 60%;
+    --avatar-large-max: 420px;
+    --avatar-large-border: var(--border-width);
+    /* Suit la couleur de bordure du thème actif (--box-border) ; #C4A876
+       (l'ancienne valeur en dur, teinte beige) en repli si utilisé hors
+       contexte de thème. Avant ce fichier, les 3 avatars gardaient toujours
+       cette bordure beige, même sur les thèmes sombres. */
+    --avatar-border-color: var(--box-border, #C4A876);
+}
+
+.personnage-character-avatar,
+.personnage-user-avatar {
+    width: var(--avatar-bubble-size);
+    height: var(--avatar-bubble-size);
+    border-radius: 50%;
+    object-fit: cover;
+    border: var(--avatar-bubble-border) solid var(--avatar-border-color);
+    flex-shrink: 0;
+    /* Avatar centré verticalement sur la bulle : les bulles ont une marge de 28px en
+     *      dessous (voir personnage-bubble.css), qui décentrerait l'avatar de 14px vers le
+     *      bas. La même marge sur l'avatar compense ce décalage. */
+    margin-top: 0;
+    margin-bottom: 14px;
+}
+
+/* La dernière bulle n'a que 3px de marge en dessous (voir personnage-bubble.css) :
+ *  l'avatar de la dernière ligne reçoit la même marge. */
+.personnage-chat > .personnage-bubble-group:last-child .personnage-character-avatar,
+.personnage-chat > .personnage-bubble-group:last-child .personnage-user-avatar {
+    margin-bottom: 3px;
+}
+
+.personnage-user-avatar-banner-img,
+.profil-conversation-avatar-img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+    border: var(--avatar-banner-border) solid var(--avatar-border-color);
+}
+
+.profil-conversation-avatar-large {
+    width: var(--avatar-large-size);
+    max-width: var(--avatar-large-max);
+    aspect-ratio: 1 / 1;
+    margin: -6px auto 24px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: var(--avatar-large-border) solid var(--avatar-border-color);
+}
+.profil-conversation-avatar-large img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Petit badge crayon superposé en bas à droite de l'avatar, pour indiquer
+   qu'on peut le modifier. */
+.personnage-user-avatar-pencil {
+    position: absolute;
+    bottom: -2px;
+    right: -2px;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background-color: #b2306f;
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1.5px solid #E8DDC8;
+}
+.personnage-user-avatar-pencil svg {
+    width: 9px;
+    height: 9px;
+}

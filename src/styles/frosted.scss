@@ -1,0 +1,275 @@
+// src/styles/frosted.scss
+// Tout ce qui est propre à ce thème : couleurs, bordures, textes ET réglages liés aux images (position, décalages). Plus de fichier images.scss.
+/* src/styles/frosted.scss */
+$dossier: 'frosted';
+.theme-#{$dossier} {
+    // ---- Thème général ----
+    --theme-bg-color: #dceaf2; // fond de la page
+    --theme-text-color: #1c2b36; // texte par défaut
+
+    // ---- Boîtes génériques ----
+    --box-accent: #6FA8C4; // couleur d'accent (focus, éléments actifs)
+    --box-bg: #FFFFFFCC; // fond des boîtes de texte génériques
+    --dossier-onglet-bg: #FFFFFF; // fond de l'onglet « dossier » : version opaque de --box-bg (cache la bordure de la boîte dessous)
+    --upload-note-color: #c62828; // avertissement rouge sous les choix de photo
+    --box-border: #CFE8F3; // bordure des boîtes de texte génériques
+    --box-text: #1A3A47; // texte des boîtes de texte génériques
+    --box-text-muted: #1A3A47AA; // texte atténué (placeholder, sous-titres)
+    --color-white: #ffffff; // blanc générique réutilisé à plusieurs endroits
+    --dark-text: var(--theme-text-color); // texte sombre sur fond cyan (boutons primaires/actifs) (proposé, à valider)
+    --panel-border-subtle: var(--box-border); // bordure discrète des panneaux sombres (proposé, à valider)
+    --panel-dark-bg: var(--box-bg); // fond des panneaux sombres (proposé, à valider)
+    --box-border-width: 1px; // épaisseur de la bordure des boîtes (3px sur dentelle)
+    --box-focus-border-color: var(--box-accent); // bordure d'une boîte quand on y écrit
+    --box-focus-shadow: none; // halo d'une boîte quand on y écrit
+
+    // ---- Zones de saisie ----
+    --chat-input-border: #8FA3AD; // bordure des champs de chat/commentaire
+    --input-bg: #B8C8D0; // fond des champs de saisie (pseudo, chat, commentaire)
+    --input-text: #1A2E36; // texte tapé dans ces champs
+    --textarea-placeholder-color: var(--box-text-muted); // texte indicatif des zones de texte
+    --champ-bg: var(--input-bg); // fond du champ
+    --champ-text: var(--input-text); // texte tapé dans le champ
+    --champ-border-color: var(--box-border); // bordure du champ
+    --champ-placeholder-color: var(--box-text-muted); // texte indicatif du champ
+    --champ-focus-border-color: var(--box-accent); // bordure du champ au focus
+    --champ-placeholder-opacity: 1; // opacité du texte indicatif des champs
+    --champ-focus-shadow: none; // halo des champs au focus
+    --chat-input-placeholder-color: #5A6B73; // texte indicatif du champ de chat
+    --chat-input-focus-border-color: #7A94A0; // bordure du champ de chat au focus
+    --chat-bar-bg: #9FB3BD; // fond de la barre sous le champ de chat
+    --chat-bar-border-color: #f2d4e4; // trait au-dessus de la barre du champ de chat
+    --details-textarea-placeholder-color: var(--box-text); // texte indicatif des champs de la page Détails
+    --details-textarea-placeholder-opacity: 0.6; // opacité de ce texte indicatif
+
+    // ---- Popups ----
+    --update-prompt-bg: var(--box-bg); // fond des popups (signalement, mise à jour...)
+    --update-prompt-border-color: var(--box-border); // bordure des popups
+    --popup-progress-track-bg: rgba(0, 0, 0, 0.1); // rail de la barre de téléchargement
+    --popup-progress-fill-bg: #C4A876; // remplissage de la barre de téléchargement
+
+    // ---- Barre de recherche ----
+    --search-bar-focus-outline: none; // aucun contour autour de la barre de recherche quand on y écrit
+    --search-bar-placeholder-color: #ffffff; // texte indicatif de la barre de recherche
+    --search-bar-placeholder-opacity: 1; // opacité du texte indicatif (repris de base.scss)
+    --search-bar-text-color: var(--theme-text-color); // texte tapé dans la barre de recherche
+
+    // ---- Menu burger ----
+    --burger-bg: #eef6fa; // fond du menu burger
+    --burger-border: #a9c9d9; // bordure du menu burger
+    --burger-hover: #cfe4ee; // survol des entrées du menu burger
+    --burger-icon-color: var(--burger-text); // couleur des icônes du menu burger
+    --burger-overlay-bg: #1c2b3666; // fond semi-transparent derrière le menu burger ouvert
+    --burger-text: var(--theme-text-color); // texte du menu burger
+    --burger-contact-color: var(--burger-text); // entrée « contact / admin » du burger
+    --categorie-label-color: #000000; // texte des titres de catégorie (page Rencontre)
+    --categorie-label-weight: 700; // graisse des titres de catégorie
+
+    // ---- Bulles de conversation ----
+    --bulle-action-icone: var(--bulle-action-texte); // icônes des actions sur une bulle
+    --bulle-action-texte: var(--box-text); // texte des actions sur une bulle (copier, etc.)
+    --bulle-dot: var(--box-accent); // puce/indicateur dans une bulle
+    --bulle-ia-bg: var(--salutation-box-bg); // fond des bulles de l'IA
+    --bulle-ia-border: var(--box-accent); // bordure des bulles de l'IA
+    --bulle-ia-text: var(--box-text); // texte des bulles de l'IA
+    --bulle-user-bg: var(--pagination-label-bg); // fond des bulles de l'utilisateur
+    --bulle-user-border: var(--box-border); // bordure des bulles de l'utilisateur
+    --bulle-user-text: var(--bulle-ia-text); // texte des bulles de l'utilisateur
+    --bubble-save-btn-bg: var(--popup-progress-fill-bg); // fond du bouton « Enregistrer » d'une bulle
+    --bubble-save-btn-text: #3a2a13; // texte du bouton « Enregistrer » d'une bulle
+    --bubble-text-btn-border-color: var(--box-border); // bordure du bouton texte d'une bulle
+
+    // ---- Boîtes personnage ----
+    --histoire-box-bg: #DCEEF5; // fond de la boîte "Histoire" du personnage
+    --histoire-box-border-color: #A8CEDF; // bordure de la boîte "Histoire"
+    --salutation-box-bg: #A8D4E8; // fond de la boîte "Salutation"
+    --salutation-box-border-color: var(--box-accent); // bordure de la boîte "Salutation"
+    --user-box-bg: var(--pagination-label-bg); // fond de la boîte "Utilisateur"
+    --user-box-border-color: var(--box-border); // bordure de la boîte "Utilisateur"
+    --box-text-on-dark: #faf3e6; // texte des boîtes histoire/salutation/utilisateur et de l'infobulle
+    --creator-banner-color: var(--theme-text-color); // texte du bandeau « créateur »
+    --bio-box-text-color: var(--theme-text-color); // texte de la boîte de présentation (page Rencontre)
+    --histoire-box-text: var(--box-text); // texte de la boîte histoire
+    --salutation-box-text: var(--box-text); // texte de la boîte salutation
+    --user-box-text: var(--box-text); // texte de la boîte utilisateur
+    --rencontre-user-text-color: var(--user-box-text); // texte de la boîte utilisateur sur la page de conversation Rencontre
+
+    // ---- Pagination ----
+    --pagination-label-bg: #EEF8FC; // fond du libellé de pagination
+    --pagination-label-border-color: var(--box-border); // bordure du libellé de pagination
+    --pagination-label-color: var(--box-text); // texte du libellé de pagination
+    --pagination-bar-bg: var(--chat-bar-bg); // fond de la barre de pagination
+    --pagination-bar-border-color: transparent; // trait au-dessus de la barre de pagination
+
+    // ---- Cartes de création ----
+    --creation-card-bio-color: #d4ecf7; // description du personnage sur la vignette
+    --creation-card-border: #6fa8c9; // bordure de la vignette
+    --creation-card-creator-color: var(--color-white); // pseudo du créateur sur la vignette (repris de base.scss)
+    --creation-card-creator-shadow: 0 1px 3px rgba(0, 0, 0, 0.8); // lueur du pseudo du créateur (repris de base.scss)
+    --creation-card-count-color: var(--creation-card-creator-color); // texte du compteur de messages sur la vignette
+    --creation-card-count-bg: rgba(0, 0, 0, 0.6); // fond du compteur de messages
+    --creation-card-gradient: linear-gradient(to bottom, #0A141E33, #0A141EA6); // dégradé sombre (lisibilité du texte)
+    --creation-card-image-bg: rgba(0, 0, 0, 0.06); // fond d'attente de l'image (repris de base.scss)
+    --creation-card-shadow: none; // ombre portée de la vignette (repris de base.scss)
+    --creation-card-text-shadow: 0 1px 3px #00000080; // ombre portée du texte
+    --creation-card-title-color: var(--color-white); // nom du personnage sur la vignette
+    --creation-card-border-1: var(--creation-card-border); // bordure des cartes 1, 4, 7… (cycle de 3)
+    --creation-card-border-2: var(--creation-card-border); // bordure des cartes 2, 5, 8…
+    --creation-card-border-3: var(--creation-card-border); // bordure des cartes 3, 6, 9…
+
+    // ---- Cartes de style ----
+    --style-card-border: none; // bordure de la vignette (repris de base.scss)
+    --style-card-gradient: var(--creation-card-gradient); // dégradé sur la vignette de style
+    --style-card-label-color: var(--creation-card-title-color); // libellé du style
+    --style-card-radius: 0 0 12px 12px; // arrondi bas de la vignette
+    --style-card-text-shadow: var(--creation-card-text-shadow); // ombre du libellé
+    --style-card-image-border-1: var(--creation-card-border); // bordure de la vignette n°1 (cycle de 3)
+    --style-card-label-border-1: var(--creation-card-border); // couleur de la bordure du libellé n°1 (cycle de 3)
+    --style-card-image-border-2: var(--creation-card-border); // bordure de la vignette n°2 (cycle de 3)
+    --style-card-label-border-2: var(--creation-card-border); // couleur de la bordure du libellé n°2 (cycle de 3)
+    --style-card-image-border-3: var(--creation-card-border); // bordure de la vignette n°3 (cycle de 3)
+    --style-card-label-border-3: var(--creation-card-border); // couleur de la bordure du libellé n°3 (cycle de 3)
+
+    // ---- Discussions ----
+    --discussion-item-bg: linear-gradient(135deg, #8FC1D9, #CFE8F3, #8FC1D9); // fond dégradé d'une conversation
+    --discussion-item-border: 1px solid var(--histoire-box-border-color); // bordure d'une conversation
+    --discussion-item-preview-color: var(--discussion-item-title-color); // aperçu du dernier message
+    --discussion-item-title-color: var(--box-text); // nom du personnage dans la liste
+
+    // ---- Barre de progression, zoom, recadrage ----
+    --crop-overlay-bg: var(--theme-bg-color); // fond de l'écran de recadrage
+    --generating-text-color: inherit; // couleur du texte (repris de base.scss)
+    --progress-fill-end: #6fb3d9; // fin du dégradé de remplissage
+    --progress-fill-start: #0d1a24; // début du dégradé de remplissage
+    --progress-glow: rgba(111, 179, 217, 0.6); // lueur autour de la barre
+    --zoom-label-color: var(--box-accent); // couleur du texte "ZOOM"
+    --details-generating-text-color: var(--generating-text-color); // texte « génération en cours » de la page Détails
+    --zoom-fill-start: var(--progress-fill-start); // début du dégradé de la barre de zoom
+    --zoom-fill-end: var(--progress-fill-end); // fin du dégradé de la barre de zoom
+    --zoom-label-shadow: none; // ombre du libellé de zoom
+    --crop-viewport-border-color: var(--box-border); // bordure du cadre de recadrage
+
+    // ---- Boutons ----
+    --btn-primary-bg: var(--box-accent); // fond du bouton principal (popups, signalement)
+    --btn-primary-text: var(--color-white); // texte du bouton principal
+    --btn-primary-active-bg: #5A93AF; // bouton principal pressé
+    --mode-reel-btn-text: #000000; // texte du bouton de la page « mode réel » : noir
+    --btn-secondary-bg: var(--color-white); // fond du bouton secondaire et des motifs de signalement
+    --btn-secondary-text: var(--box-text); // texte du bouton secondaire
+    --btn-secondary-border-color: var(--box-border); // bordure du bouton secondaire
+
+    // ---- Page Moi ----
+    --moi-panel-bg: var(--box-bg); // fond du panneau pseudo/caractère
+    --moi-panel-border-color: var(--box-border); // bordure du panneau pseudo/caractère
+    --moi-info-border-color: var(--box-border); // bordure de la boîte d'information
+    --moi-avatar-grid-border-color: var(--histoire-box-border-color); // bordure de la grille d'avatars
+    --moi-avatar-item-bg: var(--color-white); // fond d'un avatar
+    --moi-avatar-item-border-color: var(--histoire-box-border-color); // bordure d'un avatar
+    --moi-avatar-item-active-bg: #fbeaf2; // fond de l'avatar choisi
+    --moi-avatar-item-active-border-color: #b2306f; // bordure de l'avatar choisi
+    --moi-info-text-color: var(--theme-text-color); // texte de la boîte d'information
+    --moi-bar-text-color: var(--box-text); // texte et chevron des barres de la page Moi
+
+    // ---- Photos ----
+    --photo-bandeau-text: var(--theme-text-color); // texte du bandeau de photo (page « Mes photos »)
+    --photo-border-color: #9c775866; // bordure des vignettes photo
+
+    // ---- Appareil photo ----
+    --camera-panel-shadow: none; // ombre du panneau de contrôle de la caméra
+
+    // ---- Page « Générer ma photo » ----
+
+
+    // ======== Images : tout ce qui dépend des dessins de ce thème (src/images/#{$dossier}/) ========
+    --wallpaper: url('../images/#{$dossier}/fondecran.jpg');
+    --wallpaper-reel: url('../images/#{$dossier}/fondecran2.jpg'); // fond d'écran du côté « Personne réelle » (choisi à la place de --wallpaper, voir base.scss)
+    --img-search-bar: url('../images/#{$dossier}/recherche.png');
+    --img-fleche-haut: url('../images/#{$dossier}/flechehaut.png'); // flèche du haut de l'ascenseur
+    --img-fleche-bas: url('../images/#{$dossier}/flechebas.png'); // flèche du bas de l'ascenseur
+    --img-suggestion-active: url('../images/#{$dossier}/fond.png');
+    --img-btn-annuler: url('../images/#{$dossier}/annuler.png');
+    --img-btn-continuer: url('../images/#{$dossier}/continuer.png');
+    --img-btn-prendre-photo: var(--img-btn-continuer); // image du bouton « prendre une photo » (Rencontre)
+    --fond-retrait: 54%; // hauteur de fond.png : la barre moins cette valeur, en % de la hauteur de la barre (0% = pleine hauteur, plus grand = image plus basse) ; en % pour que téléphone et tablette donnent le même rendu
+
+    // ---- Avatar sur la bannière titre.png : décalage en pixels par rapport à l'emplacement de base (à recaler avec les nouvelles images) ----
+    --avatar-user-dx: 5px; // avatar de la conversation
+    --avatar-user-dy: -10px;
+
+    // ---- icone sur titre.png et bouton.png : décalage en pixels par rapport à l'emplacement de base (à recaler avec les nouvelles images) ----
+    --scroll-track: #b9d2e6; // fond de l'ascenseur
+    --scroll-thumb: #5b9bd1; // curseur de l'ascenseur
+    --scroll-thumb-border: #eef8ff;; // bordure du curseur
+    --scroll-thumb-hover: #7db4e2; // curseur quand la souris passe dessus
+    --icon-profil-dx:: 37%; // décalage de l'icône du titre, en % de la largeur de l'icône (suit la taille de la bannière : même rendu sur téléphone et tablette). 27% ≈ 7px sur téléphone
+    --icon-profil-dy: 20%; // ≈ -10px sur téléphone
+    --btn-icone-dx: 34%; // icône à gauche des boutons-images, en % de la largeur de l'icône (suit la taille du bouton : même rendu sur téléphone et tablette) ; positif = vers la droite ; 34% ≈ 10px sur téléphone
+    --btn-icone-dy: 0%; // positif = vers le bas
+    // Position du texte dans les boutons des pages (annuler.png / continuer.png : Signaler, Rembobiner...) : suit le dessin de continuer.png
+    --btn-page-padding-left: 33px; // décalage du texte vers la droite
+    --btn-page-padding-top: 6px; // texte plus bas
+    --btn-page-padding-bottom: 14px; // texte plus haut
+
+    // ---- Rainure de la barre de zoom (position dans progression.png) ----
+    --zoom-slot-top: 36.9%;
+    --zoom-slot-bottom: 34.4%;
+    --zoom-slot-left: 3.7%;
+    --zoom-slot-right: 6.6%;
+    // Rainure de la barre de progression
+    --progress-slot-top: 36.9%;
+    --progress-slot-bottom: 34.4%;
+    --progress-slot-left: 3.7%;
+    --progress-slot-right: 6.6%;
+
+    // ---- Barre de recherche (suit le dessin de recherche.png) ----
+    --search-bar-radius: 20px;
+    --search-bar-padding-top: 10px;
+    --search-bar-padding-left: calc(27.7% - 0px); // position horizontale du mot « Recherche » (plus grand = plus à gauche)
+    --banner-title-dx: 0px; // décalage horizontal du titre de la bannière (négatif = vers la gauche, positif = vers la droite)
+    --banner-title-dy: -1px; // décalage vertical du titre de la bannière (négatif = vers le haut, positif = vers le bas)
+}
+
+/* Boutons barre1 (pilule fine) : recentrage icône/texte pour ces 3 pages. */
+.theme-#{$dossier} .create-photo-page .btn-bouton-png .create-banner-icon,
+.theme-#{$dossier} .details-personnage-page .btn-bouton-png .create-banner-icon,
+.theme-#{$dossier} .generer-photo-page .btn-bouton-png .create-banner-icon {
+    top: 50%;
+    width: 6%;
+    transform: translate(calc(-50% + var(--btn-icone-dx)), calc(-50% + var(--btn-icone-dy)));
+}
+.theme-#{$dossier} .create-photo-page .btn-bouton-png .create-btn-caption,
+.theme-#{$dossier} .details-personnage-page .btn-bouton-png .create-btn-caption,
+.theme-#{$dossier} .generer-photo-page .btn-bouton-png .create-btn-caption {
+    top: 0;
+    bottom: 0;
+}
+
+/* Tous les boutons barre1 : texte blanc centré sur toute la largeur. */
+.theme-#{$dossier} .btn-bouton-png .create-btn-caption {
+    left: 0;
+    right: 0;
+}
+.theme-#{$dossier} .btn-bouton-png .create-btn-title {
+    color: var(--color-white);
+}
+
+/* Page "Générer ma photo" : titre/compteur/ornement et plaque signée. */
+.theme-#{$dossier} .generer-title-group {
+    transform: translateY(0);
+}
+
+/* Toutes les autres boîtes de texte : même style que les bulles IA. */
+.theme-#{$dossier} .create-box {
+    border: var(--border-width) solid var(--box-border);
+    border-radius: var(--radius-box);
+}
+
+// Coque (écran large) : fond affiché autour de la coque et ombre portée de la coque. Posés sur :root (la coque est dessinée par body::before).
+:root:has(.theme-#{$dossier}) {
+    --coque-bg: linear-gradient(#dfeaf3, #bcd0e0);
+    --coque-shadow: 0 20px 35px #000000cc;
+    // Coque (écran large) : image et arrondi du contenu (rayon = arrondi de l'ouverture en pixels de coque.png, 883 de haut)
+    --img-coque: url('../images/#{$dossier}/coque.png');
+    --img-coque-reel: url('../images/#{$dossier}/coque2.png'); // coque du côté « Personne réelle » (choisie à la place de --img-coque, voir base.scss)
+    --coque-radius: calc(var(--coque-h) * 34 / 883);
+}

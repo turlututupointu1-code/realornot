@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RealOrNot</title>
+<link rel="icon" href="/telecharger/icon.png">
+<style>
+    :root {
+        --fond: #ffffff;
+        --carte: #f4f4f7;
+        --accent: #e0447f;
+        --texte: #1c1d22;
+        --texte-attenue: #6b6d78;
+    }
+    * { box-sizing: border-box; }
+    body {
+        margin: 0;
+        background: var(--fond);
+        color: var(--texte);
+        font-family: -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+    }
+
+    /* Menu burger - contient les téléchargements (voir spec_page_vitrine.md,
+       "les téléchargements passent dans un menu burger"), pas visible sur la
+       page principale, qui devient une vitrine de présentation. */
+    .barre-haut {
+        position: sticky;
+        top: 0;
+        display: flex;
+        justify-content: flex-end;
+        padding: 16px 20px;
+        background: var(--fond);
+        z-index: 10;
+    }
+    #bouton-burger {
+        background: none;
+        border: none;
+        color: var(--texte);
+        font-size: 1.6em;
+        cursor: pointer;
+        line-height: 1;
+        padding: 4px 8px;
+    }
+    #menu-burger {
+        position: fixed;
+        top: 0;
+        right: 0;
+        height: 100%;
+        width: 260px;
+        max-width: 80vw;
+        background: var(--carte);
+        box-shadow: -8px 0 24px rgba(0,0,0,0.4);
+        display: flex;
+        flex-direction: column;
+        padding: 70px 24px 24px;
+        gap: 4px;
+        transform: translateX(100%);
+        transition: transform 0.25s ease;
+        z-index: 20;
+    }
+    #menu-burger.ouvert {
+        transform: translateX(0);
+    }
+    #menu-burger a {
+        color: var(--texte);
+        text-decoration: none;
+        padding: 14px 4px;
+        border-bottom: 1px solid rgba(0,0,0,0.1);
+    }
+    #fond-menu {
+        display: none;
+        position: fixed;
+        inset: 0;
+        background: rgba(0,0,0,0.5);
+        z-index: 15;
+    }
+    #fond-menu.ouvert {
+        display: block;
+    }
+
+    main {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 20px 20px 100px;
+    }
+
+    .hero {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        max-width: 560px;
+        margin-bottom: 70px;
+    }
+    .hero img {
+        width: 110px;
+        height: 110px;
+        border-radius: 24px;
+        margin-bottom: 20px;
+        box-shadow: 0 10px 28px rgba(0,0,0,0.45);
+    }
+    .hero h1 {
+        margin: 0 0 10px;
+        font-size: 2.4em;
+    }
+    .hero p {
+        margin: 0;
+        color: var(--texte-attenue);
+        font-size: 1.05em;
+        line-height: 1.5;
+    }
+
+    section {
+        width: 100%;
+        max-width: 720px;
+        margin-bottom: 70px;
+    }
+    section h2 {
+        text-align: center;
+        margin: 0 0 20px;
+        font-size: 1.5em;
+    }
+    .presentation p {
+        line-height: 1.6;
+        font-size: 1.05em;
+    }
+    .presentation .libre {
+        color: var(--texte-attenue);
+        font-size: 0.95em;
+        margin-top: 24px;
+        padding-top: 20px;
+        border-top: 1px solid rgba(0,0,0,0.1);
+    }
+
+    .themes {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 24px;
+    }
+    .theme-vignette {
+        text-align: center;
+    }
+    .theme-vignette img {
+        width: 200px;
+        height: 200px;
+        object-fit: cover;
+        border-radius: 20px;
+        display: block;
+        margin-bottom: 10px;
+        box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+    }
+    .theme-vignette span {
+        font-size: 0.9em;
+        color: var(--texte-attenue);
+    }
+
+    footer {
+        text-align: center;
+        color: var(--texte-attenue);
+        font-size: 0.85em;
+        padding-bottom: 20px;
+    }
+</style>
+</head>
+<body>
+    <div class="barre-haut">
+        <button id="bouton-burger" aria-label="Menu">☰</button>
+    </div>
+
+    <div id="fond-menu"></div>
+    <nav id="menu-burger">
+        <a href="https://192.168.1.44:5173">Accéder directement en ligne</a>
+        <a id="lien-android" href="#">Télécharger pour Android</a>
+        <a id="lien-windows" href="#">Télécharger pour Windows</a>
+        <a id="lien-linux" href="#">Télécharger pour Linux (.deb)</a>
+        <a href="mailto:turlututupointu3@gmail.com">Contact</a>
+    </nav>
+
+    <main>
+        <div class="hero">
+            <img src="/telecharger/icon.png" alt="">
+            <h1>RealOrNot</h1>
+            <p>Deux façons de vivre des rencontres, une seule application : à toi de choisir ton côté de l'écran.</p>
+        </div>
+
+        <section class="presentation">
+            <h2>Qu'est-ce que RealOrNot ?</h2>
+            <p>
+                RealOrNot est une application qui propose deux expériences distinctes : converser avec des
+                personnages imaginaires créés par intelligence artificielle, chacun avec sa propre
+                personnalité et son propre visage généré, ou bien rencontrer de vraies personnes autour de toi
+                grâce à un système de compatibilité et de messagerie.
+            </p>
+            <p>
+                L'application se personnalise entièrement selon tes goûts, avec plusieurs thèmes graphiques
+                très différents les uns des autres.
+            </p>
+            <p class="libre">
+                RealOrNot est développé dans l'esprit du logiciel libre : gratuit, sans popups intrusifs ni
+                traqueurs cachés — juste des confirmations utiles pour éviter les erreurs.
+            </p>
+        </section>
+
+        <section class="themes-vitrine">
+            <h2>Des thèmes graphiques variés</h2>
+            <div class="themes">
+                <div class="theme-vignette">
+                    <img src="/telecharger/theme-beige.jpg" alt="">
+                    <span>Dentelle</span>
+                </div>
+                <div class="theme-vignette">
+                    <img src="/telecharger/theme-gothique.jpg" alt="">
+                    <span>Gothique</span>
+                </div>
+                <div class="theme-vignette">
+                    <img src="/telecharger/theme-cyberpunk.jpg" alt="">
+                    <span>Cyberpunk</span>
+                </div>
+                <div class="theme-vignette">
+                    <img src="/telecharger/theme-givre.jpg" alt="">
+                    <span>Givre</span>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>D'autres sections arriveront ici au fil du temps.</footer>
+
+    <script>
+        const boutonBurger = document.getElementById('bouton-burger');
+        const menuBurger = document.getElementById('menu-burger');
+        const fondMenu = document.getElementById('fond-menu');
+
+        const fermerMenu = () => {
+            menuBurger.classList.remove('ouvert');
+            fondMenu.classList.remove('ouvert');
+        };
+        boutonBurger.addEventListener('click', () => {
+            menuBurger.classList.toggle('ouvert');
+            fondMenu.classList.toggle('ouvert');
+        });
+        fondMenu.addEventListener('click', fermerMenu);
+
+        fetch('/app/releases')
+            .then((r) => r.json())
+            .then((releases) => {
+                const lienPour = (cle) => {
+                    const derniere = (releases[cle] || [])[0];
+                    return derniere ? `/app/releases/${cle}/${encodeURIComponent(derniere.filename)}` : null;
+                };
+                [
+                    ['android', 'lien-android'],
+                    ['windows', 'lien-windows'],
+                    ['linux', 'lien-linux'],
+                ].forEach(([cle, idLien]) => {
+                    const lien = document.getElementById(idLien);
+                    const url = lienPour(cle);
+                    if (url) {
+                        lien.href = url;
+                    } else {
+                        lien.style.opacity = '0.5';
+                        lien.style.pointerEvents = 'none';
+                    }
+                });
+            })
+            .catch(() => {
+                // Liens laissés inactifs (href="#") si les versions ne peuvent pas être chargées.
+            });
+    </script>
+</body>
+</html>

@@ -1,0 +1,75 @@
+/*  src/styles/glassmorphism.css version 1.0.0 */ 
+
+ Couleur de base du fond (gris très clair pour le verre) 
+root {
+    --couleur-fond #f0f0f5; 
+    --couleur-verre rgba(255, 255, 255, 0.7);  Blanc translucide 
+    --couleur-ombre-sombre rgba(174, 174, 192, 0.3);
+    --couleur-lumiere rgba(255, 255, 255, 0.9);
+    --couleur-primaire #ff0000;
+}
+
+ 1. Style du Conteneur (Le fond de la même couleur) 
+.conteneur-boutons {
+    display flex;
+    gap 30px;
+    padding 70px;
+    background-color var(--couleur-fond);
+}
+
+ 2. Style commun des Boutons (Verre Incrusté) 
+.bouton-soft {
+    width 70px; 
+    height 70px; 
+    border none;
+    border-radius 50%; 
+    cursor pointer;
+    display flex;
+    align-items center;
+    justify-content center;
+    
+     EFFET VERRE BLANC (Glassmorphism) 
+    background var(--couleur-verre);
+     Flou pour l'effet de verre 
+    backdrop-filter blur(5px); 
+    
+     EFFET INCRUSTÉ PAR DÉFAUT (Neumorphisme concave) 
+    box-shadow 
+        inset 5px 5px 10px var(--couleur-ombre-sombre),  Ombre interne 
+        inset -5px -5px 10px var(--couleur-lumiere);     Lumière interne 
+    
+    transition all 0.2s ease;
+}
+
+ 3. Effet au survol (Optionnel  léger relief) 
+.bouton-softhover {
+    box-shadow 
+        5px 5px 12px var(--couleur-ombre-sombre),   Ombre externe 
+        -5px -5px 12px var(--couleur-lumiere);  Lumière externe 
+}
+
+ 4. Effet au clic (ENFONCEMENT + Contour Rouge) 
+.bouton-softactive {
+     Maintient l'effet incrustépressé de base 
+    box-shadow 
+        inset 2px 2px 5px var(--couleur-ombre-sombre), 
+        inset -2px -2px 5px var(--couleur-lumiere); 
+    
+     Contour rouge 
+    border 2px solid var(--couleur-primaire); 
+}
+
+ 5. Style de l'icône 
+.bouton-icone {
+    width 30px; 
+    height 30px;
+    color #444444;  Gris foncé pour le contraste sur le verre 
+    stroke currentColor;
+    fill none; 
+    transition all 0.2s ease;
+}
+
+ Effet au clic (ICÔNE ROUGE) 
+.bouton-softactive .bouton-icone {
+    color var(--couleur-primaire);
+}

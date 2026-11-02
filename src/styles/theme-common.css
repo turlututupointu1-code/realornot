@@ -1,0 +1,13 @@
+/* src/styles/theme-common.css */
+
+/* ============================================================
+   POPUP "SIGNALER CE PERSONNAGE" - fond d'écran
+   ============================================================ */
+.theme-dentelle .update-prompt-box:has(.signaler-motifs),
+.theme-gothique .update-prompt-box:has(.signaler-motifs),
+.theme-cyberpunk .update-prompt-box:has(.signaler-motifs),
+.theme-frosted .update-prompt-box:has(.signaler-motifs) {
+    background-image: var(--wallpaper);
+    background-size: cover;
+    background-position: center;
+}

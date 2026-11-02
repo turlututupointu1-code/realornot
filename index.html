@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/png" href="/favicon.png" />
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <title>RealOrNot</title>
+    <script>
+      // Colore le fond immédiatement selon le thème enregistré, avant même
+      // le premier rendu React : sans ça, la page reste blanche/crème (fond
+      // par défaut du navigateur) le temps que l'app démarre et applique la
+      // vraie couleur du thème, ce qui donne un flash visible au lancement.
+      (function () {
+        var couleurs = {
+          beige: '#F0E6D6',
+          noir: '#0a0a0a',
+          cyberpunk: '#1A1A2E',
+          frosted: '#dceaf2',
+          dentelle: '#F0E6D6',
+          gothique: '#0a0a0a',
+        };
+        var theme = localStorage.getItem('realornot-theme');
+        if (theme === 'pastel') theme = 'beige';
+        var couleur = couleurs[theme] || couleurs.cyberpunk;
+        // (couleur de fond retirée : elle cachait le fond de la coque)
+      })();
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

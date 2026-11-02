@@ -1,0 +1,37 @@
+/* src/homepage/PrenomGate.css */
+/* Styles propres au champ prénom - le reste de l'écran (carte, molettes de
+   date, bouton confirmer) réutilise les classes .age-gate__* d'AgeGate.css
+   pour un rendu identique (voir DateNaissanceGate.tsx, seul composant à
+   utiliser ce fichier). */
+
+.prenom-gate__input {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 12px 14px;
+  border: 1px solid var(--onboarding-border);
+  border-radius: 10px;
+  font-size: 1rem;
+  color: var(--onboarding-text-dark);
+  /* Même palette que le popup pseudo/mot de passe de l'étape précédente
+     (voir .pseudo-popup-accueil dans base.css). */
+  background: var(--onboarding-wheel-bg);
+  margin-bottom: 8px;
+}
+
+.prenom-gate__input:focus {
+  background: #e3cda3;
+  border-color: var(--onboarding-highlight);
+  outline: none;
+}
+
+/* Rogne le halo natif que certains Android dessinent autour d'un champ
+   qu'ils pensent pouvoir remplir automatiquement (voir .pseudo-popup-halo-masque
+   dans base.css, même principe). */
+.prenom-gate__halo-masque {
+  overflow: hidden;
+  border-radius: 10px;
+  margin-bottom: 8px;
+}
+.prenom-gate__halo-masque .prenom-gate__input {
+  margin-bottom: 0;
+}

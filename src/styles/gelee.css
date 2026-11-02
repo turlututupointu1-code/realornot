@@ -1,0 +1,77 @@
+/* src/styles/gelee.css version 1.0.0 */
+
+/* Boutons "Gelée" Orange */
+
+/* Couleurs de base */
+:root {
+    --couleur-fond-clair: #f0f0f5; /* Fond gris clair */
+    --couleur-orange: #ff9900;     /* Orange de base */
+    --couleur-orange-fonce: #cc7a00; /* Ombre de la bulle */
+    --couleur-lumiere: #ffffff;      /* Lumière et éclat */
+    --couleur-activation: #ff0000;  /* Rouge d'activation */
+    --couleur-icone: #ffffff;        /* Icônes blanches sur l'orange */
+    --couleur-icone-fonce: #333333;  /* Icônes sombres si le bouton n'est pas activé */
+}
+
+/* 1. Style du Conteneur (Le fond de la même couleur) */
+.conteneur-boutons {
+    display: flex;
+    gap: 30px;
+    padding: 70px;
+    background-color: var(--couleur-fond-clair);
+}
+
+/* 2. Style commun des Boutons (Effet Gelée/Bulle) */
+.bouton-soft {
+    width: 65px; 
+    height: 65px; 
+    border: none;
+    border-radius: 50%; 
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+    /* Effet de base : Couleur et dégradé pour la profondeur de la bulle */
+    background: radial-gradient(circle at 30% 30%, var(--couleur-lumiere) 10%, var(--couleur-orange) 100%);
+    box-shadow: 
+        0 8px 15px var(--couleur-orange-fonce), /* Ombre externe (Relief de la bulle) */
+        inset 0 0 15px rgba(255, 255, 255, 0.7); /* Éclat interne (Surface de la gelée) */
+    
+    transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+/* 3. Effet au survol (Léger relief/Pulsation) */
+.bouton-soft:hover {
+    box-shadow: 
+        0 10px 20px var(--couleur-orange-fonce), 
+        inset 0 0 20px rgba(255, 255, 255, 0.9);
+    transform: translateY(-2px); /* Léger mouvement vers le haut */
+}
+
+/* 4. Effet au clic (ENFONCEMENT - Simule la pression sur la gelée) */
+.bouton-soft:active {
+    box-shadow: 
+        0 2px 5px var(--couleur-orange-fonce), /* Ombre très réduite */
+        inset 0 0 10px var(--couleur-orange-fonce); /* Incrustation et assombrissement */
+    transform: translateY(2px); /* Mouvement vers le bas */
+    border: 3px solid var(--couleur-activation); /* Contour rouge d'activation */
+}
+
+/* 5. Style de l'icône (finement dessinée) */
+.bouton-icone {
+    width: 28px; 
+    height: 28px;
+    /* Couleur sombre par défaut pour le contraste */
+    color: var(--couleur-icone-fonce); 
+    stroke-width: 2px; /* Pour des lignes fines */
+    fill: none; 
+    transition: all 0.2s ease;
+}
+
+/* Effet au clic (ICÔNE ROUGE) */
+.bouton-soft:active .bouton-icone {
+    color: var(--couleur-activation);
+    /* On peut aussi augmenter l'épaisseur si nécessaire pour l'effet */
+    stroke-width: 2.5px; 
+}

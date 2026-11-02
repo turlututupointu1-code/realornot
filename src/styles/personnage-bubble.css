@@ -1,0 +1,169 @@
+/* src/styles/personnage-bubble.css */
+
+/* Bulle de conversation (IA + utilisateur) : trait fin, coins arrondis,
+   volute décorative dans deux coins opposés. Un seul fichier pour tous les
+   thèmes - seules les couleurs changent, via les variables --bulle-*
+   définies dans le bloc racine de chaque thème (voir beige.css, noir.css,
+   etc.). Les volutes utilisent mask-image (le SVG sert de pochoir, sa
+   couleur vient de background-color) plutôt qu'un SVG teinté à l'avance :
+   ça évite de dupliquer l'image pour chaque couleur de thème. */
+
+.create-box.personnage-bubble.personnage-salutation-box,
+.create-box.personnage-bubble.personnage-user-box {
+    position: relative;
+    border-style: solid;
+    border-width: var(--border-width);
+    border-radius: var(--radius-small);
+    padding: 16px 18px;
+}
+
+.create-box.personnage-bubble.personnage-salutation-box {
+    background: var(--bulle-ia-bg);
+    color: var(--bulle-ia-text);
+    border-color: var(--bulle-ia-border);
+}
+
+.create-box.personnage-bubble.personnage-salutation-box .personnage-field-text {
+    color: var(--bulle-ia-text);
+}
+
+.create-box.personnage-bubble.personnage-user-box {
+    background: var(--bulle-user-bg);
+    color: var(--bulle-user-text);
+    border-color: var(--bulle-user-border);
+}
+
+.create-box.personnage-bubble.personnage-user-box .personnage-field-text {
+    color: var(--bulle-user-text);
+}
+
+.create-box.personnage-bubble.personnage-salutation-box::before,
+.create-box.personnage-bubble.personnage-salutation-box::after,
+.create-box.personnage-bubble.personnage-user-box::before,
+.create-box.personnage-bubble.personnage-user-box::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    -webkit-mask-repeat: no-repeat, no-repeat;
+    mask-repeat: no-repeat, no-repeat;
+    -webkit-mask-size: 22px 22px, 22px 22px;
+    mask-size: 22px 22px, 22px 22px;
+}
+
+/* La bulle "en train d'écrire" n'a pas besoin des volutes décoratives. */
+.personnage-typing::before,
+.personnage-typing::after {
+    content: none;
+}
+
+.personnage-typing-dot {
+    background: var(--bulle-dot);
+}
+
+/* Formes des volutes (identiques pour tous les thèmes - seule la couleur de
+   fond change, via background-color ci-dessous). */
+.create-box.personnage-bubble.personnage-salutation-box::before,
+.create-box.personnage-bubble.personnage-user-box::before {
+    -webkit-mask-image:
+        url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PHBhdGggZD0iTTIgMjIgQzIgOCwgMTYgOCwgMTYgMiIgc3Ryb2tlPSIjMDAwIiBzdHJva2Utd2lkdGg9IjIuNCIgZmlsbD0ibm9uZSIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIi8+PGNpcmNsZSBjeD0iMTYiIGN5PSIyIiByPSIyLjYiIGZpbGw9IiMwMDAiLz48Y2lyY2xlIGN4PSIyIiBjeT0iMjIiIHI9IjIuNiIgZmlsbD0iIzAwMCIvPjwvc3ZnPg=="),
+        url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PGcgdHJhbnNmb3JtPSJzY2FsZSgtMSwxKSB0cmFuc2xhdGUoLTI0LDApIj48cGF0aCBkPSJNMiAyMiBDMiA4LCAxNiA4LCAxNiAyIiBzdHJva2U9IiMwMDAiIHN0cm9rZS13aWR0aD0iMi40IiBmaWxsPSJub25lIiBzdHJva2UtbGluZWNhcD0icm91bmQiLz48Y2lyY2xlIGN4PSIxNiIgY3k9IjIiIHI9IjIuNiIgZmlsbD0iIzAwMCIvPjxjaXJjbGUgY3g9IjIiIGN5PSIyMiIgcj0iMi42IiBmaWxsPSIjMDAwIi8+PC9nPjwvc3ZnPg==");
+    mask-image:
+        url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PHBhdGggZD0iTTIgMjIgQzIgOCwgMTYgOCwgMTYgMiIgc3Ryb2tlPSIjMDAwIiBzdHJva2Utd2lkdGg9IjIuNCIgZmlsbD0ibm9uZSIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIi8+PGNpcmNsZSBjeD0iMTYiIGN5PSIyIiByPSIyLjYiIGZpbGw9IiMwMDAiLz48Y2lyY2xlIGN4PSIyIiBjeT0iMjIiIHI9IjIuNiIgZmlsbD0iIzAwMCIvPjwvc3ZnPg=="),
+        url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PGcgdHJhbnNmb3JtPSJzY2FsZSgtMSwxKSB0cmFuc2xhdGUoLTI0LDApIj48cGF0aCBkPSJNMiAyMiBDMiA4LCAxNiA4LCAxNiAyIiBzdHJva2U9IiMwMDAiIHN0cm9rZS13aWR0aD0iMi40IiBmaWxsPSJub25lIiBzdHJva2UtbGluZWNhcD0icm91bmQiLz48Y2lyY2xlIGN4PSIxNiIgY3k9IjIiIHI9IjIuNiIgZmlsbD0iIzAwMCIvPjxjaXJjbGUgY3g9IjIiIGN5PSIyMiIgcj0iMi42IiBmaWxsPSIjMDAwIi8+PC9nPjwvc3ZnPg==");
+    -webkit-mask-position: top -6px left -6px, top -6px right -6px;
+    mask-position: top -6px left -6px, top -6px right -6px;
+}
+
+.create-box.personnage-bubble.personnage-salutation-box::after,
+.create-box.personnage-bubble.personnage-user-box::after {
+    -webkit-mask-image:
+        url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PGcgdHJhbnNmb3JtPSJzY2FsZSgxLC0xKSB0cmFuc2xhdGUoMCwtMjQpIj48cGF0aCBkPSJNMiAyMiBDMiA4LCAxNiA4LCAxNiAyIiBzdHJva2U9IiMwMDAiIHN0cm9rZS13aWR0aD0iMi40IiBmaWxsPSJub25lIiBzdHJva2UtbGluZWNhcD0icm91bmQiLz48Y2lyY2xlIGN4PSIxNiIgY3k9IjIiIHI9IjIuNiIgZmlsbD0iIzAwMCIvPjxjaXJjbGUgY3g9IjIiIGN5PSIyMiIgcj0iMi42IiBmaWxsPSIjMDAwIi8+PC9nPjwvc3ZnPg=="),
+        url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PGcgdHJhbnNmb3JtPSJyb3RhdGUoMTgwIDEyIDEyKSI+PHBhdGggZD0iTTIgMjIgQzIgOCwgMTYgOCwgMTYgMiIgc3Ryb2tlPSIjMDAwIiBzdHJva2Utd2lkdGg9IjIuNCIgZmlsbD0ibm9uZSIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIi8+PGNpcmNsZSBjeD0iMTYiIGN5PSIyIiByPSIyLjYiIGZpbGw9IiMwMDAiLz48Y2lyY2xlIGN4PSIyIiBjeT0iMjIiIHI9IjIuNiIgZmlsbD0iIzAwMCIvPjwvZz48L3N2Zz4=");
+    mask-image:
+        url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PGcgdHJhbnNmb3JtPSJzY2FsZSgxLC0xKSB0cmFuc2xhdGUoMCwtMjQpIj48cGF0aCBkPSJNMiAyMiBDMiA4LCAxNiA4LCAxNiAyIiBzdHJva2U9IiMwMDAiIHN0cm9rZS13aWR0aD0iMi40IiBmaWxsPSJub25lIiBzdHJva2UtbGluZWNhcD0icm91bmQiLz48Y2lyY2xlIGN4PSIxNiIgY3k9IjIiIHI9IjIuNiIgZmlsbD0iIzAwMCIvPjxjaXJjbGUgY3g9IjIiIGN5PSIyMiIgcj0iMi42IiBmaWxsPSIjMDAwIi8+PC9nPjwvc3ZnPg=="),
+        url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PGcgdHJhbnNmb3JtPSJyb3RhdGUoMTgwIDEyIDEyKSI+PHBhdGggZD0iTTIgMjIgQzIgOCwgMTYgOCwgMTYgMiIgc3Ryb2tlPSIjMDAwIiBzdHJva2Utd2lkdGg9IjIuNCIgZmlsbD0ibm9uZSIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIi8+PGNpcmNsZSBjeD0iMTYiIGN5PSIyIiByPSIyLjYiIGZpbGw9IiMwMDAiLz48Y2lyY2xlIGN4PSIyIiBjeT0iMjIiIHI9IjIuNiIgZmlsbD0iIzAwMCIvPjwvZz48L3N2Zz4=");
+    -webkit-mask-position: bottom -6px left -6px, bottom -6px right -6px;
+    mask-position: bottom -6px left -6px, bottom -6px right -6px;
+}
+
+.create-box.personnage-bubble.personnage-salutation-box::before,
+.create-box.personnage-bubble.personnage-salutation-box::after {
+    background-color: var(--bulle-ia-border);
+}
+
+.create-box.personnage-bubble.personnage-user-box::before,
+.create-box.personnage-bubble.personnage-user-box::after {
+    background-color: var(--bulle-user-border);
+}
+
+.personnage-texte-action {
+    font-style: italic;
+    color: var(--bulle-action-texte);
+    display: block;
+    margin: 6px 0;
+}
+
+.personnage-bubble-column {
+    position: relative;
+}
+
+/* Espace entre deux messages (moitié des 28px d'avant). Si tu changes cette valeur,
+ *  change aussi margin-bottom de l'avatar dans avatars.css. */
+.personnage-bubble {
+    margin-bottom: 14px;
+}
+
+/* La dernière bulle n'a pas besoin d'autant d'espace en dessous : elle n'a
+   pas de bulle suivante dont il faut la séparer, juste le champ de saisie
+   (dont la barre a elle-même une petite marge). */
+.personnage-chat > .personnage-bubble-group:last-child .personnage-bubble {
+    margin-bottom: 3px;
+}
+
+.personnage-bubble-actions {
+    position: absolute !important;
+    bottom: -12px !important;
+    left: 20px !important;
+    right: 20px !important;
+    top: auto !important;
+    transform: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    display: flex !important;
+    align-items: center;
+    gap: 8px;
+    z-index: 1;
+}
+
+.personnage-bubble-action-voix {
+    margin-right: auto;
+}
+
+/* Fond opaque assorti à la bulle IA, coupé à la moitié basse (clip-path)
+   plutôt qu'avec border-top: none, qui laissait un reste visible sur le
+   raccord du coin arrondi. */
+.personnage-bubble-action-btn {
+    position: relative;
+    background: var(--bulle-ia-bg) !important;
+    color: var(--bulle-action-icone) !important;
+    border: none !important;
+    border-radius: 50%;
+}
+.personnage-bubble-action-btn::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    border: 1.5px solid var(--bulle-ia-border);
+    clip-path: inset(50% 0 0 0);
+    pointer-events: none;
+}
+/* Boutons sous une bulle de l'utilisateur : même fond et même trait que cette bulle
+ *  (par défaut ils ont la couleur de la bulle de l'IA). */
+.personnage-user-box .personnage-bubble-action-btn {
+    background: var(--bulle-user-bg) !important;
+}
+.personnage-user-box .personnage-bubble-action-btn::after {
+    border-color: var(--bulle-user-border);
+}

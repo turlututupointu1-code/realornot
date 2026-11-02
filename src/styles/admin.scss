@@ -1,0 +1,364 @@
+/* src/styles/admin.scss */
+/* Interface admin volontairement distincte des 4 thèmes de l'app (pour
+   qu'on la reconnaisse immédiatement comme un outil à part, pas une page de
+   l'app normale), et non traduite (usage interne uniquement). */
+:root {
+    --admin-bg: #2a2d38;
+    --admin-text: #e8e8ec;
+    --admin-bg-clair: #1f2129;
+    --admin-bg-fonce: #14161c;
+    --admin-text-attenue: #9a9daa;
+    --admin-vert: #7ee787;
+    --admin-blanc: #ffffff;
+    --admin-rouge: #ff6b6b;
+    --admin-radius-pill: 999px;
+    --admin-radius-box: 10px;
+    --admin-radius-btn: 8px;
+}
+
+%flex-col {
+    display: flex;
+    flex-direction: column;
+}
+%flex-v-center {
+    display: flex;
+    align-items: center;
+}
+
+.admin-liste-item {
+    margin-bottom: 12px;
+}
+
+.admin-page {
+    @extend %flex-col;
+    position: fixed;
+    inset: 0;
+    z-index: 500;
+    background-color: var(--admin-bg-fonce);
+    color: var(--admin-text);
+    font-size: 14px;
+    overflow: hidden;
+}
+
+.admin-overlay-plein-ecran {
+    position: fixed;
+    inset: 0;
+    background: #14161ce6;
+    z-index: 600;
+    overflow-y: auto;
+}
+.admin-liste-simple {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    text-align: center;
+}
+.admin-fermer-flottant {
+    position: fixed;
+    top: 16px;
+    right: 16px;
+    z-index: 601;
+}
+.admin-actions-row {
+    display: flex;
+    gap: 10px;
+    margin-top: 16px;
+}
+
+/* Écran "Accès refusé" : pas d'en-tête (admin-header) au-dessus pour
+   pousser le contenu sous la zone sécurisée du haut (encoche/caméra), donc
+   on ajoute sa propre marge ici. */
+.admin-acces-refuse {
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    padding-top: calc(60px + var(--safe-top, 0px));
+}
+.admin-acces-refuse button {
+    padding: 10px 24px;
+    border-radius: var(--admin-radius-pill);
+    border: 1px solid var(--admin-text);
+    background: transparent;
+    color: var(--admin-text);
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.admin-header {
+    @extend %flex-v-center;
+    justify-content: space-between;
+    /* +20px en haut (36px au lieu de 16px) pour dégager la zone sécurisée
+       (encoche/caméra) sur certains appareils. */
+    padding: 36px 20px 16px;
+    border-bottom: 1px solid var(--admin-bg);
+    flex-shrink: 0;
+}
+.admin-header h1 {
+    margin: 0;
+    font-size: 1.1em;
+}
+.admin-header-actions {
+    display: flex;
+    gap: 10px;
+}
+.admin-header button,
+.admin-bouton,
+.admin-ligne-actions button,
+.admin-form button {
+    background: var(--admin-bg);
+    color: var(--admin-text);
+    border: none;
+    border-radius: var(--admin-radius-btn);
+    cursor: pointer;
+}
+.admin-header button,
+.admin-bouton {
+    padding: 8px 14px;
+}
+.admin-ligne-actions button {
+    padding: 6px 10px;
+    font-size: 0.85em;
+}
+.admin-form button {
+    padding: 10px 14px;
+    align-self: flex-start;
+}
+.admin-tabs {
+    display: flex;
+    gap: 4px;
+    padding: 10px 16px 0;
+    overflow-x: auto;
+    flex-shrink: 0;
+    border-bottom: 1px solid var(--admin-bg);
+}
+.admin-tab-badge {
+    display: inline-block;
+    min-width: 16px;
+    height: 16px;
+    padding: 0 4px;
+    margin-left: 6px;
+    border-radius: var(--admin-radius-pill);
+    background: #ff4757;
+    color: var(--admin-blanc);
+    font-size: 11px;
+    font-weight: 700;
+    line-height: 16px;
+    text-align: center;
+}
+.admin-tab {
+    background: none;
+    border: none;
+    color: var(--admin-text-attenue);
+    padding: 8px 12px;
+    border-radius: 8px 8px 0 0;
+    cursor: pointer;
+    white-space: nowrap;
+    font-size: 0.95em;
+}
+.admin-tab-active {
+    background: var(--admin-bg-clair);
+    color: var(--admin-blanc);
+    font-weight: 700;
+}
+.admin-content {
+    flex: 1;
+    overflow-y: auto;
+    padding: 16px 20px 40px;
+}
+.admin-erreur {
+    color: var(--admin-rouge);
+}
+.admin-message {
+    color: var(--admin-vert);
+}
+/* Rappel du portail Pharos (voir spec_pharos.md) dans la fenêtre des
+   signalements/contacts "Personne réelle" - outil pour Philippe, pas une
+   fonctionnalité utilisateur (voir ActionsBlocageSignalement.tsx pour le
+   bouton "Signaler" côté utilisateur, inchangé). */
+.admin-pharos-note {
+    background: #2a1f1f;
+    border: 1px solid var(--admin-rouge);
+    border-radius: var(--admin-radius-box);
+    padding: 12px 14px;
+    margin: 0 0 14px;
+    font-size: 0.9em;
+    color: var(--admin-blanc);
+    text-align: left;
+}
+.admin-pharos-note a {
+    color: #ff9d6b;
+    font-weight: 700;
+}
+.admin-stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 10px;
+}
+.admin-stat-box {
+    @extend %flex-col;
+    background: var(--admin-bg-clair);
+    border-radius: var(--admin-radius-box);
+    padding: 14px;
+    gap: 4px;
+}
+.admin-stat-nombre {
+    font-size: 1.8em;
+    font-weight: 800;
+}
+/* Sélecteur composé (.admin-stat-box-bouton.admin-stat-box-bouton) : le
+   "reset" de Tailwind (button,[type=button]{background-color:transparent})
+   a la même spécificité qu'une simple classe et gagne car chargé après
+   admin.scss dans le bundle final - il fallait une spécificité plus haute
+   pour que le fond gris s'applique réellement (constaté : sans ça, ce
+   bouton restait invisible/transparent au milieu des autres cartes). */
+.admin-stat-box-bouton.admin-stat-box-bouton {
+    -webkit-appearance: none;
+    appearance: none;
+    background-color: var(--admin-bg-clair);
+    border: none;
+    color: var(--admin-text);
+    font-family: inherit;
+    font-size: 1em;
+    text-align: left;
+    cursor: pointer;
+    justify-content: center;
+}
+/* Alerte visuelle sur les boutons "Quota traduction X" de la page
+   Statistiques (voir couleurQuota() dans AdminPage.tsx) : gris normal,
+   orange à 250 000 traductions, rouge à 499 999. Sélecteur doublé pour
+   battre .admin-stat-box-bouton.admin-stat-box-bouton en cas d'égalité de
+   spécificité (même piège que le reset Tailwind, voir plus haut). */
+.admin-quota-alerte-orange.admin-quota-alerte-orange {
+    background-color: #7a5a1a;
+}
+.admin-quota-alerte-rouge.admin-quota-alerte-rouge {
+    background-color: #7a1a1a;
+}
+.admin-quota-fournisseur {
+    margin-bottom: 18px;
+}
+.admin-quota-label {
+    margin-bottom: 6px;
+}
+.admin-quota-barre {
+    height: 10px;
+    background: var(--admin-bg);
+    border-radius: var(--admin-radius-pill);
+    overflow: hidden;
+}
+.admin-quota-remplissage {
+    height: 100%;
+    background: #4285F4;
+}
+.admin-quota-remplissage-deepl {
+    background: #0f2b46;
+}
+.admin-liste {
+    @extend %flex-col;
+    gap: 8px;
+}
+.admin-ligne {
+    @extend %flex-v-center;
+    background: var(--admin-bg-clair);
+    border-radius: var(--admin-radius-box);
+    padding: 10px 14px;
+    justify-content: space-between;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+.admin-ligne-colonne {
+    flex-direction: column;
+    align-items: flex-start;
+}
+.admin-ligne-info {
+    @extend %flex-v-center;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+.admin-ligne-actions {
+    display: flex;
+    gap: 8px;
+}
+.admin-ligne-mdp {
+    flex-basis: 100%;
+    font-size: 0.85em;
+    color: var(--admin-text-attenue);
+}
+.admin-input {
+    background-color: var(--admin-bg-fonce);
+    color: var(--admin-text);
+    border: 1px solid #3a3d4a;
+    border-radius: 6px;
+    padding: 6px 10px;
+    font-size: 0.95em;
+}
+.admin-btn-danger {
+    background: #4a1f24 !important;
+    color: #ff9b9b !important;
+}
+.admin-badge {
+    font-size: 0.75em;
+    padding: 2px 8px;
+    border-radius: var(--admin-radius-pill);
+    background: var(--admin-bg);
+}
+.admin-badge-public {
+    background: #163a24;
+    color: var(--admin-vert);
+}
+.admin-badge-prive {
+    background: #3a1f16;
+    color: #ffb47e;
+}
+.admin-badge-admin {
+    background: #3a2f16;
+    color: #ffe27e;
+}
+.admin-signalement-commentaire {
+    color: var(--admin-text-attenue);
+    font-size: 0.9em;
+}
+.admin-form {
+    @extend %flex-col;
+    gap: 14px;
+    max-width: 480px;
+}
+.admin-form label {
+    @extend %flex-col;
+    gap: 6px;
+}
+.admin-form input {
+    background: var(--admin-bg-clair);
+    border: 1px solid var(--admin-bg);
+    color: var(--admin-text);
+    border-radius: var(--admin-radius-btn);
+    padding: 8px 10px;
+    font-size: 0.95em;
+}
+.admin-form button:disabled {
+    opacity: 0.5;
+    cursor: default;
+}
+.admin-form-inline {
+    flex-direction: row;
+    align-items: center;
+    margin-top: 14px;
+}
+.admin-form-inline input {
+    flex: 1;
+}
+/* Onglet "Versions" (voir spec_page_telechargement.md). */
+.admin-versions-plateforme {
+    margin-bottom: 28px;
+}
+.admin-versions-log {
+    max-height: 220px;
+    overflow-y: auto;
+    background: #0d0d14;
+    color: #9ca8c9;
+    padding: 10px;
+    margin-top: 10px;
+    border-radius: var(--admin-radius-btn);
+    font-size: 11px;
+    white-space: pre-wrap;
+}
