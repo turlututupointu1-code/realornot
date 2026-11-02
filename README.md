@@ -1,75 +1,69 @@
-RealOrNot est un logiciel libre, sous licence GNU AGPL v3 (voir le fichier LICENSE).
+# RealOrNot
 
-# React + TypeScript + Vite
+**English** | [Français](README.fr.md)
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+RealOrNot is free software, released under the GNU AGPL v3 license (see the `LICENSE` file).
 
-Currently, two official plugins are available:
+Two ways to meet people, one single app.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- **AI mode**: chat with imaginary characters created by artificial intelligence. Each one has its own personality and a generated face.
+- **Real mode**: meet real people through a compatibility system and messaging.
 
-## React Compiler
+The app is free, with no intrusive popups and no hidden trackers.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Themes
 
-## Expanding the ESLint configuration
+4 very different graphic themes: Lace (Dentelle), Gothic, Cyberpunk and Frosted.
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## What is in this repository
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+| Folder | Purpose |
+|---|---|
+| `src/` | The app (React, Vite, TypeScript) |
+| `android/` | Android version (Capacitor) |
+| `electron/` | Windows and Linux version (Electron) |
+| `stable-diffusion/` | The Python server: characters, accounts, messages, image creation |
+| `public/`, `assets/` | Shared files and icons |
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+## Run the app for development
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+You need Node.js 22 or newer.
+
+```
+npm install
+npm run dev
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+The site opens over https. You need your own local certificates (they are not in the repository).
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## Run the server
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+The server is in `stable-diffusion/server.py` (Python). It runs on port 5001.
+
+- Install the Python libraries imported at the top of `server.py`.
+- Create a `stable-diffusion/.env` file for your keys (it is never published). The keys are optional, depending on the services you use.
+- Start it with: `python stable-diffusion/server.py`
+
+### Image creation
+
+In `server.py`, the `GENERATEUR` setting chooses how images are created:
+
+- `"pollinations"`: free service, no graphics card and no key needed.
+- `"stable_diffusion"`: Stable Diffusion running locally. You must download the model yourself (it is not in the repository).
+
+## Build the apps
+
+- Android: `npm run build`, then `npx cap sync android`, then `./gradlew assembleDebug` in the `android/` folder.
+- Linux (.deb), Windows: `npx electron-builder` in the `electron/` folder.
+
+## Not in this repository
+
+User data, keys, AI models and already-built apps are not published.
+
+## Contributing
+
+Ideas and fixes are welcome: open an *issue* or a *pull request*.
+
+## License
+
+GNU Affero General Public License v3 (AGPL v3). If you run a modified version of the server for other people, you must publish your code.
