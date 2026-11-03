@@ -51,21 +51,38 @@ stable-diffusion/generated/
 stable-diffusion/creations_data/
 stable-diffusion/app_releases/*.apk
 *.pyc
-
-# Données privées du serveur, fabrications et divers
-stable-diffusion/data/
-stable-diffusion/app_releases/
-stable-diffusion/test_sd15.png
+# Fabrications Electron et paquets (refaits par le build)
 electron/dist/
 electron/build/
 *.deb
 *.exe
 *.AppImage
-sauvegarde-imports/
-~.continue/
-src/utils/Archive.zip
+stable-diffusion/app_releases/*.deb
+stable-diffusion/app_releases/*.exe
 
-# Notes de travail et essais
-CLAUDE.md
+# Sauvegardes et anciennes copies
+sauvegarde-imports/
+rab/
+
+# Bases de données
+*.db
+*.sqlite
+# Données privées du serveur (codes admin, jetons des téléphones, références)
+stable-diffusion/data/
+stable-diffusion/app_releases/
+
+# Fabrications Electron et paquets (refaits par le build)
+electron/dist/
+electron/build/
+*.deb
+*.exe
+*.AppImage
+
+# Sauvegardes et anciennes copies
+sauvegarde-imports/
+rab/
 .claude/
-stable-diffusion/test_sd15.py
+~.continue/
+CLAUDE.md
+src/utils/Archive.zip
+stable-diffusion/test_sd15.*

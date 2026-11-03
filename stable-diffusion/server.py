@@ -463,6 +463,10 @@ def run_generation_stable_diffusion(job_id, prompt, style):
     """Génération locale (Stable Diffusion). Mise de côté depuis le passage à
     Gemini, mais gardée intacte et fonctionnelle - voir generate()."""
     try:
+# Pollinations comprend mieux l'anglais : on traduit avec DeepL (déjà dans le serveur).
+        prompt_anglais = appeler_deepl(prompt, "en")
+        if prompt_anglais:
+            prompt = prompt_anglais
         style_normalise = normaliser_style(style)
         negative_prompt = NEGATIVE_PROMPT
         if style_normalise in STYLE_PROMPTS:
@@ -488,6 +492,7 @@ def run_generation_stable_diffusion(job_id, prompt, style):
         image.save(buffer, format="PNG")
         jobs[job_id] = {"status": "done", "image": buffer.getvalue(), "error": None}
     except Exception as e:
+
         jobs[job_id] = {"status": "error", "image": None, "error": str(e)}
     finally:
         busy_lock.release()
@@ -523,32 +528,46 @@ def run_generation_gemini(job_id, prompt, style):
 
 
 def run_generation_pollinations(job_id, prompt, style):
-    # Crée l'image avec Pollinations (gratuit, sans clé) et la range dans jobs,
+    # Crée l'image avec Pollinations (gratuit, avec clé) et la range dans jobs,
     # comme les deux autres générateurs.
     try:
         style_normalise = normaliser_style(style)
+
+        # Pollinations comprend mieux l'anglais : on traduit avec DeepL (déjà dans le serveur).
+        prompt_anglais = appeler_deepl(prompt, "en")
+        if prompt_anglais:
+            prompt = prompt_anglais
+
         if style_normalise in STYLE_PROMPTS:
             prompt = f"{prompt}, {STYLE_PROMPTS[style_normalise]}"
 
+        # Taille propre à Pollinations (WIDTH"/"HEIGHT sont trop petits, prévus pour Stable Diffusion).
+
+         # Lit la clé secrète dans le fichier .env (jamais écrite dans le code).
+        cle = os.environ.get("POLLINATIONS_API_KEY")
+        # Appelle le nouveau service gen.pollinations.ai avec la clé (Bearer).
         url = (
-            "https://image.pollinations.ai/prompt/" + urllib.parse.quote(prompt)
-            + f"?width={WIDTH}&height={HEIGHT}&model=flux&nologo=true"
+            "https://gen.pollinations.ai/image/" + urllib.parse.quote(prompt, safe="")
+            + "?model=flux&width=768&height=1024&nologo=true"
             + f"&seed={random.randint(0, 2**31)}"
         )
-        requete = urllib.request.Request(url, headers={"User-Agent": "RealOrNot"})
+        requete = urllib.request.Request(url, headers={
+            "User-Agent": "RealOrNot",
+            "Authorization": "Bearer " + (cle or ""),
+        })
         with urllib.request.urlopen(requete, timeout=120) as reponse:
             donnees = reponse.read()
-
         # Pollinations renvoie du JPEG : on le convertit en PNG comme avant.
         image = Image.open(io.BytesIO(donnees)).convert("RGB")
         buffer = io.BytesIO()
         image.save(buffer, format="PNG")
         jobs[job_id] = {"status": "done", "image": buffer.getvalue(), "error": None}
     except Exception as e:
+        # Affiche l'erreur dans le terminal pour comprendre l'échec de Pollinations.
+        print("Erreur Pollinations :", e, flush=True)
         jobs[job_id] = {"status": "error", "image": None, "error": str(e)}
     finally:
         busy_lock.release()
-
 
 @app.route("/generate", methods=["POST"])
 def generate():

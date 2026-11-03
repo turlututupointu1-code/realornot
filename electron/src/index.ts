@@ -53,6 +53,23 @@ if (electronIsDev) {
   autoUpdater.checkForUpdatesAndNotify();
 })();
 
+// Accepte le certificat auto-signé du serveur RealOrNot (port 5001 seulement).
+// Sans ça, l'appli PC refuse de lire la liste des IA (ERR_CERT_AUTHORITY_INVALID).
+app.on('certificate-error', (event, _webContents, url, _error, _certificate, callback) => {
+  let port = '';
+try {
+  port = new URL(url).port;
+} catch {
+  port = '';
+}
+if (port === '5001') {
+  event.preventDefault();
+  callback(true);
+} else {
+  callback(false);
+}
+});
+
 // Handle when all of our windows are close (platforms have their own expectations).
 app.on('window-all-closed', function () {
   // On OS X it is common for applications and their menu bar
