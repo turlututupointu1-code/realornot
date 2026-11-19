@@ -231,8 +231,13 @@ $dossier: 'cyberpunk';
 
     // fleche
     --pagination-arrow-gap: 0px; // rapproche les flèches du fond du texte « Page x / y » (plus négatif = plus près)
+    --pagination-arrow-double-gap: 6px; // écarte la double flèche de la flèche simple (positif = plus loin)
     --pagination-arrow-height: 11px; // flèches de pages plus petites (défaut : 15px)
     --pagination-arrow-width: 26px; // longueur des flèches de pages (défaut : auto = proportionnelle)
+    --burger-chevron-height: 11px; // chevrons du menu burger : hauteur
+    --burger-chevron-width: 26px; // chevrons du menu burger : longueur
+    --moi-chevron-height: 11px; // chevrons des panneaux déroulants (Moi, Rencontre) : hauteur
+    --moi-chevron-width: 26px; // chevrons des panneaux déroulants : longueur
 }
 
 .theme-#{$dossier} .btn-bouton-png .create-btn-caption {

@@ -3,7 +3,11 @@
    Réglage par thème, en px, dans le fichier du thème :
      --pagination-arrow-height / --pagination-arrow-width              flèches simples de la barre de pages
      --pagination-arrow-double-height / --pagination-arrow-double-width doubles flèches (facultatif : sinon comme les simples)
-     --pagination-arrow-gap                                             rapproche les flèches simples du texte « Page x / y » */
+     --pagination-arrow-gap                                             rapproche les flèches simples du texte « Page x / y »
+     --pagination-arrow-double-gap                                      écarte la double flèche de la flèche simple (facultatif, défaut 0px)
+     --scroll-arrow-width / --scroll-arrow-height                       flèches haut/bas de l'ascenseur, PC seulement (facultatif, défaut 18px)
+     --burger-chevron-height / --burger-chevron-width                   chevrons du menu burger (facultatif, défaut 14px / auto)
+     --moi-chevron-height / --moi-chevron-width                         chevrons des panneaux déroulants, pages Moi et Rencontre (facultatif, défaut 14px / auto) */
 
 /* Style commun à toutes les images de flèche (src contenant "fleche"). */
 img[src*="fleche"] {
@@ -19,6 +23,17 @@ img[src*="fleche"] {
 /* Sens retour : même image retournée (à ajouter en plus d'une autre classe, jamais seule). */
 .fleche-retour {
     transform: scaleX(-1);
+}
+
+/* --- Chevrons (composant ChevronArrow : même image, tournée de ±90°) ---
+   Même priorité que la règle générale ci-dessus : elles doivent rester APRÈS elle pour gagner. */
+img.burger-chevron {
+    height: var(--burger-chevron-height, 14px);
+    width: var(--burger-chevron-width, auto);
+}
+img.moi-avatar-chevron {
+    height: var(--moi-chevron-height, 14px);
+    width: var(--moi-chevron-width, auto);
 }
 
 /* --- Flèches retour / continuer (NavArrow) --- */
@@ -86,4 +101,34 @@ img[src*="fleche"] {
 }
 .pagination-bar > .pagination-arrow:nth-child(4) {
     margin-left: var(--pagination-arrow-gap, -6px);
+}
+/* Écarte la double flèche de la flèche simple (--pagination-arrow-double-gap, en px : positif = plus loin). */
+.pagination-bar > .pagination-arrow:nth-child(1) {
+    margin-right: var(--pagination-arrow-double-gap, 0px);
+}
+.pagination-bar > .pagination-arrow:nth-child(5) {
+    margin-left: var(--pagination-arrow-double-gap, 0px);
+}
+
+/* --- Flèches de l'ascenseur (haut et bas) : seulement avec une souris (PC, navigateur), pas sur le téléphone ---
+   Images du thème : --img-fleche-haut et --img-fleche-bas. Les flèches de l'ascenseur horizontal sont cachées. */
+@media (hover: hover) and (pointer: fine) {
+    *::-webkit-scrollbar-button:single-button {
+        display: block;
+        width: var(--scroll-arrow-width, 18px);
+        height: var(--scroll-arrow-height, 18px);
+        background-color: var(--pagination-bar-bg);
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: contain;
+    }
+    *::-webkit-scrollbar-button:single-button:vertical:decrement {
+        background-image: var(--img-fleche-haut);
+    }
+    *::-webkit-scrollbar-button:single-button:vertical:increment {
+        background-image: var(--img-fleche-bas);
+    }
+    *::-webkit-scrollbar-button:single-button:horizontal {
+        display: none;
+    }
 }

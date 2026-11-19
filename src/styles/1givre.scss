@@ -1,0 +1,92 @@
+/* src/styles/fleches.css */
+/* TOUTES les règles des flèches sont ici. Réglage par thème en px : --pagination-arrow-* (voir les fichiers de thème). */
+
+/* Style commun à toutes les images de flèche (src contenant "fleche"). */
+img[src*="fleche"] {
+    height: 30px;
+    width: auto;
+    display: inline-block;
+    vertical-align: middle;
+    object-fit: contain;
+    transition: transform 0.2s ease;
+    filter: drop-shadow(0 0 3px #000000cc);
+}
+
+/* Sens retour : même image retournée (à ajouter en plus d'une autre classe, jamais seule). */
+.fleche-retour {
+    transform: scaleX(-1);
+}
+
+/* --- Flèches retour / continuer (NavArrow) --- */
+.nav-arrow-btn {
+    position: fixed;
+    z-index: 50;
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+}
+.nav-arrow-back {
+    top: calc(6px + var(--safe-top));
+    left: 16px;
+}
+.nav-arrow-continue {
+    bottom: calc(16px + var(--safe-bottom));
+    right: 16px;
+}
+.nav-arrow-btn:disabled {
+    cursor: default;
+    opacity: 0.6;
+}
+.nav-arrow-img,
+.camera-back-app-icon {
+    height: 15px;
+    width: auto;
+    object-fit: contain;
+    display: block;
+}
+
+/* --- Flèche d'envoi du chat --- */
+.personnage-chat-send {
+    flex-shrink: 0;
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+.personnage-chat-send img {
+    height: var(--pagination-arrow-height, 15px);
+    width: var(--pagination-arrow-width, auto);
+}
+
+/* --- Barre de pagination --- */
+.pagination-arrow {
+    display: flex;
+    align-items: center;
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+}
+.pagination-arrow:disabled {
+    opacity: 0.3;
+    cursor: default;
+}
+/* Flèches simples : plus prioritaire que img[src*="fleche"], donc les variables du thème gagnent. */
+.pagination-bar .pagination-arrow img {
+    width: var(--pagination-arrow-width, auto);
+    height: var(--pagination-arrow-height, 15px);
+    object-fit: fill;
+    flex-shrink: 0;
+}
+/* Doubles flèches : taille propre, sinon la même que les simples. */
+.pagination-bar .pagination-arrow-double img {
+    width: var(--pagination-arrow-double-width, var(--pagination-arrow-width, auto));
+    height: var(--pagination-arrow-double-height, var(--pagination-arrow-height, 15px));
+}
+/* Rapproche les flèches simples du texte « Page x / y » (--pagination-arrow-gap, négatif = plus près). */
+.pagination-bar > .pagination-arrow:nth-child(2) {
+    margin-right: var(--pagination-arrow-gap, -6px);
+}
+.pagination-bar > .pagination-arrow:nth-child(4) {
+    margin-left: var(--pagination-arrow-gap, -6px);
+}
