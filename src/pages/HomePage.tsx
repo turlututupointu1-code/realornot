@@ -195,26 +195,42 @@ const HomePage: React.FC<HomePageProps> = ({ searchTerm }) => {
             .catch((err) => console.log('Traduction des vignettes échouée', err));
         return () => { annule = true; };
     }, [idsVisibles, lang]);
-
+// Barre de pages : double flèche = première / dernière page, flèche simple = page précédente / suivante.
     const paginationBar = (
         <div className="pagination-bar">
-            <button
+        <button
+                type="button"
+                className="pagination-arrow pagination-arrow-double"
+                disabled={currentPage === 1}
+                onClick={() => setCurrentPage(1)}
+            >
+                <img src={assets.flecheDouble} alt={t.pagePrecedente} className="pagination-arrow-img fleche-retour" />
+        </button>
+        <button
                 type="button"
                 className="pagination-arrow"
                 disabled={currentPage === 1}
                 onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
             >
                 <img src={assets.fleche} alt={t.pagePrecedente} className="pagination-arrow-img fleche-retour" />
-            </button>
-            <span className="pagination-label">{t.pageLabel} {currentPage} / {totalPages}</span>
-            <button
+        </button>
+        <span className="pagination-label">{t.pageLabel} {currentPage} / {totalPages}</span>
+        <button
                 type="button"
                 className="pagination-arrow"
                 disabled={currentPage === totalPages}
                 onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
             >
                 <img src={assets.fleche} alt={t.pageSuivante} className="pagination-arrow-img" />
-            </button>
+        </button>
+        <button
+                type="button"
+                className="pagination-arrow pagination-arrow-double"
+                disabled={currentPage === totalPages}
+                onClick={() => setCurrentPage(totalPages)}
+            >
+                <img src={assets.flecheDouble} alt={t.pageSuivante} className="pagination-arrow-img" />
+        </button>
         </div>
     );
 

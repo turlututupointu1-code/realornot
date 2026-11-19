@@ -1,0 +1,33 @@
+// src/styles/base/_18-voix.scss
+// Page « Voix ».
+
+// --- Page "Voix" ---
+.voix-section-title {
+    margin-top: 24px;
+    margin-left: 24px;
+}
+.voix-subsection {
+    margin-top: 14px;
+}
+.voix-list {
+    @extend %flex-col;
+    gap: 12px;
+    padding: 0 24px;
+}
+.voix-item {
+    @extend %btn-reset-icon2;
+    position: relative;
+    display: block;
+    width: 100%;
+    // Pas de hauteur fixe : le bouton doit grandir avec la vraie hauteur de barre1 (ratio 1271x210).
+    padding: 0;
+    cursor: pointer;
+}
+.voix-item-speaker {
+    display: flex;
+    color: $c-white;
+}
+.voix-item-speaker svg {
+    width: 18px;
+    height: 18px;
+}

@@ -1,0 +1,81 @@
+// src/styles/base/_10-details-personnage.scss
+// Page Détails du personnage et page de conversation.
+
+// --- Page Details Personnage ---
+.details-field-label {
+    font-weight: 700;
+    font-size: 0.9em;
+    margin: 0 0 8px 4px;
+}
+// Page "Détails du personnage", identique dans les 4 thèmes (couleur via --box-text).
+.details-personnage-page .details-field-label {
+    color: var(--box-text);
+    font-weight: 600;
+}
+.details-personnage-page .voix-choisie-row {
+    margin-bottom: 14px;
+}
+.details-field-hint {
+    font-weight: 400;
+    opacity: 0.6;
+    font-size: 0.85em;
+}
+.personnage-field-text {
+    font-size: 0.95em;
+    line-height: 1.4;
+    margin: 0;
+    white-space: pre-wrap;
+}
+.personnage-page {
+    position: relative;
+    z-index: 0;
+    // Hauteur réservée en bas de la page pour la barre de saisie fixe (.personnage-chat-input-bar, ~55px)
+    // plus un peu d'air, pour que le dernier message et ses petits boutons restent visibles. Réutilisée ailleurs.
+    --input-bar-hauteur: 70px;
+    padding-top: calc(40px + var(--safe-top));
+    padding-bottom: calc(var(--input-bar-hauteur) + var(--safe-bottom));
+    // Empêche la sélection de texte / le menu contextuel natif pendant l'appui long sur la photo.
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    user-select: none;
+}
+.personnage-page .personnage-chat-input {
+    -webkit-user-select: text;
+    user-select: text;
+}
+// RencontreConversationPage.tsx réutilise la même racine que PersonnagePage.tsx, pas de correctif spécifique nécessaire.
+// Boîte autour des messages, même style que les autres boîtes "Personne réelle" (pas les bulles flottantes de l'IA).
+.rencontre-conversation-box {
+    min-height: 40vh;
+    margin-bottom: 16px;
+}
+// Boîte de saisie : même style que les autres champs "Personne réelle" (pas le style brun du chat IA).
+// Barre de saisie fixe en bas (comme WhatsApp/SMS), plus fiable que le flux normal pour suivre le clavier.
+.personnage-histoire-box .personnage-field-text {
+    color: var(--histoire-box-text);
+}
+.personnage-salutation-box .personnage-field-text {
+    color: var(--salutation-box-text);
+}
+.personnage-user-box .personnage-field-text {
+    color: var(--user-box-text);
+}
+.personnage-chat {
+    @extend %flex-col;
+    gap: 12px;
+}
+.personnage-bubble {
+    max-width: 85%;
+}
+.personnage-user-box {
+    align-self: flex-end;
+}
+.personnage-bubble-editing {
+    width: 100%;
+    max-width: 100%;
+    align-self: stretch;
+}
+.personnage-chat-end {
+    // Marge pour que scrollIntoView s'arrête au-dessus de la barre de saisie fixe, zone de sécurité incluse.
+    scroll-margin-bottom: calc(var(--input-bar-hauteur) + var(--safe-bottom));
+}

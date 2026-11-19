@@ -30,7 +30,7 @@ const PanneauDeroulant: React.FC<PanneauDeroulantProps> = ({ classe, titre, ouve
         );
     }
 
-    // Style page « Moi » : barre image barre1.png
+    // Style page « Moi » : barre image barre1
     return (
         <div>
         <button type="button" className={`details-voix-row ${classe ?? ''}`} onClick={onBasculer}>

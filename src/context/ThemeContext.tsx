@@ -2,15 +2,16 @@ import React, { useEffect, useState } from 'react';
 import type { ReactNode } from 'react';
 import { StatusBar } from '@capacitor/status-bar';
 import NavigationBar from '../plugins/navigationBar';
-import { ThemeContext, SUPPORTED_LANGS, detectDefaultLang, STATUT_PAR_THEME } from './theme';
+import { ThemeContext, SUPPORTED_LANGS, detectDefaultLang, STATUT_PAR_THEME, THEMES } from './theme';
 import type { ThemeName } from './theme';
 
 export const ThemeProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
     const [theme, setThemeState] = useState<ThemeName>(() => {
         const stored = localStorage.getItem('realornot-theme');
-        const themesValides: ThemeName[] = ['dentelle', 'gothique', 'cyberpunk', 'frosted'];
+        // Liste des thèmes valides = les clés de THEMES (context/theme.ts) : plus de liste à tenir à jour ici quand on ajoute un thème.
+        const themesValides = Object.keys(THEMES) as ThemeName[];
         if (stored && themesValides.includes(stored as ThemeName)) return stored as ThemeName;
-        return 'frosted';
+        return 'givre';
     });
 
     useEffect(() => {

@@ -1,0 +1,86 @@
+// src/styles/base/_14-choix-reponses.scss
+// Boutons de réponse, questions « Personne réelle ».
+
+.details-suggestions-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 8px;
+}
+button.details-suggestion-chip {
+    @extend %flex-v-center;
+    padding: 2px 2px;
+    height: 100%;
+    border-radius: var(--radius-pill);
+    border: none;
+    background: none !important;
+    color: $c-white;
+    font-size: 0.68em;
+    font-weight: 700;
+    white-space: nowrap;
+    flex-shrink: 0;
+    cursor: pointer;
+}
+button.details-suggestion-chip.details-suggestion-chip-active {
+    background-image: var(--img-suggestion-active) !important;
+    background-size: 100% calc(100% - var(--fond-retrait)) !important; // hauteur réglée par thème avec --fond-retrait
+    background-repeat: no-repeat !important;
+    background-position: center !important;
+    color: $c-white;
+    font-weight: 700;
+    border-radius: 0;
+}
+
+// Page "Personne réelle" uniquement : cadre visible autour de chaque réponse (texte blanc illisible sinon sur fond clair).
+.rencontre-page button.details-suggestion-chip {
+    padding: 8px 14px;
+    border: var(--border-width) solid var(--box-border);
+    border-radius: var(--radius-small);
+    background: var(--box-bg) !important;
+    color: var(--box-text);
+}
+// Classe répétée pour gagner en spécificité sur la règle de thème équivalente, chargée après base.css.
+.rencontre-page.rencontre-page button.details-suggestion-chip.details-suggestion-chip-active {
+    background: var(--box-border) !important;
+    color: var(--box-text);
+    font-weight: 700;
+    border-radius: var(--radius-small);
+}
+
+// Toutes les questions dans un seul cadre, juste une ligne de séparation entre elles.
+.rencontre-questions-box {
+    @extend %flex-col;
+    gap: 16px;
+}
+.rencontre-question {
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--box-border);
+}
+.rencontre-question:last-child {
+    padding-bottom: 0;
+    border-bottom: none;
+}
+.rencontre-question-categorie {
+    margin: 4px 0 -4px;
+    font-size: 0.75em;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    opacity: 0.7;
+}
+.rencontre-precision-input {
+    margin-top: 8px;
+}
+.rencontre-point-comparaison {
+    display: inline-block;
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    margin-right: 7px;
+}
+.rencontre-point-vert {
+    background-color: $c-success;
+}
+.rencontre-point-rouge {
+    background-color: $c-error;
+}

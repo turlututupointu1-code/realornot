@@ -1,0 +1,89 @@
+// src/styles/base/_23-regles-themes.scss
+// Règles qui lisent les variables de thème.
+
+// ============================================================================
+// Règles qui lisent les variables de thème. Le préfixe .app-root-container donne la même priorité
+// qu'avaient les règles de chaque fichier de thème (.theme-xxx), pour que rien ne change dans l'ordre d'application.
+// ============================================================================
+.app-root-container .moi-info-box .personnage-field-text {
+    color: var(--moi-info-text-color);
+}
+.app-root-container .rencontre-bienvenue-centre .rencontre-bio-box p {
+    color: var(--bio-box-text-color);
+}
+.app-root-container .rencontre-conversation-page .personnage-user-box .personnage-field-text {
+    color: var(--rencontre-user-text-color);
+}
+.app-root-container .moi-page .details-voix-label,
+.app-root-container .moi-page .moi-avatar-chevron {
+    color: var(--moi-bar-text-color);
+}
+.app-root-container .details-personnage-page .generating-text {
+    color: var(--details-generating-text-color);
+}
+.app-root-container .details-personnage-page .create-textarea::placeholder {
+    color: var(--details-textarea-placeholder-color);
+    opacity: var(--details-textarea-placeholder-opacity);
+}
+.app-root-container .create-box:focus-within {
+    border-color: var(--box-focus-border-color);
+    box-shadow: var(--box-focus-shadow);
+}
+.app-root-container .crop-viewport {
+    border-color: var(--crop-viewport-border-color);
+}
+.app-root-container .burger-item.burger-item-contact-admin {
+    color: var(--burger-contact-color);
+}
+.app-root-container .personnage-creator-banner {
+    color: var(--creator-banner-color);
+}
+.app-root-container img[src*="basculer"],
+.app-root-container img[src*="capture"],
+.app-root-container img[src*="flash"],
+.app-root-container img[src*="creer"],
+.app-root-container img[src*="drapeau"],
+.app-root-container img[src*="messages"],
+.app-root-container img[src*="palette"],
+.app-root-container img[src*="appareilphoto"],
+.app-root-container img[src*="compatibilite"],
+.app-root-container img[src*="cadenas"],
+.app-root-container img[src*="supprimer"],
+.app-root-container img[src*="profil-homme"],
+.app-root-container img[src*="profil-femme"],
+.app-root-container .personnage-user-avatar-banner-img,
+.app-root-container .profil-conversation-avatar-img {
+    filter: var(--icone-filtre);
+}
+// Cartes de style : bordure de la vignette et du libellé en cycle de 3 (identiques sauf sur les thèmes qui les différencient).
+.app-root-container .style-grid .style-card:nth-child(3n + 1) .style-card-image-wrap {
+    border-color: var(--style-card-image-border-1);
+}
+.app-root-container .style-grid .style-card:nth-child(3n + 2) .style-card-image-wrap {
+    border-color: var(--style-card-image-border-2);
+}
+.app-root-container .style-grid .style-card:nth-child(3n + 3) .style-card-image-wrap {
+    border-color: var(--style-card-image-border-3);
+}
+.app-root-container .style-grid .style-card:nth-child(3n + 1) .style-card-label {
+    border-color: var(--style-card-label-border-1);
+}
+.app-root-container .style-grid .style-card:nth-child(3n + 2) .style-card-label {
+    border-color: var(--style-card-label-border-2);
+}
+.app-root-container .style-grid .style-card:nth-child(3n + 3) .style-card-label {
+    border-color: var(--style-card-label-border-3);
+}
+
+// ============================================================
+// (ancien theme-common.css)
+// ============================================================
+//   POPUP "SIGNALER CE PERSONNAGE" - fond d'écran
+// ============================================================
+.theme-dentelle .update-prompt-box:has(.signaler-motifs),
+.theme-gothique .update-prompt-box:has(.signaler-motifs),
+.theme-cyberpunk .update-prompt-box:has(.signaler-motifs) {
+    background-image: var(--wallpaper);
+    background-size: cover;
+    background-position: center;
+}

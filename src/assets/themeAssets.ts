@@ -6,12 +6,12 @@ import type { ThemeName } from '../context/theme';
 // remplace les ~90 lignes d'imports individuels d'avant. eager:true les
 // charge toutes au démarrage (fichiers légers, pas de souci) ; import:
 // 'default' retourne directement l'URL de chaque image, comme le faisait
-// chaque `import xxx from '...png'`.
-const images = import.meta.glob('../images/*/*.png', { eager: true, import: 'default' }) as Record<string, string>;
+// chaque `import xxx from '...webp'`.
+const images = import.meta.glob('../images/*/*.webp', { eager: true, import: 'default' }) as Record<string, string>;
 
 function img(theme: ThemeName, name: string): string {
     const folder = DOSSIER_PAR_THEME[theme];
-    const path = `../images/${folder}/${name}.png`;
+    const path = `../images/${folder}/${name}.webp`;
     const image = images[path];
     if (!image && import.meta.env.DEV) {
         console.warn(`[themeAssets] image introuvable : ${path}`);
@@ -27,7 +27,7 @@ export interface ThemeAssets {
     barre1: string;
     barre2: string;
     // Image de la barre de progression (recadrage photo, génération...) :
-    // chaque thème fournit son propre progression.png, distinct de barre2 -
+    // chaque thème fournit son propre progression.webp, distinct de barre2 -
     // une clé à part évite que "barre2" désigne des fichiers différents
     // selon le thème.
     barreProgression: string;
@@ -51,6 +51,7 @@ export interface ThemeAssets {
     profilFemme: string;
     palette: string;
     fleche: string;
+    flecheDouble: string;
     appareilphoto: string;
     silhouette: string;
     recherche: string;
@@ -84,6 +85,7 @@ function buildAssets(theme: ThemeName): ThemeAssets {
         profilFemme: img(theme, 'profil-femme'),
         palette: img(theme, 'palette'),
         fleche: img(theme, 'fleche'),
+        flecheDouble: img(theme, 'fleche-double'), // double flèche (première / dernière page)
         appareilphoto: img(theme, 'appareilphoto'),
         silhouette: img(theme, 'silhouette'),
         recherche: img(theme, 'recherche'),

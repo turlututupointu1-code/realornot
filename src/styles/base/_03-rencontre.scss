@@ -1,0 +1,188 @@
+// src/styles/base/_03-rencontre.scss
+// Côté « Personne réelle » : photos, questionnaire, catégories.
+
+// Sous-pages "Personne réelle" sans bouton burger : pas besoin de réserver sa place en haut.
+.rencontre-souspage {
+    padding-top: calc(12px + var(--safe-top)) !important;
+}
+.rencontre-bio-box {
+    margin-top: 20px;
+    border-width: 5px;
+}
+// Message de bienvenue (compte déjà existant) centré sous le bandeau-titre.
+.rencontre-bienvenue-centre {
+    @extend %flex-center;
+    min-height: calc(100vh - 220px);
+}
+.rencontre-bienvenue-centre .rencontre-bio-box {
+    margin-top: 0;
+    width: 100%;
+}
+// Page "Mes photos" : 5 emplacements, 3 en pleine largeur puis 2 centrés en dessous.
+.rencontre-photos-grille {
+    display: grid;
+    gap: 12px;
+    margin-top: 16px;
+}
+.rencontre-photos-grille--haut {
+    grid-template-columns: repeat(3, 1fr);
+}
+.rencontre-photos-grille--bas {
+    grid-template-columns: repeat(2, 1fr);
+    width: 66.6%;
+    margin-left: auto;
+    margin-right: auto;
+}
+.rencontre-photo-case {
+    position: relative;
+    aspect-ratio: 1 / 1;
+    border-radius: 14px;
+    overflow: hidden;
+    cursor: pointer;
+    padding: 0;
+}
+.rencontre-photo-case--vide {
+    @extend %flex-center;
+    // Même couleur que la bordure des boîtes du questionnaire (--box-border).
+    border: 1.5px dashed var(--box-border);
+    // Dégradé opaque : un fond translucide rendait le "+" à peine visible sur l'image de fond.
+    background: linear-gradient(135deg, $c-halo-grey, $c-halo-dark);
+    font-size: 2em;
+    font-weight: 700;
+    color: $c-white;
+}
+.rencontre-photo-case img {
+    @extend %full-bleed-cover;
+    display: block;
+    border: var(--border-width) solid var(--photo-border-color);
+    border-radius: 14px;
+    box-sizing: border-box;
+}
+.rencontre-photo-case--presentation {
+    background: var(--box-border);
+}
+.rencontre-photo-case--presentation img {
+    border: var(--border-width) solid var(--box-border);
+}
+.rencontre-photo-supprimer {
+    @extend %flex-center;
+    position: absolute;
+    top: 6px;
+    right: 6px;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    border: var(--border-width) solid $c-white;
+    background: $c-danger;
+    color: $c-white;
+    cursor: pointer;
+    font-size: 1.1em;
+    font-weight: 700;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.5);
+    padding: 0;
+}
+.rencontre-photo-bandeau {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: var(--box-border);
+    color: var(--photo-bandeau-text);
+    font-size: 0.7em;
+    font-weight: 600;
+    text-align: center;
+    padding: 3px 0;
+}
+.rencontre-aucune-photo {
+    text-align: center;
+}
+// Bouton "prendre une photo" sous la grille, même style que les cases vides ; grisé une fois les 5 photos prises.
+.rencontre-prendre-photo-btn {
+    @extend %flex-center;
+    gap: 10px;
+    width: 100%;
+    margin-top: 16px;
+    padding: 12px;
+    border: none;
+    background-color: transparent;
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    color: $c-white;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    background-image: var(--img-btn-prendre-photo);
+}
+.rencontre-prendre-photo-btn img {
+    width: 28px;
+    height: 28px;
+    object-fit: contain;
+}
+// Photo agrandie en plein écran au clic sur une vignette, touche n'importe où pour refermer.
+.rencontre-photo-agrandie-overlay {
+    @extend %flex-center;
+    position: fixed;
+    inset: 0;
+    background: $c-photo-overlay;
+    z-index: 60;
+    padding: 24px;
+    box-sizing: border-box;
+}
+.rencontre-photo-agrandie-img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    border-radius: var(--radius-small);
+}
+// Photo de présentation réduite en tête du profil consulté (simple point d'entrée, pas la page de détail).
+.rencontre-profil-photo {
+    display: block;
+    max-width: 100%;
+    max-height: 32vh;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+    border-radius: 14px;
+    margin: 20px auto;
+    border: var(--border-width) solid $c-popup-accueil-border;
+}
+// Langue(s), genre, orientation : grille à 3 colonnes fixes pour que les boutons s'alignent en colonne.
+.rencontre-reponses-verticales .details-suggestions-row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+}
+
+// Menu déroulant par catégorie : un bouton par catégorie, les questions apparaissent en dessous au clic.
+.rencontre-categorie-toggle .details-voix-content {
+    justify-content: center;
+    gap: 8px;
+}
+.rencontre-categorie-toggle .moi-avatar-chevron {
+    font-size: 1.4em;
+    position: absolute;
+    right: 18px;
+}
+.rencontre-categorie-toggle .details-voix-label {
+    color: var(--categorie-label-color);
+    font-weight: var(--categorie-label-weight);
+    // Même taille que .create-textarea, pour rester cohérent.
+    font-size: 0.9em;
+}
+.rencontre-categorie-contenu-wrapper {
+    display: grid;
+    grid-template-rows: 0fr;
+    margin-top: 0;
+    // margin-top volontairement hors de la transition, pour rester accroché au bouton pendant l'animation.
+    transition: grid-template-rows 0.25s ease-out;
+}
+.rencontre-categorie-contenu-wrapper.ouvert {
+    grid-template-rows: 1fr;
+}
+// Élément intermédiaire (overflow:hidden + min-height:0) pour que l'accordéon se réduise vraiment à 0.
+.rencontre-categorie-contenu-clip {
+    overflow: hidden;
+    min-height: 0;
+}
+.rencontre-btn-enregistrer {
+    margin-top: 24px;
+}

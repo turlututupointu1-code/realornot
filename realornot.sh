@@ -1,6 +1,6 @@
 #!/bin/bash
 # realornot.sh - un seul point d'entrée pour tout lancer.
-# Sans argument : affiche un menu. Avec un argument (1 à 7, x, a, b, c ou d) : lance directement l'action.
+# Sans argument : affiche un menu. Avec un argument (1 à 7, x, g, a, b, c ou d) : lance directement l'action.
 #   1 serveur Stable Diffusion        a tout pour le navigateur (serveur + Vite, 2 onglets)
 #   2 Vite (navigateur)               b tout pour le téléphone  (serveur + adb Wi-Fi + mise à jour, 2 onglets)
 #   3 téléphone : connexion Wi-Fi adb c tout pour l'application du PC (serveur + mise à jour + lancement, 2 onglets)
@@ -8,6 +8,7 @@
 #   5 PC : mettre à jour l'application installée
 #   6 PC : lancer l'application installée
 #   7 page de téléchargement : ouvrir dans le navigateur (démarre le serveur si besoin)
+#   g GitHub : sauvegarder le projet (commit + push, avec confirmation)
 #   d effectuer de 1 à 7 en parallèle : un seul build, puis le téléphone et le PC en même temps (nécessite SANS_BUILD dans les deux scripts)
 
 ROOT="/home/philippe/Documents/Realornot"
@@ -91,6 +92,46 @@ scripts_sans_build() {
 }
 
 # --- Actions --------------------------------------------------------------
+
+# GitHub : montre ce qui a changé, demande un message, fait git add + commit + push. Rien n'est envoyé sans ta confirmation.
+# Sécurité : s'arrête si une clé/certificat (.pem, .key) ou un .env est sur le point d'être ajouté (il faudrait le mettre dans .gitignore).
+sauvegarde_github() {
+    cd "$ROOT" || return 1
+    if ! git rev-parse --is-inside-work-tree >/dev/null 2>&1; then
+        echo "❌ $ROOT n'est pas un dépôt git."; return 1
+    fi
+    local branche; branche=$(git rev-parse --abbrev-ref HEAD)
+    echo "=== GitHub : branche « $branche » ==="
+    if [ -z "$(git status --porcelain)" ]; then
+        echo "Rien à sauvegarder : aucun fichier modifié."
+        # Des commits déjà faits mais pas encore envoyés ?
+        if [ -n "$(git log '@{u}..' --oneline 2>/dev/null)" ]; then
+            echo "Mais des commits ne sont pas encore envoyés sur GitHub."
+            read -r -p "Les envoyer maintenant ? (o/N) " REP
+            [ "$REP" = "o" ] || [ "$REP" = "O" ] || return 0
+            git push && echo "✅ Envoyé sur GitHub." || { echo "❌ Le push a échoué."; return 1; }
+        fi
+        return 0
+    fi
+    git status --short
+    # Fichiers sensibles qui seraient ajoutés (non ignorés par .gitignore).
+    local sensibles
+    sensibles=$(git status --porcelain | awk '{print $NF}' | grep -E '\.(pem|key)$|(^|/)\.env')
+    if [ -n "$sensibles" ]; then
+        echo
+        echo "⚠️  Fichier(s) sensible(s) détecté(s), je m'arrête :"
+        echo "$sensibles"
+        echo "Ajoute-les dans .gitignore, puis relance."
+        return 1
+    fi
+    echo
+    read -r -p "Message du commit (Entrée = « Mise à jour $(date '+%d/%m/%Y %H:%M') ») : " MSG
+    [ -z "$MSG" ] && MSG="Mise à jour $(date '+%d/%m/%Y %H:%M')"
+    read -r -p "Commit + push de tous ces fichiers ? (o/N) " REP
+    [ "$REP" = "o" ] || [ "$REP" = "O" ] || { echo "Annulé."; return 0; }
+    git add -A && git commit -m "$MSG" || { echo "❌ Le commit a échoué."; return 1; }
+    git push && echo "✅ Sauvegardé sur GitHub." || { echo "❌ Le push a échoué (le commit est fait en local, relance g pour réessayer)."; return 1; }
+}
 
 lancer_serveur() {
     if repond "$URL_SERVEUR"; then
@@ -243,6 +284,7 @@ lancer() {
         6) lancer_app_pc ;;
         7) maj_page ;;
         x|X) arreter_serveur ;;
+        g|G) sauvegarde_github ;;
         a|A) tout_navigateur ;;
         b|B) tout_telephone ;;
         c|C) tout_pc ;;
@@ -279,6 +321,7 @@ while true; do
     echo "  6) PC : lancer l'application installée"
     echo "  7) Page de téléchargement : ouvrir dans le navigateur"
     echo "  x) Arrêter le serveur Stable Diffusion"
+    echo "  g) GitHub : sauvegarder (commit + push)"
     echo "-----------------------------------------"
     echo "  a) Tout pour le navigateur    (serveur + Vite)"
     echo "  b) Tout pour le téléphone     (serveur + adb + mise à jour)"

@@ -1,0 +1,47 @@
+// src/styles/base/_21-motifs.scss
+// Motifs génériques (%placeholders) : NE PAS DÉPLACER, leur position fixe l'ordre des règles qui les utilisent.
+
+// --- Motifs génériques réutilisés par des éléments sans rapport entre eux (voir @extend dans chaque règle) ---
+%center-content { // Centrage horizontal + vertical seul (sans display, pour flex ET inline-flex).
+    align-items: center;
+    justify-content: center;
+}
+%flex-center { // Centré horizontalement et verticalement en flex.
+    display: flex;
+    @extend %center-content;
+}
+%flex-v-center { // Alignement vertical centré en flex (sans centrage horizontal).
+    display: flex;
+    align-items: center;
+}
+%flex-col-center { // Colonne flex centrée horizontalement.
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+%flex-col { // Colonne flex simple.
+    display: flex;
+    flex-direction: column;
+}
+%btn-reset-icon3 { // Bouton sans style natif (fond/bordure), curseur pointeur.
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+%btn-reset-icon2 { // Bouton sans style natif (fond/bordure).
+    border: none;
+    background: none;
+}
+%full-bleed-cover { // Image qui remplit tout son cadre (recadrée).
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+%icon-contain-static { // Icône statique (ne capte pas les clics).
+    object-fit: contain;
+    pointer-events: none;
+}
+%absolute-inset { // Recouvre entièrement son parent positionné.
+    position: absolute;
+    inset: 0;
+}

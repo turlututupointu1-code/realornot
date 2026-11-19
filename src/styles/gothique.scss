@@ -49,9 +49,9 @@ $dossier: 'gothique';
 
     // ---- Barre de recherche ----
     --search-bar-focus-outline: none; // aucun contour autour de la barre de recherche quand on y écrit
-    --search-bar-placeholder-color: var(--box-text); // texte indicatif de la barre de recherche
+    --search-bar-placeholder-color: var(--search-bar-text-color); // texte indicatif de la barre de recherche
     --search-bar-placeholder-opacity: 0.7; // opacité du texte indicatif
-    --search-bar-text-color: #888888; // texte tapé dans la barre de recherche
+    --search-bar-text-color: #ffffff; // texte tapé dans la barre de recherche
 
     // ---- Menu burger ----
     --burger-bg: var(--pagination-label-bg); // fond du menu burger
@@ -183,19 +183,19 @@ $dossier: 'gothique';
     // ======== Images : tout ce qui dépend des dessins de ce thème (src/images/#{$dossier}/) ========
     --wallpaper: url('../images/#{$dossier}/fondecran.jpg');
     --wallpaper-reel: url('../images/#{$dossier}/fondecran2.jpg'); // fond d'écran du côté « Personne réelle » (choisi à la place de --wallpaper, voir base.scss)
-    --img-search-bar: url('../images/#{$dossier}/recherche.png');
-    --img-fleche-haut: url('../images/#{$dossier}/flechehaut.png'); // flèche du haut de l'ascenseur
-    --img-fleche-bas: url('../images/#{$dossier}/flechebas.png'); // flèche du bas de l'ascenseur
-    --img-suggestion-active: url('../images/#{$dossier}/fond.png');
-    --img-btn-annuler: url('../images/#{$dossier}/annuler.png');
-    --img-btn-continuer: url('../images/#{$dossier}/continuer.png');
+    --img-search-bar: url('../images/#{$dossier}/recherche.webp');
+    --img-fleche-haut: url('../images/#{$dossier}/flechehaut.webp'); // flèche du haut de l'ascenseur
+    --img-fleche-bas: url('../images/#{$dossier}/flechebas.webp'); // flèche du bas de l'ascenseur
+    --img-suggestion-active: url('../images/#{$dossier}/fond.webp');
+    --img-btn-annuler: url('../images/#{$dossier}/annuler.webp');
+    --img-btn-continuer: url('../images/#{$dossier}/continuer.webp');
     --img-btn-prendre-photo: var(--img-btn-continuer); // image du bouton « prendre une photo » (Rencontre)
-    --fond-retrait: 34%; // hauteur de fond.png : la barre moins cette valeur, en % de la hauteur de la barre (0% = pleine hauteur, plus grand = image plus basse) ; en % pour que téléphone et tablette donnent le même rendu
-    // ---- Avatar sur la bannière titre.png : décalage en pixels par rapport à l'emplacement de base (à recaler avec les nouvelles images) ----
+    --fond-retrait: 34%; // hauteur de fond : la barre moins cette valeur, en % de la hauteur de la barre (0% = pleine hauteur, plus grand = image plus basse) ; en % pour que téléphone et tablette donnent le même rendu
+    // ---- Avatar sur la bannière titre : décalage en pixels par rapport à l'emplacement de base (à recaler avec les nouvelles images) ----
     --avatar-user-dx: 10px; // avatar de la conversation
     --avatar-user-dy: 3px;
 
-    // ---- icone sur titre.png et bouton.png : décalage en pixels par rapport à l'emplacement de base (à recaler avec les nouvelles images) ----
+    // ---- icone sur titre et bouton : décalage en pixels par rapport à l'emplacement de base (à recaler avec les nouvelles images) ----
     --scroll-track: #120808; // fond de l'ascenseur
     --scroll-thumb: #7a1020; // curseur de l'ascenseur
     --scroll-thumb-border: #b08d57; // bordure du curseur
@@ -204,12 +204,12 @@ $dossier: 'gothique';
     --icon-profil-dy: 11%; // ≈ 3px sur téléphone
     --btn-icone-dx: 130%; // icône à gauche des boutons-images, en % de la largeur de l'icône (suit la taille du bouton : même rendu sur téléphone et tablette) ; positif = vers la droite ; 17% ≈ 5px sur téléphone
     --btn-icone-dy: 10%; // positif = vers le bas
-    // Position du texte dans les boutons des pages (annuler.png / continuer.png : Signaler, Rembobiner...) : suit le dessin de continuer.png
+    // Position du texte dans les boutons des pages (annuler / continuer : Signaler, Rembobiner...) : suit le dessin de continuer
     --btn-page-padding-left: 33px; // décalage du texte vers la droite
     --btn-page-padding-top: 6px; // texte plus bas
     --btn-page-padding-bottom: 14px; // texte plus haut
 
-    // ---- Rainure de la barre de zoom (position dans progression.png) ----
+    // ---- Rainure de la barre de zoom (position dans progression) ----
     --zoom-slot-top: 43%; // la rainure se réduit au trait noir du milieu de la barre (plus grand = plus fin)
     --zoom-slot-bottom: 43%;
     --zoom-slot-left: 4%;
@@ -220,13 +220,19 @@ $dossier: 'gothique';
     --progress-slot-left: 4%;
     --progress-slot-right: 4.5%;
 
-    // ---- Barre de recherche (suit le dessin de recherche.png) ----
+    // ---- Barre de recherche (suit le dessin de recherche) ----
     --search-bar-radius: 20px;
     --search-bar-padding-top: 4px;
     --search-bar-padding-left: calc(27.7% - -10px); // position horizontale du mot « Recherche » (plus grand = plus à gauche)
     --banner-title-dx: 0px; // décalage horizontal du titre de la bannière (négatif = vers la gauche, positif = vers la droite)
-        --banner-title-dy: -6px; // décalage vertical du titre de la bannière (négatif = vers le haut, positif = vers le bas)
+    --banner-title-dy: -6px; // décalage vertical du titre de la bannière (négatif = vers le haut, positif = vers le bas)
+
+    // fleche
+    --pagination-arrow-gap: -10px; // rapproche les flèches du fond du texte « Page x / y » (plus négatif = plus près)
+    --pagination-arrow-height: 11px; // flèches de pages plus petites (défaut : 15px)
+    --pagination-arrow-width: 26px; // longueur des flèches de pages (défaut : auto = proportionnelle)
 }
+
 // Tous les boutons barre1 (icône + texte) : texte centré sur toute la largeur, sans tenir compte de la place prise par l'icône.
 .theme-#{$dossier} .btn-bouton-png .create-btn-caption {
     left: 0;
@@ -237,8 +243,8 @@ $dossier: 'gothique';
 :root:has(.theme-#{$dossier}) {
     --coque-bg: linear-gradient(#3b2a31, #1c1318);
     --coque-shadow: 0 20px 35px #000000cc;
-    // Coque (écran large) : image et arrondi du contenu (rayon = arrondi de l'ouverture en pixels de coque.png, 883 de haut)
-    --img-coque: url('../images/#{$dossier}/coque.png');
-    --img-coque-reel: url('../images/#{$dossier}/coque2.png'); // coque du côté « Personne réelle » (choisie à la place de --img-coque, voir base.scss)
+    // Coque (écran large) : image et arrondi du contenu (rayon = arrondi de l'ouverture en pixels de coque, 883 de haut)
+    --img-coque: url('../images/#{$dossier}/coque.webp');
+    --img-coque-reel: url('../images/#{$dossier}/coque2.webp'); // coque du côté « Personne réelle » (choisie à la place de --img-coque, voir base.scss)
     --coque-radius: calc(var(--coque-h) * 30 / 883);
 }

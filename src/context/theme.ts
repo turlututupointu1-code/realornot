@@ -12,9 +12,14 @@ export const THEMES = {
     dentelle: { couleur: '#F0E6D6', style: Style.Light },
     gothique: { couleur: '#0a0a0a', style: Style.Dark },
     cyberpunk: { couleur: '#1A1A2E', style: Style.Dark },
-    frosted: { couleur: '#dceaf2', style: Style.Light, dossier: 'frosted' },
+    givre: { couleur: '#dceaf2', style: Style.Light },
+    gelee: { couleur: '#F0E6D6', style: Style.Light },
+    'verre-translucide': { couleur: '#0a0a0a', style: Style.Dark },
+    laiton: { couleur: '#1A1A2E', style: Style.Dark },
+    'relief-doux': { couleur: '#F0E6D6', style: Style.Light },
+    'onde-vapeur': { couleur: '#0a0a0a', style: Style.Dark },
+    'vert-encapsule': { couleur: '#1A1A2E', style: Style.Dark },
 } as const;
-
 export type ThemeName = keyof typeof THEMES;
 
 // Style des icônes (claires/sombres) et couleur de fond de la barre de

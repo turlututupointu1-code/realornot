@@ -1,0 +1,48 @@
+// src/styles/base/_13-chat-saisie.scss
+// Barre de saisie du chat, fond de la conversation.
+
+.personnage-chat-input-bar {
+    @extend %flex-v-center;
+    position: fixed;
+    left: 0;
+    right: 0;
+    // Position de la barre selon l'état du clavier (adjustResize) : 0 clavier ouvert, var(--safe-bottom) clavier fermé.
+    bottom: max(0px, var(--safe-bottom, 0px) - var(--native-keyboard-height, 0px) * 1000);
+    z-index: 2;
+    gap: 10px;
+    padding: 2px 16px;
+    background-color: var(--chat-bar-bg);
+    border-top: 1px solid var(--chat-bar-border-color);
+    transition: opacity 0.25s ease;
+}
+.personnage-chat-input-bar-masque,
+.personnage-content-masque {
+    opacity: 0;
+    pointer-events: none;
+}
+.personnage-chat-input {
+    flex: 1;
+    border-radius: var(--radius-pill);
+    border: var(--border-width) solid var(--chat-input-border);
+    padding: 10px 16px;
+    font-size: 0.9em;
+    background-color: var(--input-bg);
+    color: var(--input-text);
+    outline: none;
+}
+.personnage-chat-input::placeholder {
+    color: var(--chat-input-placeholder-color);
+}.personnage-chat-input:focus {
+    border-color: var(--chat-input-focus-border-color);
+}
+
+.personnage-bg {
+    background-size: cover;
+    background-position: center;
+    z-index: 0;
+}
+.personnage-content {
+    position: relative;
+    z-index: 1;
+    transition: opacity 0.25s ease;
+}

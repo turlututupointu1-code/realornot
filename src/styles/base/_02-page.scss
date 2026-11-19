@@ -1,0 +1,91 @@
+// src/styles/base/_02-page.scss
+// Zones sécurisées, fond général, contenu de page, barre du haut.
+
+// Zones sécurisées (encoche, barre système) : secours natif Android si env(safe-area-inset-*) renvoie 0.
+:root {
+    --safe-top: max(env(safe-area-inset-top), var(--native-safe-top, 0px));
+    --safe-bottom: max(env(safe-area-inset-bottom), var(--native-safe-bottom, 0px));
+    // Épaisseur de bordure unique pour toute l'app (la couleur reste par thème).
+    --border-width: 1px;
+    // Rayon des coins des boîtes rectangulaires (les éléments "pilule" utilisent --radius-pill).
+    // Petits éléments arrondis (miniatures, badges...).
+    --radius-small: 10px;
+    --radius-box: 16px;
+    // Grands conteneurs arrondis (barre du haut, boutons pleine largeur, popups).
+    --radius-large: 24px;
+    --radius-pill: 999px;
+}
+
+// Fond général, identique pour tous les thèmes (.app-root-container porte la classe du thème actif) - seules --theme-bg-color/--theme-text-color changent par thème.
+.app-root-container,
+.crop-overlay,
+.camera-controls-panel {
+    background-image: var(--wallpaper);
+    background-size: cover;
+    background-position: center;
+}
+.app-root-container {
+    background-color: var(--theme-bg-color);
+    background-attachment: fixed;
+    min-height: 100vh;
+    color: var(--theme-text-color);
+}
+
+
+// Contenu de chaque page : réserve en haut la place du bandeau fixe (burger + barre sur une ligne),
+// pour que les cartes ne passent pas dessous. Valeur à ajuster à l'écran.
+.page-content-container {
+    min-height: 100vh;
+    padding: 12px;
+    // Espace réservé au bandeau du haut (burger et barre de recherche sur une ligne).
+    padding-top: calc(120px + var(--safe-top));
+    padding-bottom: 20px;
+    position: relative;
+}
+
+.page-content-container.has-pagination {
+    padding-bottom: 70px;
+}
+
+// Téléphone uniquement (moins de 700 px) : remonte la liste de cartes de 15 px (120px - 15px).
+// Cible les pages avec pagination (page recherche). Sur PC, la règle de la coque garde son propre réglage.
+@media (max-width: 699px) {
+    .page-content-container.has-pagination {
+        padding-top: calc(105px + var(--safe-top));
+    }
+}
+
+// Boîte fixe en haut de l'écran : contient le burger et la barre de recherche.
+// Les deux sont sur la même ligne (burger à gauche, barre qui prend la largeur restante).
+// Identique sur les 4 thèmes.
+.top-bar-box {
+    position: fixed;
+    // Remontée de 20 px par rapport à avant (avant : calc(12px + var(--safe-top))).
+    top: calc(var(--safe-top) - 8px);
+    left: 12px;
+    right: 12px;
+    z-index: 20;
+    @extend %flex-v-center; // ligne flex, éléments centrés verticalement
+    gap: 8px; // espace entre le burger et la barre
+    padding: 8px 12px;
+    border-radius: var(--radius-large);
+    box-sizing: border-box;
+}
+.texte-vide-centre {
+    text-align: center;
+    opacity: 0.7;
+}
+
+// Sur PC (coque de smartphone) : sticky plutôt que fixed, pour éviter un bug d'affichage dans le conteneur scrollable de la coque.
+@media (min-width: 700px) {
+    .top-bar-box {
+        position: sticky;
+        left: auto;
+        right: auto;
+        // Même remontée de 20 px que sur téléphone (avant : calc(12px + var(--safe-top))).
+        margin: calc(var(--safe-top) - 8px) 12px 0;
+    }
+    .page-content-container {
+        padding-top: 12px;
+    }
+}

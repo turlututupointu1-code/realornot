@@ -1,0 +1,184 @@
+// src/styles/base/_11-page-moi.scss
+// Page « Moi » et liste des discussions.
+
+// --- Page moi ---
+.moi-info-box {
+    width: 85%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 12px;
+    box-sizing: border-box;
+    border-color: var(--moi-info-border-color);
+    background-color: var(--box-bg);
+    font-style: italic;
+    opacity: 0.85;
+}
+.moi-info-box .personnage-field-text {
+    font-size: 0.85em;
+}
+.moi-genre-row {
+    margin-top: 18px;
+}
+.moi-avatar-chevron {
+    opacity: 0.9;
+}
+.moi-caractere-toggle .details-voix-content,
+.moi-avatar-toggle .details-voix-content,
+.moi-pseudo-toggle .details-voix-content,
+.moi-nav-row .details-voix-content,
+.voix-choisie-row .details-voix-content {
+    justify-content: center;
+}
+.moi-avatar-toggle-right {
+    @extend %flex-v-center;
+    position: absolute;
+    right: 18px;
+    top: 50%;
+    transform: translateY(-50%);
+    gap: 8px;
+}
+.moi-avatar-toggle-img {
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: var(--border-width) solid var(--box-border);
+}
+.moi-avatar-grid {
+    margin-top: 0; // la grille touche la barre Avatar au-dessus
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 10px;
+    padding: 12px;
+    border-radius: var(--radius-box);
+    border: var(--border-width) solid var(--moi-avatar-grid-border-color);
+}
+button.moi-avatar-item {
+    @extend %flex-center;
+    aspect-ratio: 1;
+    font-size: 1.6em;
+    border-radius: 50%;
+    border: var(--border-width) solid var(--moi-avatar-item-border-color);
+    background-color: var(--moi-avatar-item-bg) !important;
+    cursor: pointer;
+    overflow: hidden;
+    padding: 0;
+}
+.moi-avatar-img {
+    @extend %full-bleed-cover;
+    border-radius: 50%;
+}
+button.moi-avatar-item.moi-avatar-item-active {
+    border-color: var(--moi-avatar-item-active-border-color);
+    background-color: var(--moi-avatar-item-active-bg) !important;
+}
+.moi-nav-row {
+    margin-top: 14px !important;
+}
+.moi-nav-row .details-voix-arrow,
+.voix-choisie-row .details-voix-arrow {
+    position: absolute;
+    right: 18px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+// Panneau purement fonctionnel (marge/largeur/animation) : l'élément qu'il contient a déjà son propre fond/bordure.
+.moi-panel {
+    margin-top: 0; // le champ touche la barre du bouton au-dessus
+    width: 100%;
+    box-sizing: border-box;
+    padding: 0 16px 16px; // aucune marge en haut : le champ touche la barre ; marges sur les côtés et en bas
+    background-color: var(--moi-panel-bg);
+    border: var(--border-width) solid var(--moi-panel-border-color);
+    transform-origin: top;
+    animation: moi-panel-slide-down 0.25s ease-out;
+}
+@keyframes moi-panel-slide-down {
+    from { transform: translateY(-14px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+// Champ de saisie de la page "Moi" (pseudonyme = <input>, caractère = <textarea>) : toutes ses couleurs viennent des variables --champ-* déclarées dans chaque thème.
+.moi-champ {
+    width: 100%;
+    box-sizing: border-box;
+    border-radius: var(--radius-box);
+    border: var(--border-width) solid var(--champ-border-color);
+    padding: 10px 12px;
+    font-size: 0.9em;
+    font-family: inherit;
+    resize: vertical;
+    background-color: var(--champ-bg);
+    color: var(--champ-text);
+}
+.moi-champ::placeholder,
+.pseudo-popup-input::placeholder {
+    color: var(--champ-placeholder-color);
+    opacity: var(--champ-placeholder-opacity);
+}
+
+.moi-champ:focus,
+.pseudo-popup-input:focus {
+    outline: none;
+    border-color: var(--champ-focus-border-color);
+    box-shadow: var(--champ-focus-shadow);
+}
+
+.moi-discussions-list {
+    @extend %flex-col;
+    gap: 10px;
+    margin-top: 12px;
+}
+.moi-discussion-item {
+    @extend %flex-v-center;
+    gap: 12px;
+    padding: 10px;
+    border-radius: var(--radius-box);
+    border: var(--discussion-item-border);
+    background: var(--discussion-item-bg);
+    cursor: pointer;
+}
+.moi-discussion-avatar {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    background-color: $c-accent-default;
+    background-size: cover;
+    background-position: center;
+}
+.moi-discussion-info {
+    min-width: 0;
+}
+.moi-discussion-title {
+    font-weight: 700;
+    font-size: 0.9em;
+    color: var(--discussion-item-title-color);
+}
+// Avatar-lettre pour la messagerie entre vrais comptes (pas de photo de profil chargée).
+.rencontre-avatar-lettre {
+    @extend %flex-center;
+    color: $c-white;
+    font-weight: 700;
+    font-size: 1.1em;
+}
+.rencontre-conversation-non-lus {
+    display: inline-flex;
+    @extend %center-content;
+    min-width: 18px;
+    height: 18px;
+    padding: 0 5px;
+    margin-left: 6px;
+    border-radius: 9px;
+    background: var(--box-border);
+    color: var(--photo-bandeau-text);
+    font-size: 0.75em;
+    font-weight: 700;
+}
+.moi-discussion-preview {
+    font-size: 0.8em;
+    opacity: 0.7;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    color: var(--discussion-item-preview-color);
+}

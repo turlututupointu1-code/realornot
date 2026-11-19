@@ -1,0 +1,530 @@
+// src/styles/base/_17-chat-bulles.scss
+// Indicateur de chargement, bulles de chat, avatars, onglet « dossier ».
+
+// --- Petit indicateur de chargement (connexion au serveur) ---
+.sync-spinner {
+    position: fixed;
+    top: 84px;
+    right: 16px;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    border: var(--border-width) solid rgba(196, 168, 118, 0.35);
+    border-top-color: $c-accent-default;
+    animation: sync-spin 0.7s linear infinite;
+    z-index: 40;
+}
+@keyframes sync-spin {
+    to { transform: rotate(360deg); }
+}
+
+.personnage-typing {
+    display: flex;
+    gap: 5px;
+    align-items: center;
+    padding: 16px 20px;
+}
+.personnage-typing-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background-color: var(--box-text-on-dark);
+    opacity: 0.5;
+    animation: personnage-typing-bounce 1s infinite ease-in-out;
+}
+.personnage-typing-dot:nth-child(2) { animation-delay: 0.15s; }
+.personnage-typing-dot:nth-child(3) { animation-delay: 0.3s; }
+@keyframes personnage-typing-bounce {
+    0%, 60%, 100% { opacity: 0.35; transform: translateY(0); }
+    30% { opacity: 1; transform: translateY(-3px); }
+}
+.personnage-typing-inline {
+    display: inline-flex;
+    gap: 5px;
+    align-items: center;
+    padding: 4px 0;
+}
+// Ligne d'un message : l'icône et la bulle côte à côte, sur une même ligne.
+.personnage-bubble-group {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 6px;
+}
+// Message de l'IA : icône à gauche de la bulle.
+.personnage-bubble-group-character {
+    justify-content: flex-start;
+}
+// Message de l'utilisateur : icône à droite de la bulle.
+.personnage-bubble-group-user {
+    justify-content: flex-end;
+}
+.personnage-bubble-column {
+    @extend %flex-col;
+    flex: 1 1 auto;
+    min-width: 0;
+}
+// Taille/bordure/couleur de ces avatars : voir la section « Avatars » en bas de ce fichier.
+.personnage-user-avatar-banner-btn,
+.profil-conversation-avatar-btn {
+    // Prend exactement l'emplacement de l'icône palette (mêmes coordonnées que .create-banner-icon).
+    position: absolute;
+    left: 10.3%;
+    top: 42.2%;
+    width: 9%;
+    aspect-ratio: 1 / 1;
+    z-index: 2;
+}
+.personnage-user-avatar-banner-btn {
+    transform: translate(calc(-50% + var(--avatar-user-dx)), calc(-50% + var(--avatar-user-dy)));
+}
+.profil-conversation-avatar-btn {
+    transform: translate(calc(-50% + var(--icon-profil-dx)), calc(-50% + var(--icon-profil-dy)));
+}
+.profil-conversation-sections {
+    @extend %flex-col;
+    gap: 14px;
+}
+.profil-conversation-boxed {
+    padding: 0 24px;
+}
+
+// Onglet de dossier papier : le titre est collé en haut à gauche de la boîte, de la même couleur et avec la même bordure,
+// sans bordure en bas pour se fondre dans la boîte. Sa largeur suit le texte (autre langue = autre largeur) ;
+// un texte très long passe sur plusieurs lignes sans dépasser de la boîte.
+.profil-dossier-onglet {
+    position: relative; // au-dessus de la boîte, pour couvrir sa bordure haute sous l'onglet
+    z-index: 1;
+    display: block;
+    width: fit-content; // s'agrandit avec le texte
+    max-width: 100%;
+    box-sizing: border-box;
+    // Chevauche la bordure haute de la boîte (la plus épaisse des deux variables de bordure, selon le thème).
+    margin: 0 0 calc(-1 * max(var(--box-border-width), var(--border-width)));
+    padding: 6px 16px 5px;
+    font-size: 0.9em;
+    font-weight: 700;
+    line-height: 1.25;
+    color: var(--box-text);
+    // Fond opaque (réglé par thème) : un fond transparent laisserait voir la bordure de la boîte dessous.
+    background-color: var(--dossier-onglet-bg);
+    border: max(var(--box-border-width), var(--border-width)) solid var(--box-border);
+    border-bottom: none;
+    border-radius: 12px 12px 0 0; // coins arrondis en haut seulement
+}
+// Coin haut gauche de la boîte carré : c'est là que l'onglet est collé.
+// Classe doublée pour gagner en spécificité sur les règles .create-box des thèmes (dentelle, frosted).
+.profil-dossier.profil-dossier .create-box {
+    border-top-left-radius: 0;
+}
+
+.profil-conversation-restart-btn .create-btn-title {
+    font-size: clamp(10px, 3.1vw, 13px);
+    line-height: 1.15;
+    color: $c-white;
+    text-shadow: 0 1px 3px rgba(0,0,0,0.35);
+}
+.profil-conversation-restart-btn .create-btn-caption {
+    top: 0;
+    bottom: 0;
+    left: 7%;
+}
+button.details-genre-symbol:disabled {
+    cursor: default;
+    opacity: 0.85;
+}
+// .personnage-bubble-actions : voir la section « Bulles » en bas de ce fichier.
+// Message resté sans réponse : voir la section « Erreur et saisie » en bas de ce fichier.
+.personnage-bubble-action-btn {
+    padding: 4px;
+    cursor: pointer;
+    opacity: 0.75;
+}
+.personnage-bubble-action-btn svg {
+    width: 16px;
+    height: 16px;
+    display: block;
+}
+// Léger décalage vers le haut : l'icône Feather pèse plus vers le bas que l'icône haut-parleur, à taille de boîte identique.
+.personnage-bubble-action-btn:not(.personnage-bubble-action-voix) svg {
+    transform: translateY(-2px);
+}
+// Couleur gothique de ces icônes supprimée (approche abandonnée), retombent sur le doré générique.
+.personnage-bubble-text-btn {
+    font-size: 0.8em;
+    font-weight: bold;
+    padding: 4px 10px;
+    border: var(--border-width) solid var(--bubble-text-btn-border-color);
+    border-radius: var(--radius-small);
+    opacity: 1;
+}
+.personnage-bubble-save-btn {
+    background-color: var(--bubble-save-btn-bg);
+    color: var(--bubble-save-btn-text);
+}
+.personnage-edit-textarea {
+    width: 100%;
+    min-height: 60px;
+    background: transparent;
+    border: none;
+    outline: none;
+    resize: none;
+    font-size: 0.95em;
+    line-height: 1.4;
+    // Même couleur que le texte normal de la bulle (--bulle-ia-text) : une couleur fixe était illisible sur les thèmes clairs.
+    color: var(--bulle-ia-text);
+    font-family: inherit;
+}
+
+// ============================================================
+// Avatars (ancien avatars.css)
+// ============================================================
+/* src/styles/avatars.css
+   Tout ce qui règle l'apparence des avatars (utilisateur et personnage), en
+   un seul endroit - avant, ces règles étaient éparpillées dans base.css au
+   milieu d'autres sections sans rapport. Trois emplacements différents
+   affichent un avatar, chacun avec sa propre taille :
+     - bulle de chat (.personnage-character-avatar / .personnage-user-avatar)
+     - bannière titre (.personnage-user-avatar-banner-img /
+       .profil-conversation-avatar-img)
+     - grand avatar, page "Profil de conversation" (.profil-conversation-avatar-large)
+   Import après base.css (et après les fichiers de thème, pour que
+   --box-border soit déjà définie).
+
+   Ne couvre PAS le positionnement de l'icône avatar dans la bannière en bois
+   (.personnage-user-avatar-banner-btn, .profil-conversation-avatar-btn) :
+   ces coordonnées en % sont calées sur l'image de bannière elle-même, pas
+   sur l'avatar - restées dans base.css à côté du reste de la bannière. */
+:root {
+    --avatar-bubble-size: 32px;
+    --avatar-bubble-border: var(--border-width);
+    --avatar-banner-border: var(--border-width);
+    --avatar-large-size: 60%;
+    --avatar-large-max: 420px;
+    --avatar-large-border: var(--border-width);
+    /* Suit la couleur de bordure du thème actif (--box-border) ; #C4A876
+       (l'ancienne valeur en dur, teinte beige) en repli si utilisé hors
+       contexte de thème. Avant ce fichier, les 3 avatars gardaient toujours
+       cette bordure beige, même sur les thèmes sombres. */
+    --avatar-border-color: var(--box-border, #C4A876);
+}
+
+.personnage-character-avatar,
+.personnage-user-avatar {
+    width: var(--avatar-bubble-size);
+    height: var(--avatar-bubble-size);
+    border-radius: 50%;
+    object-fit: cover;
+    border: var(--avatar-bubble-border) solid var(--avatar-border-color);
+    flex-shrink: 0;
+    /* Avatar centré verticalement sur la bulle : les bulles ont une marge de 28px en
+     *      dessous (voir personnage-bubble.css), qui décentrerait l'avatar de 14px vers le
+     *      bas. La même marge sur l'avatar compense ce décalage. */
+    margin-top: 0;
+    margin-bottom: 14px;
+}
+
+/* La dernière bulle n'a que 3px de marge en dessous (voir personnage-bubble.css) :
+ *  l'avatar de la dernière ligne reçoit la même marge. */
+.personnage-chat > .personnage-bubble-group:last-child .personnage-character-avatar,
+.personnage-chat > .personnage-bubble-group:last-child .personnage-user-avatar {
+    margin-bottom: 3px;
+}
+
+.personnage-user-avatar-banner-img,
+.profil-conversation-avatar-img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+    border: var(--avatar-banner-border) solid var(--avatar-border-color);
+}
+
+.profil-conversation-avatar-large {
+    width: var(--avatar-large-size);
+    max-width: var(--avatar-large-max);
+    aspect-ratio: 1 / 1;
+    margin: -6px auto 24px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: var(--avatar-large-border) solid var(--avatar-border-color);
+}
+.profil-conversation-avatar-large img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Petit badge crayon superposé en bas à droite de l'avatar, pour indiquer
+   qu'on peut le modifier. */
+.personnage-user-avatar-pencil {
+    position: absolute;
+    bottom: -2px;
+    right: -2px;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background-color: #b2306f;
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1.5px solid #E8DDC8;
+}
+.personnage-user-avatar-pencil svg {
+    width: 9px;
+    height: 9px;
+}
+
+// ============================================================
+// Erreur d'envoi et champ de saisie (ancien personnage-bubble-erreur.css)
+// ============================================================
+.personnage-bubble-erreur {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 4px;
+    padding: 4px 2px;
+    /* Enfant direct de .personnage-bubble-column (colonne flex, align-items
+       stretch par défaut) - sans ça, ce bloc s'étire en pleine largeur et
+       se retrouve à gauche, désaligné par rapport à la bulle utilisateur
+       juste au-dessus (voir .personnage-user-box { align-self: flex-end; }
+       dans base.css, même principe). */
+    align-self: flex-end;
+}
+
+.personnage-bubble-erreur-texte {
+    font-size: 0.78rem;
+    color: #d94f4f;
+    opacity: 0.9;
+}
+
+.personnage-bubble-erreur .personnage-bubble-action-btn {
+    font-size: 0.78rem;
+    padding: 2px 10px;
+    border-radius: 12px;
+    border: var(--border-width) solid #d94f4f;
+    background: rgba(217, 79, 79, 0.12);
+    color: #d94f4f;
+    cursor: pointer;
+    line-height: 1.4;
+}
+
+.personnage-bubble-erreur .personnage-bubble-action-btn:hover:not(:disabled) {
+    background: rgba(217, 79, 79, 0.22);
+}
+
+.personnage-bubble-erreur .personnage-bubble-action-btn:disabled {
+    opacity: 0.5;
+    cursor: default;
+}
+
+/* Conteneur du champ de saisie : position relative pour ancrer le bouton
+   d'insertion ** en bas à droite, à l'intérieur du champ. */
+.personnage-chat-input-wrapper {
+    position: relative;
+    flex: 1;
+}
+
+.personnage-chat-input-textarea {
+    display: block;
+    resize: none;
+    line-height: 1.3;
+    font-family: inherit;
+    width: 100%;
+    padding-right: 32px;
+    padding-bottom: 2px;
+    box-sizing: border-box;
+}
+
+.personnage-chat-insert-asterisques {
+    position: absolute;
+    right: 10px;
+    bottom: 1px;
+    font-weight: 700;
+    font-size: 0.9rem;
+    padding: 1px 6px;
+    border-radius: 8px;
+    border: none;
+    background: rgba(150, 150, 150, 0.12);
+    color: inherit;
+    cursor: pointer;
+    line-height: 1.2;
+}
+
+.personnage-chat-insert-asterisques:hover {
+    background: rgba(150, 150, 150, 0.22);
+}
+
+// ============================================================
+// Bulles : couleurs, volutes, boutons d'action (ancien personnage-bubble.css)
+// ============================================================
+/* Bulle de conversation (IA + utilisateur) : trait fin, coins arrondis,
+   volute décorative dans deux coins opposés. Un seul fichier pour tous les
+   thèmes - seules les couleurs changent, via les variables --bulle-*
+   définies dans le bloc racine de chaque thème (voir beige.css, noir.css,
+   etc.). Les volutes utilisent mask-image (le SVG sert de pochoir, sa
+   couleur vient de background-color) plutôt qu'un SVG teinté à l'avance :
+   ça évite de dupliquer l'image pour chaque couleur de thème. */
+
+.create-box.personnage-bubble.personnage-salutation-box,
+.create-box.personnage-bubble.personnage-user-box {
+    position: relative;
+    border-style: solid;
+    border-width: var(--border-width);
+    border-radius: var(--radius-small);
+    padding: 16px 18px;
+}
+
+.create-box.personnage-bubble.personnage-salutation-box {
+    background: var(--bulle-ia-bg);
+    color: var(--bulle-ia-text);
+    border-color: var(--bulle-ia-border);
+}
+
+.create-box.personnage-bubble.personnage-salutation-box .personnage-field-text {
+    color: var(--bulle-ia-text);
+}
+
+.create-box.personnage-bubble.personnage-user-box {
+    background: var(--bulle-user-bg);
+    color: var(--bulle-user-text);
+    border-color: var(--bulle-user-border);
+}
+
+.create-box.personnage-bubble.personnage-user-box .personnage-field-text {
+    color: var(--bulle-user-text);
+}
+
+.create-box.personnage-bubble.personnage-salutation-box::before,
+.create-box.personnage-bubble.personnage-salutation-box::after,
+.create-box.personnage-bubble.personnage-user-box::before,
+.create-box.personnage-bubble.personnage-user-box::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    -webkit-mask-repeat: no-repeat, no-repeat;
+    mask-repeat: no-repeat, no-repeat;
+    -webkit-mask-size: 22px 22px, 22px 22px;
+    mask-size: 22px 22px, 22px 22px;
+}
+
+/* La bulle "en train d'écrire" n'a pas besoin des volutes décoratives. */
+.personnage-typing::before,
+.personnage-typing::after {
+    content: none;
+}
+
+.personnage-typing-dot {
+    background: var(--bulle-dot);
+}
+
+/* Formes des volutes (identiques pour tous les thèmes - seule la couleur de
+   fond change, via background-color ci-dessous). */
+.create-box.personnage-bubble.personnage-salutation-box::before,
+.create-box.personnage-bubble.personnage-user-box::before {
+    -webkit-mask-image:
+        url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PHBhdGggZD0iTTIgMjIgQzIgOCwgMTYgOCwgMTYgMiIgc3Ryb2tlPSIjMDAwIiBzdHJva2Utd2lkdGg9IjIuNCIgZmlsbD0ibm9uZSIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIi8+PGNpcmNsZSBjeD0iMTYiIGN5PSIyIiByPSIyLjYiIGZpbGw9IiMwMDAiLz48Y2lyY2xlIGN4PSIyIiBjeT0iMjIiIHI9IjIuNiIgZmlsbD0iIzAwMCIvPjwvc3ZnPg=="),
+        url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PGcgdHJhbnNmb3JtPSJzY2FsZSgtMSwxKSB0cmFuc2xhdGUoLTI0LDApIj48cGF0aCBkPSJNMiAyMiBDMiA4LCAxNiA4LCAxNiAyIiBzdHJva2U9IiMwMDAiIHN0cm9rZS13aWR0aD0iMi40IiBmaWxsPSJub25lIiBzdHJva2UtbGluZWNhcD0icm91bmQiLz48Y2lyY2xlIGN4PSIxNiIgY3k9IjIiIHI9IjIuNiIgZmlsbD0iIzAwMCIvPjxjaXJjbGUgY3g9IjIiIGN5PSIyMiIgcj0iMi42IiBmaWxsPSIjMDAwIi8+PC9nPjwvc3ZnPg==");
+    mask-image:
+        url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PHBhdGggZD0iTTIgMjIgQzIgOCwgMTYgOCwgMTYgMiIgc3Ryb2tlPSIjMDAwIiBzdHJva2Utd2lkdGg9IjIuNCIgZmlsbD0ibm9uZSIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIi8+PGNpcmNsZSBjeD0iMTYiIGN5PSIyIiByPSIyLjYiIGZpbGw9IiMwMDAiLz48Y2lyY2xlIGN4PSIyIiBjeT0iMjIiIHI9IjIuNiIgZmlsbD0iIzAwMCIvPjwvc3ZnPg=="),
+        url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PGcgdHJhbnNmb3JtPSJzY2FsZSgtMSwxKSB0cmFuc2xhdGUoLTI0LDApIj48cGF0aCBkPSJNMiAyMiBDMiA4LCAxNiA4LCAxNiAyIiBzdHJva2U9IiMwMDAiIHN0cm9rZS13aWR0aD0iMi40IiBmaWxsPSJub25lIiBzdHJva2UtbGluZWNhcD0icm91bmQiLz48Y2lyY2xlIGN4PSIxNiIgY3k9IjIiIHI9IjIuNiIgZmlsbD0iIzAwMCIvPjxjaXJjbGUgY3g9IjIiIGN5PSIyMiIgcj0iMi42IiBmaWxsPSIjMDAwIi8+PC9nPjwvc3ZnPg==");
+    -webkit-mask-position: top -6px left -6px, top -6px right -6px;
+    mask-position: top -6px left -6px, top -6px right -6px;
+}
+
+.create-box.personnage-bubble.personnage-salutation-box::after,
+.create-box.personnage-bubble.personnage-user-box::after {
+    -webkit-mask-image:
+        url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PGcgdHJhbnNmb3JtPSJzY2FsZSgxLC0xKSB0cmFuc2xhdGUoMCwtMjQpIj48cGF0aCBkPSJNMiAyMiBDMiA4LCAxNiA4LCAxNiAyIiBzdHJva2U9IiMwMDAiIHN0cm9rZS13aWR0aD0iMi40IiBmaWxsPSJub25lIiBzdHJva2UtbGluZWNhcD0icm91bmQiLz48Y2lyY2xlIGN4PSIxNiIgY3k9IjIiIHI9IjIuNiIgZmlsbD0iIzAwMCIvPjxjaXJjbGUgY3g9IjIiIGN5PSIyMiIgcj0iMi42IiBmaWxsPSIjMDAwIi8+PC9nPjwvc3ZnPg=="),
+        url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PGcgdHJhbnNmb3JtPSJyb3RhdGUoMTgwIDEyIDEyKSI+PHBhdGggZD0iTTIgMjIgQzIgOCwgMTYgOCwgMTYgMiIgc3Ryb2tlPSIjMDAwIiBzdHJva2Utd2lkdGg9IjIuNCIgZmlsbD0ibm9uZSIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIi8+PGNpcmNsZSBjeD0iMTYiIGN5PSIyIiByPSIyLjYiIGZpbGw9IiMwMDAiLz48Y2lyY2xlIGN4PSIyIiBjeT0iMjIiIHI9IjIuNiIgZmlsbD0iIzAwMCIvPjwvZz48L3N2Zz4=");
+    mask-image:
+        url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PGcgdHJhbnNmb3JtPSJzY2FsZSgxLC0xKSB0cmFuc2xhdGUoMCwtMjQpIj48cGF0aCBkPSJNMiAyMiBDMiA4LCAxNiA4LCAxNiAyIiBzdHJva2U9IiMwMDAiIHN0cm9rZS13aWR0aD0iMi40IiBmaWxsPSJub25lIiBzdHJva2UtbGluZWNhcD0icm91bmQiLz48Y2lyY2xlIGN4PSIxNiIgY3k9IjIiIHI9IjIuNiIgZmlsbD0iIzAwMCIvPjxjaXJjbGUgY3g9IjIiIGN5PSIyMiIgcj0iMi42IiBmaWxsPSIjMDAwIi8+PC9nPjwvc3ZnPg=="),
+        url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PGcgdHJhbnNmb3JtPSJyb3RhdGUoMTgwIDEyIDEyKSI+PHBhdGggZD0iTTIgMjIgQzIgOCwgMTYgOCwgMTYgMiIgc3Ryb2tlPSIjMDAwIiBzdHJva2Utd2lkdGg9IjIuNCIgZmlsbD0ibm9uZSIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIi8+PGNpcmNsZSBjeD0iMTYiIGN5PSIyIiByPSIyLjYiIGZpbGw9IiMwMDAiLz48Y2lyY2xlIGN4PSIyIiBjeT0iMjIiIHI9IjIuNiIgZmlsbD0iIzAwMCIvPjwvZz48L3N2Zz4=");
+    -webkit-mask-position: bottom -6px left -6px, bottom -6px right -6px;
+    mask-position: bottom -6px left -6px, bottom -6px right -6px;
+}
+
+.create-box.personnage-bubble.personnage-salutation-box::before,
+.create-box.personnage-bubble.personnage-salutation-box::after {
+    background-color: var(--bulle-ia-border);
+}
+
+.create-box.personnage-bubble.personnage-user-box::before,
+.create-box.personnage-bubble.personnage-user-box::after {
+    background-color: var(--bulle-user-border);
+}
+
+.personnage-texte-action {
+    font-style: italic;
+    color: var(--bulle-action-texte);
+    display: block;
+    margin: 6px 0;
+}
+
+.personnage-bubble-column {
+    position: relative;
+}
+
+/* Espace entre deux messages (moitié des 28px d'avant). Si tu changes cette valeur,
+ *  change aussi margin-bottom de l'avatar dans avatars.css. */
+.personnage-bubble {
+    margin-bottom: 14px;
+}
+
+/* La dernière bulle n'a pas besoin d'autant d'espace en dessous : elle n'a
+   pas de bulle suivante dont il faut la séparer, juste le champ de saisie
+   (dont la barre a elle-même une petite marge). */
+.personnage-chat > .personnage-bubble-group:last-child .personnage-bubble {
+    margin-bottom: 3px;
+}
+
+.personnage-bubble-actions {
+    position: absolute !important;
+    bottom: -12px !important;
+    left: 20px !important;
+    right: 20px !important;
+    top: auto !important;
+    transform: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    display: flex !important;
+    align-items: center;
+    gap: 8px;
+    z-index: 1;
+}
+
+.personnage-bubble-action-voix {
+    margin-right: auto;
+}
+
+/* Fond opaque assorti à la bulle IA, coupé à la moitié basse (clip-path)
+   plutôt qu'avec border-top: none, qui laissait un reste visible sur le
+   raccord du coin arrondi. */
+.personnage-bubble-action-btn {
+    position: relative;
+    background: var(--bulle-ia-bg) !important;
+    color: var(--bulle-action-icone) !important;
+    border: none !important;
+    border-radius: 50%;
+}
+.personnage-bubble-action-btn::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    border: 1.5px solid var(--bulle-ia-border);
+    clip-path: inset(50% 0 0 0);
+    pointer-events: none;
+}
+/* Boutons sous une bulle de l'utilisateur : même fond et même trait que cette bulle
+ *  (par défaut ils ont la couleur de la bulle de l'IA). */
+.personnage-user-box .personnage-bubble-action-btn {
+    background: var(--bulle-user-bg) !important;
+}
+.personnage-user-box .personnage-bubble-action-btn::after {
+    border-color: var(--bulle-user-border);
+}

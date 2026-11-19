@@ -3,13 +3,13 @@ import React, { useState, useEffect, useRef } from 'react';
 import * as RouterDom from 'react-router-dom';
 import { useUiLang, useThemeAssets, HeaderRetour, BanniereTitre, ProgressBar } from '../communs';
 import { SERVER_BASE_URL } from '../config';
-import previewRealiste from '../images/styles/realiste.png';
-import previewAnime from '../images/styles/anime.png';
-import previewPeinture from '../images/styles/peinture.png';
-import previewFantaisie from '../images/styles/fantaisie.png';
-import previewCyberpunk from '../images/styles/cyberpunk.png';
-import previewAquarelle from '../images/styles/aquarelle.png';
-import previewFurry from '../images/styles/furry.png';
+import previewRealiste from '../images/styles/realiste.webp';
+import previewAnime from '../images/styles/anime.webp';
+import previewPeinture from '../images/styles/peinture.webp';
+import previewFantaisie from '../images/styles/fantaisie.webp';
+import previewCyberpunk from '../images/styles/cyberpunk.webp';
+import previewAquarelle from '../images/styles/aquarelle.webp';
+import previewFurry from '../images/styles/furry.webp';
 
 interface StyleOption {
     key: string;
@@ -280,7 +280,7 @@ const GenererPhoto: React.FC = () => {
                     </div>
 
                     <div className="create-buttons">
-                    {/* Onglet de dossier au-dessus du champ : style choisi + compteur de générations du jour (remplace la plaque et titrebas.png) */}
+                    {/* Onglet de dossier au-dessus du champ : style choisi + compteur de générations du jour (remplace la plaque et titrebas) */}
                     <div className="profil-dossier">
                     <p className="profil-dossier-onglet">{`${styleLabel(selectedStyle.key)}  ${generationCount}/${DAILY_GENERATION_LIMIT}`}</p>
                     <div className="create-box">

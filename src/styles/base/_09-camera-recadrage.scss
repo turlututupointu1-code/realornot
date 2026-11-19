@@ -1,0 +1,217 @@
+// src/styles/base/_09-camera-recadrage.scss
+// Appareil photo, recadrage, zoom.
+
+// --- Overlay caméra (camera-preview) ---
+// Overlay plein écran (caméra, recadrage, popup de mise à jour, fond de conversation).
+.personnage-bg,
+.crop-overlay,
+.camera-overlay,
+.update-prompt-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}
+
+.camera-overlay {
+    z-index: 100;
+    background: none;
+    pointer-events: none;
+}
+
+// --- Recadrage de photo (CropPhoto) ---
+.crop-overlay {
+    @extend %flex-col;
+    z-index: 100;
+    align-items: stretch;
+    padding: 12px;
+    padding-top: calc(12px + var(--safe-top));
+    padding-bottom: calc(12px + var(--safe-bottom));
+    box-sizing: border-box;
+    overflow-y: auto;
+    // Communes aux 4 thèmes (fond d'écran + couleur de secours pendant le chargement).
+    background-color: var(--crop-overlay-bg);
+}
+.crop-overlay .create-banner-title {
+    margin-top: 0;
+    margin-bottom: 8px;
+    flex-shrink: 0;
+    width: 85%;
+    margin-left: auto;
+    margin-right: auto;
+}
+.crop-overlay .create-banner-text {
+    left: 10%;
+    right: 10%;
+}
+.crop-body {
+    @extend %flex-col-center;
+    flex: 1;
+    justify-content: center;
+    gap: 16px;
+}
+.crop-viewport {
+    position: relative;
+    width: min(75vw, 320px);
+    aspect-ratio: 9 / 16;
+    overflow: hidden;
+    border-radius: var(--radius-box);
+    border: var(--border-width) solid var(--box-border);
+    background-color: $c-black;
+    touch-action: none;
+    cursor: grab;
+}
+.crop-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    max-width: none;
+    transform-origin: top left;
+    user-select: none;
+    -webkit-user-drag: none;
+}
+.zoom-bar {
+    position: relative;
+    width: min(75vw, 320px);
+    line-height: 0;
+    cursor: pointer;
+    touch-action: none;
+    // Empêche la sélection de texte/image pendant le glissement du zoom.
+    user-select: none;
+    -webkit-user-select: none;
+    -webkit-user-drag: none;
+}
+.zoom-label {
+    display: block;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    color: var(--zoom-label-color);
+    text-shadow: var(--zoom-label-shadow);
+    pointer-events: none;
+}
+.zoom-slot {
+    position: absolute;
+    top: var(--zoom-slot-top);
+    bottom: var(--zoom-slot-bottom);
+    left: var(--zoom-slot-left);
+    right: var(--zoom-slot-right);
+    border-radius: var(--radius-pill);
+    overflow: hidden;
+}
+.zoom-fill {
+    position: absolute;
+    inset: 0;
+    width: 0;
+    border-radius: var(--radius-pill);
+    background: linear-gradient(
+        90deg,
+        var(--zoom-fill-start),
+        var(--zoom-fill-end)
+    );
+    box-shadow:
+        0 0 10px 2px var(--progress-glow),
+        inset 0 2px 3px rgba(255, 255, 255, 0.65),
+        inset 0 -4px 6px rgba(0, 0, 0, 0.25);
+}
+.crop-actions {
+    display: flex;
+    gap: 12px;
+    width: min(75vw, 320px);
+}
+// Boutons Annuler / Continuer de l'écran de recadrage : images annuler et continuer du thème.
+// Construits comme les boutons-images des popups ; le texte est centré au milieu de l'image (proportion 400 x 113).
+.crop-actions .crop-btn {
+    flex: 1;
+    display: flex;
+    align-items: center; // texte centré verticalement
+    justify-content: center; // texte centré horizontalement
+    padding: 0;
+    aspect-ratio: 400 / 113;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    text-align: center;
+    background-color: transparent;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 100% 100%;
+    color: $c-white;
+}
+.crop-actions .crop-btn.crop-btn-cancel {
+    background-image: var(--img-btn-continuer);
+}
+.crop-actions .crop-btn.crop-btn-confirm {
+    background-image: var(--img-btn-annuler);
+}
+// Page résultat de « Générer ma photo » : boutons du recadrage, centrés sous la photo
+.generer-resultat-page .crop-actions {
+    margin: 12px auto 0;
+}
+// Silhouette sous le bouton « Générer ma photo » (hauteur réduite pour tenir à l'écran)
+.generer-photo-page .create-silhouette {
+    height: 300px;
+    margin-top: 12px;
+}
+.camera-controls-panel {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    @extend %flex-col-center;
+    gap: 16px;
+    padding: 18px 0 calc(28px + var(--safe-bottom));
+    pointer-events: auto;
+    // Fond d'écran du thème sur le bandeau de contrôles caméra (plutôt qu'un panneau noir uni), boutons ancrés en bas.
+    min-height: 9vh;
+    justify-content: flex-end;
+    border-radius: 0;
+    box-shadow: var(--camera-panel-shadow);
+}
+.camera-controls-row {
+    @extend %flex-center;
+    gap: 28px;
+}
+.camera-bottom-row {
+    @extend %flex-center;
+    position: relative;
+    width: 100%;
+}
+.camera-back-app-btn {
+    position: absolute;
+    left: 8px;
+    top: 75%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    padding: 6px;
+    cursor: pointer;
+}
+.camera-btn {
+    @extend %flex-center;
+    position: relative;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    border: none;
+    background: none;
+    cursor: pointer;
+    padding: 0;
+}
+.camera-btn[data-active="true"] .camera-btn-icon {
+    filter: drop-shadow(0 0 6px $c-accent-default) drop-shadow(0 0 10px $c-accent-default);
+}
+.camera-capture-btn {
+    @extend %btn-reset-icon2;
+    position: relative;
+    width: 76px;
+    height: 76px;
+    border-radius: 50%;
+    cursor: pointer;
+    padding: 0;
+}

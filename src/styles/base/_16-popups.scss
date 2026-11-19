@@ -1,0 +1,436 @@
+// src/styles/base/_16-popups.scss
+// Popups, page « mode réel », signalement, comptes.
+
+// --- Popup de mise à jour de l'app ---
+.update-prompt-overlay {
+    background: rgba(0, 0, 0, 0.5);
+    @extend %flex-center;
+    z-index: 200;
+    padding: 24px;
+}
+.update-prompt-box {
+    background-color: var(--update-prompt-bg);
+    border-radius: var(--radius-box);
+    border: var(--border-width) solid var(--update-prompt-border-color);
+    padding: 20px;
+    max-width: 320px;
+    width: 100%;
+}
+
+// Popup « Signaler » : fenêtre qui monte du bas de l'écran, arrondie sur ses 4 coins, légèrement décollée des bords,
+// et qui redescend quand le choix est fait.
+.signaler-feuille-overlay {
+    align-items: flex-end; // fenêtre en bas de l'écran
+    padding: 0 12px calc(12px + var(--safe-bottom)); // marge autour : le bas est arrondi et visible
+}
+.signaler-feuille {
+    max-width: none; // pleine largeur (moins les marges de l'overlay)
+    max-height: 85vh;
+    overflow-y: auto; // défile si le contenu est trop haut (clavier ouvert)
+    box-sizing: border-box;
+    animation: signaler-feuille-monte 0.3s ease-out; // monte depuis le bas
+}
+.signaler-feuille-sortie {
+    animation: signaler-feuille-descend 0.3s ease-in forwards; // redescend, puis reste en bas jusqu'au retrait
+}
+.signaler-feuille-overlay-sortie {
+    opacity: 0; // le fond assombri s'efface pendant la descente
+    transition: opacity 0.3s ease-in;
+}
+@keyframes signaler-feuille-monte {
+    from { transform: translateY(120%); }
+    to { transform: translateY(0); }
+}
+// Page « Passer en mode réel » : vraie page plein écran (pas un popup).
+// Elle monte du bas (même animation que « Signaler ») et prend le fond d'écran du thème.
+.mode-reel-page {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 100;
+    overflow-y: auto;
+    background-color: var(--theme-bg-color);
+    background-image: var(--wallpaper);
+    background-size: cover;
+    background-position: center;
+    }
+    // La montée n'est jouée que si la page n'est pas en train de redescendre (sinon elle écraserait signaler-feuille-sortie)
+    .mode-reel-page:not(.signaler-feuille-sortie) {
+        animation: signaler-feuille-monte 0.3s ease-out;
+    }
+// Le conteneur du popup devient le contenu de la page : plus de fond assombri, contenu centré verticalement
+.mode-reel-page .update-prompt-overlay {
+    position: absolute;
+    background: none;
+    padding: calc(64px + var(--safe-top)) 24px calc(24px + var(--safe-bottom)); // place pour la croix en haut
+    box-sizing: border-box;
+}
+// Boîte de la page « mode réel » : même fond et même bordure que les boîtes des autres pages,
+// pour que les textes (couleur --box-text) restent lisibles sur le fond d'écran
+.mode-reel-page .update-prompt-box {
+    background-color: var(--box-bg);
+    border: var(--border-width) solid var(--box-border);
+    border-radius: var(--radius-box);
+    padding: 20px;
+    max-width: 420px;
+}
+// Texte du bouton « Se connecter » de la page « mode réel » : couleur réglée par thème (--mode-reel-btn-text)
+.app-root-container .mode-reel-page .update-prompt-btn-primary {
+    color: var(--mode-reel-btn-text);
+}
+// Croix de fermeture en haut à droite (image fermer du thème)
+.mode-reel-page-fermer {
+    position: absolute;
+    top: calc(12px + var(--safe-top));
+    right: 12px;
+    z-index: 300; // au-dessus du contenu
+    width: 44px;
+    height: 44px;
+    padding: 0;
+    border: none;
+    background: none;
+    cursor: pointer;
+}
+.mode-reel-page-fermer img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: fill; // l'image remplit la largeur et la hauteur demandées (elle s'étire si elles sont différentes)
+}
+// Animation de descente du popup « Signaler » (ligne rétablie)
+@keyframes signaler-feuille-descend {
+    from { transform: translateY(0); }
+    to { transform: translateY(120%); }
+}
+
+// Popup pseudo/mot de passe de l'accueil : couleur fixe (indépendante du thème), classe doublée pour gagner en spécificité.
+.pseudo-popup-accueil.pseudo-popup-accueil .update-prompt-text,
+.pseudo-popup-accueil.pseudo-popup-accueil .compte-lien-secondaire,
+.pseudo-popup-accueil.pseudo-popup-accueil .compte-question-exemple {
+    color: var(--box-text);
+}
+.update-prompt-text {
+    color: var(--box-text);
+    font-size: 0.95em;
+    margin: 0 0 16px;
+    text-align: center;
+    white-space: pre-line;
+}
+.update-prompt-actions {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+}
+// 5 étoiles cliquables : choix immédiat au clic (pas de survol, pour rester utilisable au toucher).
+.avis-etoiles {
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+    margin-bottom: 16px;
+}
+.avis-etoile-btn {
+    @extend %btn-reset-icon3;
+    font-size: 2.2em;
+    line-height: 1;
+    padding: 4px;
+    // --box-text plutôt que --box-border : garanti lisible sur le fond clair de .update-prompt-box.
+    color: var(--box-text);
+    opacity: 0.6;
+}
+.avis-etoile-btn:hover,
+.avis-etoile-btn:focus-visible {
+    opacity: 1;
+}
+// Variante avec les boutons-image des barres de thème (empilés, pas côte à côte, images conçues pleine largeur).
+.update-prompt-actions-images {
+    @extend %flex-col;
+    gap: 10px;
+}
+.update-prompt-btn {
+    flex: 1;
+    padding: 10px 16px;
+    border-radius: var(--radius-large);
+    cursor: pointer;
+}
+// Actions "Bloquer"/"Signaler", accessibles depuis le profil consulté (grand) et l'en-tête de conversation (compact).
+.rencontre-actions-blocage {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    margin-top: 16px;
+}
+// Couleurs fixes (pas les variables de thème) : ces boutons sont superposés à une photo, pas à une boîte du thème.
+.rencontre-action-bouton-grand {
+    background: rgba(0, 0, 0, 0.35);
+    border: var(--border-width) solid rgba(255, 255, 255, 0.7);
+    border-radius: 20px;
+    padding: 8px 18px;
+    color: $c-white;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.8);
+    font-size: 0.9em;
+}
+.rencontre-header-actions {
+    position: absolute;
+    top: 3px;
+    right: 16px;
+    display: flex;
+    gap: 8px;
+    pointer-events: auto;
+}
+.rencontre-action-bouton-compact {
+    background: rgba(0, 0, 0, 0.35);
+    border: var(--border-width) solid rgba(255, 255, 255, 0.7);
+    border-radius: 12px;
+    padding: 2px 8px;
+    font-size: 0.7em;
+    color: $c-white;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.8);
+}
+.update-prompt-btn-secondary {
+    background-color: var(--btn-secondary-bg);
+    color: var(--btn-secondary-text);
+    border: var(--border-width) solid var(--btn-secondary-border-color);
+}
+.update-prompt-btn-primary {
+    background-color: var(--btn-primary-bg);
+    color: var(--btn-primary-text);
+    border: none;
+}.update-prompt-btn-primary:active {
+    background-color: var(--btn-primary-active-bg);
+}
+
+.update-prompt-btn-primary:disabled {
+    opacity: 0.5;
+    cursor: default;
+}
+.update-prompt-progress {
+    width: 100%;
+    height: 10px;
+    border-radius: var(--radius-pill);
+    background-color: var(--popup-progress-track-bg);
+    overflow: hidden;
+}
+.update-prompt-progress-fill {
+    height: 100%;
+    background-color: var(--popup-progress-fill-bg);
+    transition: width 0.2s linear;
+}
+.pseudo-popup-input {
+    display: block;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 10px 14px;
+    margin-bottom: 16px;
+    border-radius: var(--radius-large);
+    border: var(--border-width) solid var(--champ-border-color);
+    background-color: var(--champ-bg);
+    color: var(--champ-text);
+    font-size: 0.95em;
+}
+// Rogne le halo natif Android d'auto-remplissage (non stylable en CSS), via un conteneur ajusté avec overflow caché.
+.pseudo-popup-halo-masque {
+    overflow: hidden;
+    border-radius: var(--radius-large);
+    margin-bottom: 16px;
+}
+.pseudo-popup-halo-masque .pseudo-popup-input {
+    margin-bottom: 0;
+}
+.pseudo-popup-halo-masque .compte-mot-de-passe-oeil {
+    bottom: 0;
+}
+.compte-mot-de-passe-input {
+    padding-right: 42px;
+}
+.compte-mot-de-passe-oeil {
+    position: absolute;
+    right: 6px;
+    top: 0;
+    bottom: 16px;
+    @extend %flex-v-center;
+    @extend %btn-reset-icon3;
+    font-size: 1.1em;
+    padding: 0 8px;
+    line-height: 1;
+}
+
+// Popup de compte : lien secondaire ("J'ai déjà un compte") et message d'erreur sous le formulaire.
+.compte-lien-secondaire {
+    display: block;
+    width: 100%;
+    background: none;
+    border: none;
+    padding: 0;
+    margin: 14px 0 0;
+    font-size: 0.85em;
+    text-decoration: underline;
+    text-align: center;
+    cursor: pointer;
+    color: var(--box-text);
+}
+.compte-erreur-texte {
+    color: $c-sync-error;
+    font-size: 0.85em;
+    text-align: center;
+    margin: -8px 0 12px;
+}
+// Exemple sous la question secrète, rendu défilable au doigt plutôt que raccourci (certaines langues sont trop longues).
+.compte-question-exemple {
+    white-space: nowrap;
+    overflow-x: auto;
+    font-size: 0.8em;
+    opacity: 0.75;
+    margin: -8px 0 8px;
+    padding: 0 2px;
+    color: var(--box-text);
+}
+.signaler-btn {
+    position: fixed;
+    top: calc(16px + var(--safe-top));
+    right: 16px;
+    // z-index 100 : sinon le drapeau "Signaler" est caché sous la coque décorative en vue navigateur large.
+    z-index: 100;
+    width: 26px;
+    height: 26px;
+}
+
+.signaler-btn-img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    object-position: top center;
+}
+.signaler-motifs {
+    @extend %flex-col;
+    gap: 8px;
+    margin-bottom: 16px;
+}
+.signaler-motif-btn {
+    padding: 10px 16px;
+    border-radius: var(--radius-large);
+    border: var(--border-width) solid var(--btn-secondary-border-color);
+    background-color: var(--btn-secondary-bg);
+    color: var(--btn-secondary-text);
+    cursor: pointer;
+}
+.signaler-motif-btn-actif {
+    background-color: var(--btn-primary-bg);
+    border-color: var(--btn-primary-bg);
+    color: var(--btn-primary-text);
+}
+.signaler-commentaire {
+    resize: none;
+}
+
+// Boutons "annuler"/"continuer" des popups (Signaler, Rembobiner) : chaque thème ne fournit plus que --img-btn-annuler/--img-btn-continuer.
+.update-prompt-box:has(.signaler-motifs) .update-prompt-btn-secondary,
+.update-prompt-box:has(.signaler-motifs) .signaler-motif-btn:not(.signaler-motif-btn-actif),
+.profil-recommencer-confirmation .update-prompt-btn-secondary { // confirmation « recommencer la conversation » : image annuler
+    background-image: var(--img-btn-annuler);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-color: transparent;
+    border: none;
+    color: $c-white;
+}
+.update-prompt-box:has(.signaler-motifs) .update-prompt-btn-primary,
+.update-prompt-box:has(.signaler-motifs) .signaler-motif-btn-actif,
+.profil-recommencer-confirmation .update-prompt-btn-primary { // confirmation « recommencer la conversation » : image continuer
+    background-image: var(--img-btn-continuer);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-color: transparent;
+    border: none;
+    color: $c-white;
+    // Position du texte réglée par thème dans le fichier du thème (--btn-page-padding-*)
+    padding-left: var(--btn-page-padding-left);
+    padding-top: var(--btn-page-padding-top);
+    padding-bottom: var(--btn-page-padding-bottom);
+    text-align: center;
+}
+
+// Confirmation « recommencer » (Oui / Non) : texte court, centré exactement au milieu de l'image du bouton
+// (annule le décalage prévu pour les textes longs des autres popups). Proportion de l'image : 400 x 113.
+.profil-recommencer-confirmation .update-prompt-btn {
+    display: flex;
+    align-items: center; // centré verticalement
+    justify-content: center; // centré horizontalement
+    padding: 0;
+    aspect-ratio: 400 / 113;
+    line-height: 1;
+    text-align: center;
+}
+
+// ============================================================
+// Menu contextuel et confirmation « Rembobiner » (ancien personnage-menu-contextuel.css)
+// ============================================================
+.personnage-menu-contextuel-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.45);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 50;
+}
+
+/* Couleurs reprises de --box-bg/--box-border/--box-text, déjà définies par
+   chaque thème (voir .theme-beige/.theme-noir/.theme-cyberpunk/.theme-frosted)
+   pour les boîtes de texte génériques - une seule règle ici plutôt qu'une
+   copie par thème, la valeur par défaut (blanc/gris) ne sert que si un
+   thème ne définit pas encore ces variables. */
+.personnage-menu-contextuel-box {
+    width: auto;
+    min-width: 200px;
+    background: var(--box-bg, #fff);
+    border: var(--border-width);
+    border-radius: 14px;
+    padding: 8px 0;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+}
+
+.personnage-menu-contextuel-item {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    width: 100%;
+    padding: 14px 20px;
+    background: none;
+    border: none;
+    font-size: 1rem;
+    text-align: left;
+    color: var(--box-text, #333);
+    cursor: pointer;
+}
+
+.personnage-menu-contextuel-item:active {
+    background: rgba(128, 128, 128, 0.15);
+}
+
+.personnage-menu-contextuel-item svg {
+    width: 20px;
+    height: 20px;
+    flex-shrink: 0;
+}
+
+/* Confirmation "Rembobiner" - même boîte que le menu contextuel, avec un
+   texte d'avertissement au lieu de la liste d'actions. */
+.personnage-rembobiner-confirmation {
+    max-width: 280px;
+    padding: 18px 20px;
+}
+.personnage-rembobiner-confirmation-texte {
+    margin: 0 0 14px;
+    color: var(--box-text, #333);
+    font-size: 0.95rem;
+    text-align: center;
+}
+.personnage-rembobiner-confirmation-actions {
+    display: flex;
+    gap: 12px;
+}

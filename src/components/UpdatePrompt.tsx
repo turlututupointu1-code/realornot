@@ -64,7 +64,7 @@ const UpdatePrompt: React.FC = () => {
         }
     };
 
-    // Page qui monte du bas (plus de popup) : boutons annuler.png / continuer.png ;
+    // Page qui monte du bas (plus de popup) : boutons annuler / continuer ;
     // la croix et « Plus tard » ferment la page avec la même descente.
     return (
         <PageDuBas onFermer={() => setAvailable(false)} sansCroix={installing}>

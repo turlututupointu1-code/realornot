@@ -1,0 +1,18 @@
+// src/styles/base/_12-transitions.scss
+// Transitions entre pages.
+
+// Transition entre pages : PUSH/REPLACE entre par la droite, POP (retour) réapparaît par la gauche.
+.page-transition-forward {
+    animation: page-transition-back-anim 0.10s ease-out;// durée de l'animation : plus petit = plus rapide
+}
+@keyframes page-transition-forward-anim {
+    from { transform: translateX(40px); opacity: 0; }
+    to { transform: translateX(0); opacity: 1; }
+}
+.page-transition-back {
+    animation: page-transition-forward-anim 0.10s ease-out;// durée de l'animation : plus petit = plus rapide
+}
+@keyframes page-transition-back-anim {
+    from { transform: translateX(-40px); opacity: 0; }
+    to { transform: translateX(0); opacity: 1; }
+}

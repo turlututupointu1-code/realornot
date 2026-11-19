@@ -1,0 +1,42 @@
+// src/styles/base/_08-entete-fixe.scss
+// En-tête fixe (flèche retour, drapeau, « créé par »).
+
+// Boîte commune à la flèche retour et au texte "créé par..." : un seul décalage de zone sécurisée pour les deux.
+// Boîte flèche + titre + drapeau : flex row, flèche et drapeau restent alignés automatiquement.
+// Boîte commune à la flèche retour (et au drapeau signaler, si présent) sur "Mon profil" et la conversation avec un personnage.
+.personnage-header-fixed,
+.profil-conversation-header-fixed {
+    position: fixed;
+    top: calc(var(--safe-top) + 5px);
+    left: 0;
+    right: 0;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 16px;
+    box-sizing: border-box;
+    // z-index 100 : sinon caché sous la coque décorative en vue navigateur large.
+    z-index: 100;
+    pointer-events: none;
+}
+.personnage-header-fixed .nav-arrow-btn,
+.personnage-header-fixed .signaler-btn,
+.profil-conversation-header-fixed .nav-arrow-btn,
+.profil-conversation-header-fixed .signaler-btn {
+    position: static;
+    pointer-events: auto;
+}
+.personnage-header-fixed .personnage-creator-banner {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+}
+.personnage-creator-banner {
+    text-align: center;
+    font-size: 0.7em;
+    font-weight: 600;
+    padding: 0 24px 6px;
+    box-sizing: border-box;
+}

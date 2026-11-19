@@ -1,0 +1,29 @@
+// src/styles/base/_20-telechargement.scss
+// Page publique de téléchargement.
+
+// Page publique de téléchargement : une carte par plateforme, style générique --box-* (accessible avant tout choix de thème).
+.telechargement-page {
+    @extend %flex-col;
+    padding-top: 90px;
+    gap: 20px;
+}
+.telechargement-carte {
+    background-color: var(--box-bg);
+    border-color: var(--box-border);
+    color: var(--box-text);
+}
+.telechargement-plateforme {
+    margin: 0 0 8px;
+}
+.telechargement-version {
+    font-size: 0.9em;
+    opacity: 0.8;
+    margin: 0 0 8px;
+}
+.telechargement-changelog {
+    white-space: pre-line;
+    margin: 0 0 14px;
+}
+.telechargement-bouton {
+    margin-top: 4px;
+}

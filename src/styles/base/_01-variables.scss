@@ -1,0 +1,30 @@
+// src/styles/base/_01-variables.scss
+// Couleurs communes à toute l'app (variables Sass $c-*).
+
+// Couleurs communes à toute l'app (hors variables de thème, définies dans chaque .scss de thème) - fixées à la compilation, pas de repli à faire varier par thème.
+
+// Génériques
+$c-white: #ffffff; // blanc générique
+$c-black: #000000; // noir générique
+
+// Texte
+$c-sync-error: #D9534F; // texte d'erreur (compte, synchronisation)
+
+// Bordure
+$c-popup-accueil-border: #6b4a2f; // bordure des champs du popup pseudo/mot de passe de l'accueil
+
+// Fond
+$c-accent-default: #C4A876; // beige/or par défaut (repli des variables de thème --box-accent/--box-border/...)
+$c-photo-overlay: #000000e6; // fond de l'overlay photo plein écran
+$c-compat-badge-bg: #00000099; // fond du badge de compatibilité
+
+// Accents, dégradés et statuts
+$c-halo-grey: #c2c2c2; // dégradé du halo "+" (case vide)
+$c-halo-dark: #333333; // dégradé du halo "+" (case vide)
+$c-danger: #d92b2b; // pastille d'alerte (photo de couverture)
+$c-success: #2ECC71; // point vert (statut en ligne)
+$c-error: #E74C3C; // point rouge (statut hors ligne)
+$c-favorite-red: #ff4757; // badge "favori"/admin
+$c-genre-pink: #ff4fa3; // symbole de genre 1
+$c-genre-blue: #3d8bfd; // symbole de genre 2
+$c-genre-purple: #b565f0; // symbole de genre 3

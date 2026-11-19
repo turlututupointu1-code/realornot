@@ -11,24 +11,30 @@ fs.existsSync('./192.168.1.44+2-key.pem') && fs.existsSync('./192.168.1.44+2.pem
 
 export default defineConfig({
   plugins: [react()],
-// Sur GitHub Pages, le site est dans le dossier /realornot/. Ailleurs (PC, Android, Electron), rien ne change.
-  base: pourGithubPages ? '/realornot/' : '/',
-  server: {
-    host: '0.0.0.0',
-    // HTTPS (certificat local mkcert) : le serveur Flask
-    // (stable-diffusion/server.py) sert aussi en HTTPS maintenant, pour
-    // éviter le blocage "contenu mixte" d'une page HTTPS appelant un
-    // serveur HTTP, et pour que des navigateurs comme Brave (qui tentent de
-    // passer les adresses en HTTPS par défaut) puissent ouvrir la page.
-    // https seulement si les certificats existent (sinon la fabrication planterait sur GitHub).
-    https: certificatsLocaux
-    ? {
-      key: fs.readFileSync('./192.168.1.44+2-key.pem'),
+                            // Sur GitHub Pages, le site est dans le dossier /realornot/. Ailleurs (PC, Android, Electron), rien ne change.
+                            base: pourGithubPages ? '/realornot/' : '/',
+                            // Masque l'avertissement Sass « @import deprecated » (base.scss utilise @import pour garder l'ordre exact des règles).
+                            css: {
+                              preprocessorOptions: {
+                                scss: { silenceDeprecations: ['import'] },
+                              },
+                            },
+                            server: {
+                              host: '0.0.0.0',
+                              // HTTPS (certificat local mkcert) : le serveur Flask
+                              // (stable-diffusion/server.py) sert aussi en HTTPS maintenant, pour
+                              // éviter le blocage "contenu mixte" d'une page HTTPS appelant un
+                              // serveur HTTP, et pour que des navigateurs comme Brave (qui tentent de
+                              // passer les adresses en HTTPS par défaut) puissent ouvrir la page.
+                              // https seulement si les certificats existent (sinon la fabrication planterait sur GitHub).
+                              https: certificatsLocaux
+                              ? {
+                                key: fs.readFileSync('./192.168.1.44+2-key.pem'),
                             cert: fs.readFileSync('./192.168.1.44+2.pem'),
-    }
-    : undefined,
-    watch: {
-      ignored: ['**/stable-diffusion/**', '**/android/**'],
-    },
-  },
+                              }
+                              : undefined,
+                              watch: {
+                                ignored: ['**/stable-diffusion/**', '**/android/**'],
+                              },
+                            },
 });

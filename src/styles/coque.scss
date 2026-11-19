@@ -1,7 +1,7 @@
 /* src/styles/coque.scss
    Habillage "coque de smartphone" affiché sur écran large (tablette, navigateur, Linux, Windows). Sur smartphone (moins de 700 px) il n'y a pas de coque.
 
-   coque.png contient maintenant le fond d'écran : l'image est posée DERRIÈRE le contenu (z-index 999 contre 1000) et le contenu est
+   coque contient maintenant le fond d'écran : l'image est posée DERRIÈRE le contenu (z-index 999 contre 1000) et le contenu est
    transparent. Elle n'a plus de trou transparent. Ses valeurs propres à chaque thème sont ailleurs :
      - images.scss  : --img-coque (l'image) et --coque-radius (arrondi de l'ouverture)
      - fichier du thème : --coque-bg (fond autour de la coque) et --coque-shadow (ombre de la coque)
@@ -10,8 +10,8 @@
    Pourquoi ces variables sont sur :root et pas sur le thème : body::before n'est pas un descendant de .app-root-container. */
 @media (min-width: 700px) {
 
-    /* --- Dimensions communes à tous les thèmes (coque.png fait 580 x 883 partout) ---
-       coque-frame-* : dimensions totales de coque.png
+    /* --- Dimensions communes à tous les thèmes (coque fait 580 x 883 partout) ---
+       coque-frame-* : dimensions totales de coque
        coque-hole-*  : fenêtre où s'affiche le contenu = ouverture visible du cadre, réduite de ~6 px de chaque côté
                        pour que le contenu ne touche pas les ornements.  >>> VALEURS ESTIMÉES : à ajuster sur tes images <<< */
     :root:has(.app-root-container) {

@@ -1,0 +1,100 @@
+// src/styles/base/_24-ajouts.scss
+// Ajouts récents : burger, point rouge, « Prévenir », mode réel.
+
+.burger-icon-img {
+    width: 28px;
+    height: 28px;
+    object-fit: contain;
+}
+// « Créer » grisé dans le menu burger tant que la page « Moi » n'est pas remplie entièrement
+.burger-item.burger-item-grise {
+    opacity: 0.4;
+    cursor: not-allowed;
+}
+// Point rouge qui clignote doucement : sur l'icône du menu burger et sur la ligne « Moi », tant que « Moi » n'est pas complète
+.burger-point-rouge {
+    position: absolute;
+    top: -2px;
+    right: -2px;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: #E53935;
+    pointer-events: none; // le point ne bloque pas le clic sur le bouton
+    animation: burger-point-rouge-clignote 1.8s ease-in-out infinite;
+}
+@keyframes burger-point-rouge-clignote {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.25; }
+}
+// Petit texte sous « Créer » : « Remplis d'abord Moi »
+.burger-indice-moi {
+    padding: 0 16px 8px;
+    text-align: center; // texte centré sous « Créer »
+    font-size: 0.75rem;
+    opacity: 0.85;
+    color: var(--burger-text);
+}
+// Le point rouge est un <span> dans .burger-icon : la règle ".burger-icon span" (traits du burger) lui donnait une largeur de 100 % et 2px de haut.
+// Cette règle plus précise remet un vrai petit rond.
+.burger-icon .burger-point-rouge {
+    width: 10px;
+    height: 10px;
+    background-color: #E53935;
+}
+// Ligne « Prévenir si nouvelle IA » de la page Moi : texte à gauche, boutons Oui / Non à droite avec un espace entre eux.
+// Aucun bouton actif = pas encore de réponse. Les couleurs reprennent celles des avatars de la page Moi.
+.moi-prevenir-row {
+    cursor: default; // la ligne n'est pas un bouton, seuls Oui et Non le sont
+}
+.moi-prevenir-row .details-voix-content {
+    justify-content: center; // texte centré dans la barre, comme les autres lignes
+}
+// Barre « Prévenir si nouvelle IA » : 3 zones cliquables : Oui (1er quart), phrase (moitié centrale = pas de réponse), Non (dernier quart).
+// Le choix actif est vert, les deux autres sont rouges. Au départ la phrase est active (verte), Oui et Non sont rouges.
+.moi-prevenir-row .details-voix-content {
+    display: grid;
+    grid-template-columns: 1fr 2fr 1fr; // quart | moitié | quart
+    padding: 0; // les zones vont jusqu'aux bords de la barre
+    gap: 0;
+}
+button.moi-prevenir-btn {
+    height: 100%;
+    min-width: 0;
+    padding: 0 4px;
+    border: none;
+    border-radius: 0;
+    background: none !important;
+    font-weight: 700;
+    font-size: clamp(11px, 3.2vw, 14px);
+    line-height: 1.15;
+    text-align: center;
+    color: #FB7185; // rouge : choix non actif
+    text-shadow: 0 0 3px rgba(0, 0, 0, 0.7); // lisible sur tous les fonds de barre
+    cursor: pointer;
+}
+button.moi-prevenir-btn.moi-prevenir-btn-actif {
+    color: #34D399; // vert : choix actif
+}
+// Fines lignes de chaque côté de la phrase pour montrer les 3 zones
+button.moi-prevenir-btn-milieu {
+    border-left: 1px solid rgba(255, 255, 255, 0.35);
+    border-right: 1px solid rgba(255, 255, 255, 0.35);
+}
+// Côté « Personne réelle » (classe mode-reel posée par App.tsx) : autre fond d'écran (fondecran2) et autre coque (coque2).
+// Chaque thème choisit ses images avec --wallpaper-reel et --img-coque-reel.
+.app-root-container.mode-reel {
+    --wallpaper: var(--wallpaper-reel);
+}
+:root:has(.app-root-container.mode-reel) {
+    --img-coque: var(--img-coque-reel);
+}
+// Accueil « Personne réelle » : la barre de titre est dans la barre du haut, à côté du burger.
+.top-bar-box .create-banner-title {
+    margin: 0; // la barre du haut gère déjà les espaces
+}
+@media (max-width: 699px) {
+    .rencontre-accueil {
+        padding-top: calc(100px + var(--safe-top)); // le contenu commence sous la barre du haut (la barre de titre n'est plus dans la page)
+    }
+}

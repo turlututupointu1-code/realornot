@@ -107,7 +107,7 @@ const ActionsBlocageSignalement: React.FC<Props> = ({ pseudo, variante, onBloque
             </div>
 
             {confirmationBlocageOuverte && (
-                // Page qui monte du bas (plus de popup) : boutons annuler.png / continuer.png,
+                // Page qui monte du bas (plus de popup) : boutons annuler / continuer,
                 // la croix et « Annuler » ferment la page avec la même descente.
                 <PageDuBas onFermer={fermerConfirmationBlocage}>
                     {(fermer) => (

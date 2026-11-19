@@ -1,0 +1,195 @@
+// src/styles/base/_05-burger.scss
+// Menu burger.
+
+.bouton-icone {
+    width: 24px;
+    height: 24px;
+}
+.bouton-icone-fond {
+    @extend %flex-center;
+}
+// Icône Messages du menu burger (mode réel) avec une petite pastille verte quand il y a des messages non lus
+.burger-icone-avec-pastille {
+    position: relative;
+}
+.burger-pastille-verte {
+    position: absolute;
+    top: -2px;
+    right: -2px;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: $c-success;
+}
+
+.burger-icon {
+    @extend %flex-col;
+    position: relative; // pour placer le point rouge dans le coin de l'icône
+    flex-shrink: 0;
+    background: none;
+    border: none;
+    width: 32px;
+    height: 32px;
+    justify-content: center;
+    gap: 6px;
+    cursor: pointer;
+}
+.burger-icon span {
+    display: block;
+    width: 100%;
+    height: 2px;
+    background-color: var(--burger-icon-color);
+}
+.burger-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 30;
+    background: var(--burger-overlay-bg);
+}
+.burger-panel {
+    @extend %flex-col;
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 220px;
+    padding: calc(clamp(20px, 6vh, 48px) + var(--safe-top)) 16px calc(10px + var(--safe-bottom)) 16px;
+}
+// Zone défilante des items (hors bouton Fermer, toujours visible).
+.burger-panel-scroll {
+    @extend %flex-col;
+    flex: 1 1 auto;
+    min-height: 0;
+    overflow-y: auto;
+    gap: clamp(0px, 0.3vh, 6px);
+}
+.burger-item {
+    font-size: clamp(0.75em, 2vh, 0.95em);
+    padding: clamp(1px, 0.7vh, 10px) 8px;
+    border-radius: 6px;
+    cursor: pointer;
+    flex-shrink: 0;
+}
+.burger-separator {
+    height: 1px;
+    margin: clamp(1px, 0.5vh, 8px) 0;
+    flex-shrink: 0;
+}
+.burger-separator-fixed {
+    flex-shrink: 0;
+    margin-top: clamp(1px, 0.5vh, 8px);
+}
+.burger-item-expandable {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.burger-item-icon {
+    @extend %flex-v-center;
+    gap: 12px;
+}
+.burger-bottom-row {
+    @extend %flex-center;
+    gap: 14px;
+    flex-shrink: 0;
+}
+.burger-close-btn {
+    padding: 4px 8px;
+    cursor: pointer;
+    background: none;
+    border: none;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    flex-shrink: 0;
+}
+.burger-bottom-row .burger-close-btn {
+    width: auto;
+}
+.burger-close-btn-img {
+    height: clamp(36px, 7vh, 80px);
+    width: auto;
+    object-fit: contain;
+}
+.burger-admin-btn {
+    @extend %btn-reset-icon3;
+    position: relative;
+    font-size: 32px;
+    line-height: 1;
+    padding: 4px 8px;
+    color: inherit;
+    flex-shrink: 0;
+}
+.burger-admin-badge {
+    position: absolute;
+    top: -2px;
+    right: -2px;
+    min-width: 16px;
+    height: 16px;
+    padding: 0 4px;
+    border-radius: var(--radius-pill);
+    background: $c-favorite-red;
+    color: $c-white;
+    font-size: 11px;
+    font-weight: 700;
+    line-height: 16px;
+    text-align: center;
+}
+.burger-chevron {
+    font-size: 1.4em;
+}
+// Flèche vers la droite, poussée au bord droit de la ligne (entrées Messages/Moi et Créer du burger).
+.burger-chevron-droite {
+    margin-left: auto;
+}
+.burger-submenu {
+    @extend %flex-col;
+    border-radius: 6px;
+    padding: 4px;
+    gap: 2px;
+    margin-bottom: 4px;
+}
+.burger-subitem {
+    font-size: 0.85em;
+    padding: 8px;
+    border-radius: 6px;
+    cursor: pointer;
+}
+.burger-subitem-active,
+.burger-subitem-compte {
+    font-weight: 600;
+}
+// Sous-menu "Compatibilité" : nombre de profils centré sous le libellé de la tranche.
+.burger-subitem-compat {
+    @extend %flex-col-center;
+    text-align: center;
+}
+
+// --- Couleurs du menu (variables --burger-* définies par chaque thème) ---
+// (ancien fichier burger.css, fusionné ici : le menu burger n'a plus qu'un seul fichier)
+.burger-panel {
+    background-color: var(--burger-bg);
+    border-right: 1px solid var(--burger-border);
+}
+.burger-item,
+.burger-close-btn,
+.burger-chevron,
+.burger-subitem {
+    color: var(--burger-text);
+}
+.burger-item:hover,
+.burger-close-btn:hover,
+.burger-subitem:hover,
+.burger-subitem-active {
+    background-color: var(--burger-hover);
+}
+.burger-separator {
+    background-color: var(--burger-border);
+}
+.burger-submenu {
+    background-color: var(--burger-bg);
+    border: 1px solid var(--burger-border);
+}

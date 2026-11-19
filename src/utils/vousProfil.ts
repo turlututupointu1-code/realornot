@@ -1,24 +1,24 @@
 /* src/utils/vousProfil.ts */
-import avatar01 from '../images/avatars/avatar_01.png';
-import avatar02 from '../images/avatars/avatar_02.png';
-import avatar03 from '../images/avatars/avatar_03.png';
-import avatar04 from '../images/avatars/avatar_04.png';
-import avatar05 from '../images/avatars/avatar_05.png';
-import avatar06 from '../images/avatars/avatar_06.png';
-import avatar07 from '../images/avatars/avatar_07.png';
-import avatar08 from '../images/avatars/avatar_08.png';
-import avatar09 from '../images/avatars/avatar_09.png';
-import avatar10 from '../images/avatars/avatar_10.png';
-import avatar11 from '../images/avatars/avatar_11.png';
-import avatar12 from '../images/avatars/avatar_12.png';
-import avatar13 from '../images/avatars/avatar_13.png';
-import avatar14 from '../images/avatars/avatar_14(1).png';
-import avatar15 from '../images/avatars/avatar_15(1).png';
-import avatar16 from '../images/avatars/avatar_16(1).png';
-import avatar17 from '../images/avatars/avatar_05(1).png';
-import avatar18 from '../images/avatars/avatar_06(1).png';
-import avatar19 from '../images/avatars/avatar_03(1).png';
-import avatar20 from '../images/avatars/avatar_04(1).png';
+import avatar01 from '../images/avatars/avatar_01.webp';
+import avatar02 from '../images/avatars/avatar_02.webp';
+import avatar03 from '../images/avatars/avatar_03.webp';
+import avatar04 from '../images/avatars/avatar_04.webp';
+import avatar05 from '../images/avatars/avatar_05.webp';
+import avatar06 from '../images/avatars/avatar_06.webp';
+import avatar07 from '../images/avatars/avatar_07.webp';
+import avatar08 from '../images/avatars/avatar_08.webp';
+import avatar09 from '../images/avatars/avatar_09.webp';
+import avatar10 from '../images/avatars/avatar_10.webp';
+import avatar11 from '../images/avatars/avatar_11.webp';
+import avatar12 from '../images/avatars/avatar_12.webp';
+import avatar13 from '../images/avatars/avatar_13.webp';
+import avatar14 from '../images/avatars/avatar_14(1).webp';
+import avatar15 from '../images/avatars/avatar_15(1).webp';
+import avatar16 from '../images/avatars/avatar_16(1).webp';
+import avatar17 from '../images/avatars/avatar_05(1).webp';
+import avatar18 from '../images/avatars/avatar_06(1).webp';
+import avatar19 from '../images/avatars/avatar_03(1).webp';
+import avatar20 from '../images/avatars/avatar_04(1).webp';
 
 import { chargerJSON } from './stockageLocal';
 

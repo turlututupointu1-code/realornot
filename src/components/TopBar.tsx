@@ -179,7 +179,7 @@ const TopBar: React.FC<TopBarProps> = ({ searchTerm, onSearchChange, sansRecherc
 
     // Compteur de vues de profil (voir compteurs_visites.md) - même
     // rafraîchissement périodique que les tranches de compatibilité.
-    // Mon genre dans le profil de rencontre (position dans la liste : 0 homme, 3 femme trans -> profil-homme.png ; tous les autres -> profil-femme.png). Sert à l'icône du menu « vues de profil ».
+    // Mon genre dans le profil de rencontre (position dans la liste : 0 homme, 3 femme trans -> profil-homme ; tous les autres -> profil-femme). Sert à l'icône du menu « vues de profil ».
     const [monGenreRencontre, setMonGenreRencontre] = useState<number | null>(null);
     useEffect(() => {
         if (!estModeReel) return undefined;
@@ -228,11 +228,15 @@ const TopBar: React.FC<TopBarProps> = ({ searchTerm, onSearchChange, sansRecherc
     }));
 
     // Clés stables (indépendantes de la langue) alignées avec t.themes par position.
+    // Clés stables (indépendantes de la langue), dans le même ordre que t.themes (voir translations.ts).
     const themeKeys = [
-        'gothique', 'dentelle', 'cyberpunk', 'frosted', 'gelee', 'glassmorphism',
-        'laiton', 'metal', 'metal-futuriste', 'neumorph', 'vaporwave', 'vert-encapsule', 'vinyle'
+        'gothique', 'dentelle', 'cyberpunk', 'givre', 'gelee',
+        'verre-translucide', 'laiton', 'relief-doux', 'onde-vapeur', 'vert-encapsule'
     ];
-    const themes = t.themes;
+    // Liste triée par ordre alphabétique dans la langue active (l'ordre change selon la langue).
+    const themesTries = themeKeys
+    .map((cle, i) => ({ cle, nom: t.themes[i] }))
+    .sort((a, b) => a.nom.localeCompare(b.nom, lang));
 
     // « Créer » reste grisé tant que la page « Moi » n'est pas remplie entièrement (genre, avatar, pseudo, caractère).
     // Relu à chaque affichage de la barre : le menu burger se rouvre après chaque modification de « Moi ».
@@ -415,13 +419,13 @@ const TopBar: React.FC<TopBarProps> = ({ searchTerm, onSearchChange, sansRecherc
                         </PanneauDeroulant>
 
                         <PanneauDeroulant burger titre={t.graphisme} ouvert={graphOpen} onBasculer={() => sousMenu.basculer('graphisme')}>
-                        {themes.map((th, i) => (
+                        {themesTries.map(({ cle, nom }) => (
                             <div
-                            key={themeKeys[i]}
-                            className={`burger-subitem${themeKeys[i] === theme ? ' burger-subitem-active' : ''}`}
-                            onClick={() => handleThemeClick(themeKeys[i])}
+                            key={cle}
+                            className={`burger-subitem${cle === theme ? ' burger-subitem-active' : ''}`}
+                            onClick={() => handleThemeClick(cle)}
                             >
-                            {th}
+                            {nom}
                             </div>
                         ))}
                         </PanneauDeroulant>
@@ -484,7 +488,7 @@ const TopBar: React.FC<TopBarProps> = ({ searchTerm, onSearchChange, sansRecherc
                             className="burger-item burger-item-icon"
                             onClick={() => { navigate('/mode-reel', { state: { voirQuestionnaire: true } }); closeAll(); }}
                             >
-                            {/* Icône profil-homme.png ou profil-femme.png selon mon genre ; rien tant que le genre est inconnu */}
+                            {/* Icône profil-homme ou profil-femme selon mon genre ; rien tant que le genre est inconnu */}
                             {monGenreRencontre !== null && (
                                 <span className="bouton-icone-fond">
                                 <img src={[0, 3].includes(monGenreRencontre) ? assets.profilHomme : assets.profilFemme} alt="" className="bouton-icone" />
@@ -503,7 +507,7 @@ const TopBar: React.FC<TopBarProps> = ({ searchTerm, onSearchChange, sansRecherc
                                 className="burger-item burger-item-icon"
                                 onClick={() => { navigate('/mode-reel/messages'); closeAll(); }}
                                 >
-                                {/* Icône messages.png du thème ; petite pastille verte s'il y a des messages non lus */}
+                                {/* Icône messages du thème ; petite pastille verte s'il y a des messages non lus */}
                                 <span className="bouton-icone-fond burger-icone-avec-pastille">
                                 <img src={assets.messages} alt="" className="bouton-icone" />
                                 {messagesNonLus > 0 && <span className="burger-pastille-verte" />}
@@ -515,7 +519,7 @@ const TopBar: React.FC<TopBarProps> = ({ searchTerm, onSearchChange, sansRecherc
                                 className="burger-item burger-item-icon"
                                 onClick={() => { navigate('/mode-reel/photos'); closeAll(); }}
                                 >
-                                {/* Icône appareilphoto.png du thème */}
+                                {/* Icône appareilphoto du thème */}
                                 <span className="bouton-icone-fond">
                                 <img src={assets.appareilphoto} alt="" className="bouton-icone" />
                                 </span>
@@ -526,7 +530,7 @@ const TopBar: React.FC<TopBarProps> = ({ searchTerm, onSearchChange, sansRecherc
                                     className="burger-item burger-item-expandable burger-item-icon"
                                     onClick={() => sousMenu.basculer('compat')}
                                 >
-                                {/* Icône compatibilite.png du thème */}
+                                {/* Icône compatibilite du thème */}
                                 <span className="bouton-icone-fond">
                                 <img src={assets.compatibilite} alt="" className="bouton-icone" />
                                 </span>
@@ -574,7 +578,7 @@ const TopBar: React.FC<TopBarProps> = ({ searchTerm, onSearchChange, sansRecherc
                                     className="burger-item burger-item-icon"
                                     onClick={() => { setMotDePasseOuvert(true); closeAll(); }}
                                 >
-                                {/* Icône cadenas.png du thème */}
+                                {/* Icône cadenas du thème */}
                                 <span className="bouton-icone-fond">
                                 <img src={assets.cadenas} alt="" className="bouton-icone" />
                                 </span>
@@ -585,7 +589,7 @@ const TopBar: React.FC<TopBarProps> = ({ searchTerm, onSearchChange, sansRecherc
                                 className="burger-item burger-item-icon"
                                 onClick={() => { setSupprimerCompteOuvert(true); closeAll(); }}
                                 >
-                                {/* Icône supprimer.png du thème */}
+                                {/* Icône supprimer du thème */}
                                 <span className="bouton-icone-fond">
                                 <img src={assets.supprimer} alt="" className="bouton-icone" />
                                 </span>
@@ -661,7 +665,7 @@ const TopBar: React.FC<TopBarProps> = ({ searchTerm, onSearchChange, sansRecherc
             )}
             </div>
             {contactOuvert && (
-                // Page plein écran qui monte du bas (plus de popup) ; boutons annuler.png / continuer.png
+                // Page plein écran qui monte du bas (plus de popup) ; boutons annuler / continuer
                 <div className={classePage}>
                 <div className="update-prompt-overlay">
                     <div className="update-prompt-box profil-recommencer-confirmation">
@@ -810,7 +814,7 @@ const TopBar: React.FC<TopBarProps> = ({ searchTerm, onSearchChange, sansRecherc
             )}
 
             {supprimerCompteOuvert && (
-                // Page plein écran qui monte du bas (plus de popup) ; boutons annuler.png / continuer.png
+                // Page plein écran qui monte du bas (plus de popup) ; boutons annuler / continuer
                 <div className={classePage}>
                 <div className="update-prompt-overlay">
                 <div className="update-prompt-box profil-recommencer-confirmation">

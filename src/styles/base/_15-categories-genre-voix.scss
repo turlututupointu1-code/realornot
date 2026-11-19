@@ -1,0 +1,129 @@
+// src/styles/base/_15-categories-genre-voix.scss
+// Catégories, genre, voix, aperçu photo de la page Détails.
+
+.details-categories-row {
+    position: relative;
+    width: 85%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 12px;
+}
+.details-categories-bg {
+    display: block;
+    width: 100%;
+    // Hauteur naturelle : laisse barre1 (ratio 1271x210) garder ses vraies proportions.
+    height: auto;
+}
+// Voix actuellement sélectionnée : grisée pour se distinguer (même image barre1 partout).
+.details-categories-bg-selected {
+    filter: grayscale(1) brightness(0.75);
+}
+.details-categories-buttons {
+    @extend %absolute-inset;
+    flex-wrap: nowrap;
+    align-items: stretch;
+    justify-content: center;
+    padding: 0 3px;
+    margin: 0;
+    gap: 10px;
+    overflow-x: auto;
+}
+.details-genre-row {
+    position: relative;
+    width: 85%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 14px;
+}
+// Hauteur naturelle : cette rangée plus étroite (55%) était davantage écrasée par la hauteur fixe.
+.details-genre-row .details-categories-bg {
+    height: auto;
+}
+.details-voix-row {
+    @extend %btn-reset-icon2;
+    position: relative;
+    display: block;
+    width: 85%;
+    margin: 14px auto 0;
+    padding: 0;
+    cursor: pointer;
+}
+.details-voix-content,
+.voix-item-content {
+    @extend %flex-v-center;
+    position: absolute;
+    inset: 0;
+    justify-content: space-between;
+    padding: 0 18px;
+}
+.details-voix-label,
+.voix-item-label {
+    color: $c-white;
+}
+.details-voix-arrow {
+    height: 14px;
+    width: auto;
+}
+.details-genre-items {
+    @extend %absolute-inset;
+    display: flex;
+    align-items: stretch;
+    justify-content: center;
+    gap: 14px;
+    padding: 0 16px;
+}
+button.details-genre-symbol {
+    @extend %flex-center;
+    width: 30px;
+    height: 100%;
+    border-radius: 0;
+    border: none;
+    background: none !important;
+    font-size: 1.5em;
+    font-weight: 700;
+    cursor: pointer;
+    transition: transform 0.15s ease;
+}
+button.details-genre-symbol-0 { color: $c-genre-pink; }
+button.details-genre-symbol-1 { color: $c-genre-blue; }
+button.details-genre-symbol-2 { color: $c-genre-purple; }
+.details-genre-flag {
+    width: 20px;
+    height: 14px;
+    display: block;
+    border-radius: 2px;
+    overflow: hidden;
+}
+
+// Symbole de genre sélectionné : fond du thème derrière le symbole (même image que les suggestions sélectionnées).
+// Concerne la page « Mon profil », la page « Moi » et la page Détails du personnage.
+button.details-genre-symbol.details-genre-symbol-active {
+    background-image: var(--img-suggestion-active) !important;
+    background-size: 100% calc(100% - var(--fond-retrait)) !important; // hauteur réglée par thème avec --fond-retrait
+    background-repeat: no-repeat !important;
+    background-position: center !important;
+}
+
+.details-genre-tooltip {
+    position: absolute;
+    bottom: calc(100% + 6px);
+    left: 50%;
+    transform: translateX(-50%);
+    // Même style que l'onglet « dossier » : fond opaque, bordure et texte du thème (variables déjà réglées dans chaque fichier de thème).
+    background-color: var(--dossier-onglet-bg);
+    color: var(--box-text);
+    border: max(var(--box-border-width), var(--border-width)) solid var(--box-border);
+    font-weight: 700;
+    font-size: 0.75em;
+    padding: 4px 10px;
+    border-radius: 8px;
+    white-space: nowrap;
+    z-index: 5;
+}
+.details-photo-preview {
+    margin: 4px 24px 0;
+    aspect-ratio: 16 / 9;
+}
+.details-photo-preview .create-preview-img {
+    @extend %full-bleed-cover;
+}

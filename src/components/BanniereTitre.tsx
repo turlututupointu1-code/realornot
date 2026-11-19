@@ -7,7 +7,7 @@ interface BanniereTitreProps {
     children?: React.ReactNode;
 }
 
-// Bloc "bannière titre" (fond titre.png + icône/avatar + texte), répété à
+// Bloc "bannière titre" (fond titre + icône/avatar + texte), répété à
 // l'identique en haut de la plupart des pages de création. Le contenu du
 // milieu (icône simple, avatar, bouton...) varie selon la page et se passe
 // en children.

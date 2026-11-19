@@ -86,3 +86,6 @@ rab/
 CLAUDE.md
 src/utils/Archive.zip
 stable-diffusion/test_sd15.*
+
+images-originaux/
+src/images sauvegarde/

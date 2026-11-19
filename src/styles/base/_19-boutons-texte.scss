@@ -1,0 +1,13 @@
+// src/styles/base/_19-boutons-texte.scss
+// Taille de texte commune des petits boutons.
+
+// Taille de texte commune à tous les petits boutons "pilule", en px fixes (pas em, pour rester cohérent partout).
+.update-prompt-btn,
+.signaler-motif-btn,
+.details-voix-label,
+.voix-item-label,
+.pagination-label,
+.crop-btn {
+    font-size: 15px;
+    font-weight: normal;
+}

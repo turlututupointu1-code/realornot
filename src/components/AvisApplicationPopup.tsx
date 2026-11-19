@@ -70,7 +70,7 @@ const AvisApplicationPopup: React.FC = () => {
         }
     };
 
-    // Page qui monte du bas (plus de popup), comme les autres pages : boutons annuler.png / continuer.png,
+    // Page qui monte du bas (plus de popup), comme les autres pages : boutons annuler / continuer,
     // la croix en haut à droite et « Plus tard » ferment la page avec la même descente.
     return (
         <PageDuBas onFermer={() => setVisible(false)}>
