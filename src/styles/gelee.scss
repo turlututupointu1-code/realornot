@@ -234,13 +234,13 @@ $dossier: 'gelee';
     --pagination-arrow-double-gap: 6px; // écarte la double flèche de la flèche simple (positif = plus loin)
     --pagination-arrow-height: 11px; // flèches de pages plus petites (défaut : 15px)
     --pagination-arrow-width: 26px; // longueur des flèches de pages (défaut : auto = proportionnelle)
+    --fleche-icone-height: 24px; // flèches des lignes « Vos créations », « Vos discussions »… : hauteur
+    --fleche-icone-width: 56px; // longueur
+    --nav-arrow-height: 30px; // flèches retour / continuer : hauteur
+    --nav-arrow-width: auto; // flèches retour / continuer : longueur (auto = proportionnelle)
     --pagination-capsule-bg: #2B2358DB; // fond de la capsule de pagination (flèches + « Page x / y »)
     --pagination-capsule-border-color: #B9A7FF; // bordure de la capsule
     --pagination-capsule-text: #F1ECFF; // texte « Page x / y »
-    --burger-chevron-height: 11px; // chevrons du menu burger : hauteur
-    --burger-chevron-width: 26px; // chevrons du menu burger : longueur
-    --moi-chevron-height: 11px; // chevrons des panneaux déroulants (Moi, Rencontre) : hauteur
-    --moi-chevron-width: 26px; // chevrons des panneaux déroulants : longueur
 }
 
 .theme-#{$dossier} .create-box {

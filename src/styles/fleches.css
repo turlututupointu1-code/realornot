@@ -6,8 +6,8 @@
      --pagination-arrow-gap                                             rapproche les flèches simples du texte « Page x / y »
      --pagination-arrow-double-gap                                      écarte la double flèche de la flèche simple (facultatif, défaut 0px)
      --scroll-arrow-width / --scroll-arrow-height                       flèches haut/bas de l'ascenseur, PC seulement (facultatif, défaut 18px)
-     --burger-chevron-height / --burger-chevron-width                   chevrons du menu burger (facultatif, défaut 14px / auto)
-     --moi-chevron-height / --moi-chevron-width                         chevrons des panneaux déroulants, pages Moi et Rencontre (facultatif, défaut 14px / auto) */
+     --nav-arrow-height / --nav-arrow-width                             flèches retour (haut gauche) et continuer (bas droite) (facultatif, défaut 30px / auto)
+     --fleche-icone-height / --fleche-icone-width                       flèches des lignes, panneaux déroulants et menu burger (Moi, Rencontre, « Vos créations »…) : toutes de la même taille (facultatif, défaut 30px / auto) */
 
 /* Style commun à toutes les images de flèche (src contenant "fleche"). */
 img[src*="fleche"] {
@@ -25,15 +25,11 @@ img[src*="fleche"] {
     transform: scaleX(-1);
 }
 
-/* --- Chevrons (composant ChevronArrow : même image, tournée de ±90°) ---
-   Même priorité que la règle générale ci-dessus : elles doivent rester APRÈS elle pour gagner. */
-img.burger-chevron {
-    height: var(--burger-chevron-height, 14px);
-    width: var(--burger-chevron-width, auto);
-}
-img.moi-avatar-chevron {
-    height: var(--moi-chevron-height, 14px);
-    width: var(--moi-chevron-width, auto);
+/* Flèche d'une ligne, d'un panneau déroulant ou du menu burger (composant ChevronArrow) : même taille partout.
+   Doit rester AVANT les règles plus précises ci-dessous (flèches retour / continuer), qui la remplacent. */
+img.fleche-icone {
+    height: var(--fleche-icone-height, 30px);
+    width: var(--fleche-icone-width, auto);
 }
 
 /* --- Flèches retour / continuer (NavArrow) --- */
@@ -56,6 +52,11 @@ img.moi-avatar-chevron {
 .nav-arrow-btn:disabled {
     cursor: default;
     opacity: 0.6;
+}
+/* Image des flèches retour / continuer : même priorité que la règle générale, donc APRÈS elle. */
+.nav-arrow-btn img {
+    height: var(--nav-arrow-height, 30px);
+    width: var(--nav-arrow-width, auto);
 }
 
 /* --- Flèche d'envoi du chat --- */
