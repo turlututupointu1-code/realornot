@@ -232,6 +232,9 @@ $dossier: 'dentelle';
     --pagination-arrow-double-gap: 6px; // écarte la double flèche de la flèche simple (positif = plus loin)
     --pagination-arrow-height: 15px; // flèches de pages plus petites (défaut : 15px)
     --pagination-arrow-width: 36px; // longueur des flèches de pages (défaut : auto = proportionnelle)
+    --pagination-capsule-bg: #5B4631E0; // fond de la capsule de pagination (flèches + « Page x / y »)
+    --pagination-capsule-border-color: #C4A876; // bordure de la capsule
+    --pagination-capsule-text: #F3E9D6; // texte « Page x / y »
     --burger-chevron-height: 11px; // chevrons du menu burger : hauteur
     --burger-chevron-width: 26px; // chevrons du menu burger : longueur
     --moi-chevron-height: 11px; // chevrons des panneaux déroulants (Moi, Rencontre) : hauteur

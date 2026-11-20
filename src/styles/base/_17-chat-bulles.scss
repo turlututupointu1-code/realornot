@@ -78,8 +78,10 @@
 .personnage-user-avatar-banner-btn {
     transform: translate(calc(-50% + var(--avatar-user-dx)), calc(-50% + var(--avatar-user-dy)));
 }
+// Avatar du titre des pages « Moi » et « Profil de conversation » : décalage en px par thème (--avatar-profil-dx / -dy).
+// Sans eux, il suit comme avant l'icône du titre (--icon-profil-dx / -dy, en % de sa largeur).
 .profil-conversation-avatar-btn {
-    transform: translate(calc(-50% + var(--icon-profil-dx)), calc(-50% + var(--icon-profil-dy)));
+    transform: translate(calc(-50% + var(--avatar-profil-dx, var(--icon-profil-dx))), calc(-50% + var(--avatar-profil-dy, var(--icon-profil-dy))));
 }
 .profil-conversation-sections {
     @extend %flex-col;

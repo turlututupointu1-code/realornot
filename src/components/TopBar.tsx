@@ -602,6 +602,16 @@ const TopBar: React.FC<TopBarProps> = ({ searchTerm, onSearchChange, sansRecherc
 
                         <div className="burger-separator burger-separator-fixed" />
 
+                        {/* Contacter l'administrateur : disponible dans les deux modes (IA et personne réelle) */}
+                        <div
+                            className="burger-item burger-item-contact-admin"
+                            onClick={() => { setContactOuvert(true); closeAll(); }}
+                        >
+                            {t.contacterAdminBtn ?? "Contacter l'administrateur"}
+                        </div>
+
+                        <div className="burger-separator burger-separator-fixed" />
+
                         <div className="burger-bottom-row">
                             {peutVoirBoutonAdmin && (
                                 <button
@@ -617,14 +627,6 @@ const TopBar: React.FC<TopBarProps> = ({ searchTerm, onSearchChange, sansRecherc
                             <button type="button" className="burger-close-btn" onClick={handleFermerApp} aria-label={t.fermer}>
                                 <img src={assets.fermer} alt="" className="burger-close-btn-img" />
                             </button>
-                        </div>
-
-                        {/* Contacter l'administrateur : disponible dans les deux modes (IA et personne réelle) */}
-                        <div
-                            className="burger-item burger-item-contact-admin"
-                            onClick={() => { setContactOuvert(true); closeAll(); }}
-                        >
-                            {t.contacterAdminBtn ?? "Contacter l'administrateur"}
                         </div>
                     </div>
                 </div>

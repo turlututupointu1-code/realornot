@@ -41,15 +41,21 @@
 }
 .pagination-bar {
     @extend %flex-center;
+    // Capsule centrée en bas, qui englobe les 4 flèches et « Page x / y » (le fond d'écran reste visible de chaque côté).
+    // Couleurs, une par thème (fichier du thème) : --pagination-capsule-bg (fond), --pagination-capsule-border-color (bordure)
+    // et --pagination-capsule-text (texte « Page x / y ») ; sans elles, la capsule prend les couleurs du libellé (--pagination-label-*). Réglages en px, facultatifs :
+    // --pagination-bar-bottom (distance du bas), --pagination-bar-padding-x / -y (marge intérieure).
     position: fixed;
-    left: 0;
-    right: 0;
-    bottom: 0;
+    left: 50%;
+    right: auto;
+    transform: translateX(-50%);
+    bottom: calc(var(--pagination-bar-bottom, 10px) + var(--safe-bottom));
     gap: 0px;
-    padding: 10px 0 calc(10px + var(--safe-bottom));
+    padding: var(--pagination-bar-padding-y, 4px) var(--pagination-bar-padding-x, 14px);
     margin: 0;
-    background-color: var(--pagination-bar-bg);
-    border-top: 1px solid var(--pagination-bar-border-color);
+    background-color: var(--pagination-capsule-bg, var(--pagination-label-bg));
+    border: var(--border-width) solid var(--pagination-capsule-border-color, var(--pagination-label-border-color));
+    border-radius: var(--radius-pill);
     z-index: 9;
 }
 // Reset bouton bare (icône seule, pas de style natif) : drapeau signaler, icône avatar sur bannière (les flèches : voir fleches.css).
@@ -65,12 +71,8 @@
 
 
 .pagination-label {
-    opacity: 0.8;
-    color: var(--pagination-label-color);
-    background-color: var(--pagination-label-bg);
-    border: var(--border-width) solid var(--pagination-label-border-color);
+    color: var(--pagination-capsule-text, var(--pagination-label-color));
     padding: 4px 10px;
-    border-radius: var(--radius-pill);
     white-space: nowrap; // jamais de retour à la ligne dans « Page x / y »
     flex-shrink: 0; // le texte garde sa largeur
 }

@@ -54,12 +54,12 @@ $dossier: 'gelee';
     --search-bar-text-color: #0077EE; // texte tapé dans la barre de recherche
 
     // ---- Menu burger ----
-    --burger-bg: #efe6d5; // fond du menu burger
-    --burger-border: #6b5842; // bordure du menu burger
-    --burger-hover: var(--pagination-label-bg); // survol des entrées du menu burger
+    --burger-bg: #2B2358; // fond du menu burger
+    --burger-border: #B9A7FF; // bordure du menu burger
+    --burger-hover: #3A3175; // survol des entrées du menu burger
     --burger-icon-color: var(--search-bar-text-color); // couleur des icônes du menu burger
     --burger-overlay-bg: #4A372866; // fond semi-transparent derrière le menu burger ouvert
-    --burger-text: var(--pagination-label-color); // texte du menu burger
+    --burger-text: #F1ECFF; // texte du menu burger
     --burger-contact-color: var(--burger-text); // entrée « contact / admin » du burger
     --categorie-label-color: var(--zoom-label-color); // texte des titres de catégorie (page Rencontre)
     --categorie-label-weight: 700; // graisse des titres de catégorie
@@ -101,17 +101,17 @@ $dossier: 'gelee';
     --pagination-bar-border-color: transparent; // trait au-dessus de la barre de pagination
 
     // ---- Cartes de création ----
-    --creation-card-bio-color: #7a6a7c; // description du personnage sur la vignette
-    --creation-card-border: var(--box-border); // bordure de la vignette
+    --creation-card-bio-color: #E6DFFF; // description du personnage sur la vignette
+    --creation-card-border: #B9A7FF; // bordure de la vignette
     --creation-card-creator-color: #ffffff; // pseudo du créateur sur la vignette (repris de base.scss)
     --creation-card-creator-shadow: 0 1px 3px rgba(0, 0, 0, 0.8); // lueur du pseudo du créateur (repris de base.scss)
     --creation-card-count-color: var(--creation-card-creator-color); // texte du compteur de messages sur la vignette
     --creation-card-count-bg: rgba(0, 0, 0, 0.6); // fond du compteur de messages
-    --creation-card-gradient: linear-gradient(to bottom, #F0E6D600, #F0E6D6F2); // dégradé sombre (lisibilité du texte)
+    --creation-card-gradient: linear-gradient(to bottom, #2B235800, #2B2358F2); // dégradé sombre (lisibilité du texte)
     --creation-card-image-bg: rgba(0, 0, 0, 0.06); // fond d'attente de l'image (repris de base.scss)
-    --creation-card-shadow: 0 2px 8px #B98AC926; // ombre portée de la vignette
+    --creation-card-shadow: 0 2px 8px #B9A7FF55; // ombre portée de la vignette
     --creation-card-text-shadow: none; // ombre portée du texte (repris de base.scss)
-    --creation-card-title-color: var(--theme-text-color); // nom du personnage sur la vignette
+    --creation-card-title-color: #FFFFFF; // nom du personnage sur la vignette
     --creation-card-border-1: var(--creation-card-border); // bordure des cartes 1, 4, 7… (cycle de 3)
     --creation-card-border-2: var(--creation-card-border); // bordure des cartes 2, 5, 8…
     --creation-card-border-3: var(--creation-card-border); // bordure des cartes 3, 6, 9…
@@ -232,6 +232,9 @@ $dossier: 'gelee';
     --pagination-arrow-double-gap: 6px; // écarte la double flèche de la flèche simple (positif = plus loin)
     --pagination-arrow-height: 11px; // flèches de pages plus petites (défaut : 15px)
     --pagination-arrow-width: 26px; // longueur des flèches de pages (défaut : auto = proportionnelle)
+    --pagination-capsule-bg: #2B2358DB; // fond de la capsule de pagination (flèches + « Page x / y »)
+    --pagination-capsule-border-color: #B9A7FF; // bordure de la capsule
+    --pagination-capsule-text: #F1ECFF; // texte « Page x / y »
     --burger-chevron-height: 11px; // chevrons du menu burger : hauteur
     --burger-chevron-width: 26px; // chevrons du menu burger : longueur
     --moi-chevron-height: 11px; // chevrons des panneaux déroulants (Moi, Rencontre) : hauteur

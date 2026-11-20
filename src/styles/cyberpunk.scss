@@ -234,6 +234,9 @@ $dossier: 'cyberpunk';
     --pagination-arrow-double-gap: 6px; // écarte la double flèche de la flèche simple (positif = plus loin)
     --pagination-arrow-height: 11px; // flèches de pages plus petites (défaut : 15px)
     --pagination-arrow-width: 26px; // longueur des flèches de pages (défaut : auto = proportionnelle)
+    --pagination-capsule-bg: #0A0E1AEB; // fond de la capsule de pagination (flèches + « Page x / y »)
+    --pagination-capsule-border-color: #1F8FFF; // bordure de la capsule
+    --pagination-capsule-text: #9FD8FF; // texte « Page x / y »
     --burger-chevron-height: 11px; // chevrons du menu burger : hauteur
     --burger-chevron-width: 26px; // chevrons du menu burger : longueur
     --moi-chevron-height: 11px; // chevrons des panneaux déroulants (Moi, Rencontre) : hauteur
