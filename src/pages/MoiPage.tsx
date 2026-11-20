@@ -1,7 +1,8 @@
 /* src/pages/MoiPage.tsx */
 import React, { useEffect, useState } from 'react';
 import * as RouterDom from 'react-router-dom';
-import { useUiLang, useThemeAssets, HeaderRetour, BanniereTitre } from '../communs';
+import { useUiLang, useThemeAssets, BanniereTitre } from '../communs';
+import NavArrow from '../components/NavArrow';
 import { AVATARS, chargerProfilVous, enregistrerProfilVous } from '../utils/vousProfil';
 import { chargerPseudo, enregistrerPseudo } from '../utils/pseudo';
 import { useUnSeulOuvert } from '../utils/useUnSeulOuvert';
@@ -75,21 +76,24 @@ const MoiPage: React.FC = () => {
 
     return (
         <div className="page-content-container create-page moi-page">
-            <HeaderRetour />
-            <BanniereTitre texte={t.messages}>
-                {avatarChoisi !== null ? (
-                    <button
-                        type="button"
-                        className="profil-conversation-avatar-btn"
-                        onClick={() => panneau.basculer('avatar')}
-                        aria-label={t.avatar}
-                    >
-                        <img src={AVATARS[avatarChoisi]} alt="" className="profil-conversation-avatar-img" />
-                    </button>
-                ) : (
-                    <img src={assets.palette} alt="" className="create-banner-icon" />
-                )}
-            </BanniereTitre>
+            {/* Flèche retour + barre titre sur une seule ligne, de la même largeur que les boutons (85 %) : flèche centrée sur la hauteur de la barre. Réglages par thème : variables --moi-titre-* */}
+            <div className="moi-titre-ligne">
+                <NavArrow direction="back" />
+                <BanniereTitre texte={t.messages}>
+                    {avatarChoisi !== null ? (
+                        <button
+                            type="button"
+                            className="profil-conversation-avatar-btn"
+                            onClick={() => panneau.basculer('avatar')}
+                            aria-label={t.avatar}
+                        >
+                            <img src={AVATARS[avatarChoisi]} alt="" className="profil-conversation-avatar-img" />
+                        </button>
+                    ) : (
+                        <img src={assets.palette} alt="" className="create-banner-icon" />
+                    )}
+                </BanniereTitre>
+            </div>
 
             <div className="create-box moi-info-box">
                 <p className="personnage-field-text">{t.vousInfoMemoire}</p>

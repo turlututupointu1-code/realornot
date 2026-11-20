@@ -2,6 +2,34 @@
 // Page « Moi » et liste des discussions.
 
 // --- Page moi ---
+// Ligne « flèche retour + barre titre » : même largeur que les boutons (85 %), flèche centrée sur la hauteur de la barre. Réglages par thème, en px (facultatifs) :
+//   --moi-titre-ecart    : espace entre la flèche et la barre (défaut 8px)
+//   --moi-titre-haut     : décalage vertical de la ligne, négatif = vers le haut (défaut -30px)
+//   --moi-titre-taille   : taille du mot « Moi » (défaut 20px)
+//   --moi-titre-espace   : espacement entre les lettres (défaut 1px)
+//   --moi-titre-avatar   : diamètre de l'avatar dans la barre (défaut 34px) ; sa position se règle avec --avatar-profil-dx / -dy
+.moi-titre-ligne {
+    display: flex;
+    align-items: center;
+    gap: var(--moi-titre-ecart, 8px);
+    width: 85%;
+    margin: var(--moi-titre-haut, -30px) auto 0;
+}
+.moi-titre-ligne .nav-arrow-btn {
+    position: static;
+    flex-shrink: 0;
+}
+.moi-titre-ligne .create-banner-title {
+    flex: 1;
+    min-width: 0;
+}
+.moi-page .profil-conversation-avatar-btn {
+    width: var(--moi-titre-avatar, 34px); // la barre est plus étroite qu'avant : taille en px au lieu de 9 % de la barre
+}
+.moi-page .create-banner-text {
+    font-size: var(--moi-titre-taille, 20px);
+    letter-spacing: var(--moi-titre-espace, 1px);
+}
 .moi-info-box {
     width: 85%;
     margin-left: auto;
