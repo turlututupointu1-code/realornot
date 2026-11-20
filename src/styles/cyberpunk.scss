@@ -196,6 +196,8 @@ $dossier: 'cyberpunk';
     // ---- Avatar sur la bannière titre : décalage en pixels par rapport à l'emplacement de base (à recaler avec les nouvelles images) ----
     --avatar-user-dx: 0px; // avatar de la conversation
     --avatar-user-dy: 0px;
+    --avatar-profil-dx: 3px; // avatar du titre (pages Moi et Profil de conversation) : décalage horizontal (négatif = vers la gauche)
+    --avatar-profil-dy: 5px; // décalage vertical (négatif = vers le haut)
 
     // ---- icone sur titre et bouton : décalage en pixels par rapport à l'emplacement de base (à recaler avec les nouvelles images) ----
     --scroll-track: #0b0b22; // fond de l'ascenseur

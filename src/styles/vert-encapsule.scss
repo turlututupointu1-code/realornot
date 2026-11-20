@@ -194,6 +194,8 @@ $dossier: 'vert-encapsule';
     // ---- Avatar sur la bannière titre : décalage en pixels par rapport à l'emplacement de base (à recaler avec les nouvelles images) ----
     --avatar-user-dx: 3px; // avatar de la conversation
     --avatar-user-dy: 0px;
+    --avatar-profil-dx: 4px; // avatar du titre (pages Moi et Profil de conversation) : décalage horizontal (négatif = vers la gauche)
+    --avatar-profil-dy: 4px; // décalage vertical (négatif = vers le haut)
 
     // ---- icone sur titre et bouton : décalage en pixels par rapport à l'emplacement de base (à recaler avec les nouvelles images) ----
     --scroll-track: #e9dcc3; // fond de l'ascenseur
