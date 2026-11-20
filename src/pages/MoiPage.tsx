@@ -200,7 +200,7 @@ const MoiPage: React.FC = () => {
                 <img src={assets.barre1} alt="" className="details-categories-bg" />
                 <div className="details-voix-content">
                     <span className="details-voix-label">{t.vosCreations}</span>
-                    <img src={assets.fleche} alt="" className="details-voix-arrow" />
+                    <img src={assets.fleche} alt="" className="fleche-icone details-voix-arrow" />
                 </div>
             </button>
 
@@ -208,7 +208,7 @@ const MoiPage: React.FC = () => {
                 <img src={assets.barre1} alt="" className="details-categories-bg" />
                 <div className="details-voix-content">
                     <span className="details-voix-label">{t.vosDiscussions}</span>
-                    <img src={assets.fleche} alt="" className="details-voix-arrow" />
+                    <img src={assets.fleche} alt="" className="fleche-icone details-voix-arrow" />
                 </div>
             </button>
         </div>
