@@ -48,6 +48,7 @@ export interface Translations {
     remplirMoiDAbord: string; // indice sous « Créer » dans le menu burger tant que la page « Moi » n'est pas complète
     messages: string;
     vousInfoMemoire: string;
+    vousInfoAvatar: string; // phrase sous « vousInfoMemoire » : l'avatar du bandeau permet de changer de caractère
     avatar: string;
     vosCreations: string;
     personnageCreeParIA: string;
@@ -1448,6 +1449,18 @@ const textes: Textes = {
         ja: 'この情報はあなたの記憶に残り、会話を円滑にするためだけに使われます。',
         ko: '이 정보는 당신의 기억 속에 남아 대화를 더 원활하게 하는 데에만 사용됩니다.',
         ar: 'تبقى هذه المعلومات في ذاكرتك وتُستخدم فقط لتسهيل محادثاتك.',
+    },
+    vousInfoAvatar: {
+        fr: 'Si vous choisissez un avatar, il apparaît dans le bandeau du titre : touchez-le pour changer de caractère en cours de discussion.',
+        en: 'If you choose an avatar, it appears in the title banner: tap it to change your character during a conversation.',
+        es: 'Si eliges un avatar, aparece en el banner del título: tócalo para cambiar de carácter durante una conversación.',
+        de: 'Wenn du einen Avatar wählst, erscheint er im Titelbanner: Tippe darauf, um deinen Charakter während eines Gesprächs zu wechseln.',
+        it: 'Se scegli un avatar, appare nel banner del titolo: toccalo per cambiare carattere durante una conversazione.',
+        pt: 'Se escolher um avatar, ele aparece no banner do título: toque nele para mudar de carácter durante uma conversa.',
+        zh: '如果您选择了头像，它会显示在标题横幅中：点击它即可在对话过程中切换角色。',
+        ja: 'アバターを選ぶとタイトルバナーに表示されます。タップすると、会話中にキャラクターを切り替えられます。',
+        ko: '아바타를 선택하면 제목 배너에 표시됩니다. 탭하면 대화 중에 캐릭터를 바꿀 수 있습니다.',
+        ar: 'إذا اخترت صورة رمزية فستظهر في شريط العنوان: المسها لتغيير الشخصية أثناء المحادثة.',
     },
     avatar: {
         fr: 'Avatar',

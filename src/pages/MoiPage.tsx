@@ -8,6 +8,9 @@ import { chargerPseudo, enregistrerPseudo } from '../utils/pseudo';
 import { useUnSeulOuvert } from '../utils/useUnSeulOuvert';
 import PanneauDeroulant from '../components/PanneauDeroulant';
 
+// Longueur maximale du pseudo (champ de saisie et titre de la page).
+const PSEUDO_MAX = 15;
+
 // Symboles de genre, alignés par position avec t.genres (mêmes couleurs que
 // sur la page Détails du personnage).
 const GENRE_SYMBOLS = ['♀', '♂', '⚧', '⚥', '⚪'];
@@ -76,10 +79,10 @@ const MoiPage: React.FC = () => {
 
     return (
         <div className="page-content-container create-page moi-page">
-            {/* Flèche retour + barre titre sur une seule ligne, de la même largeur que les boutons (85 %) : flèche centrée sur la hauteur de la barre. Réglages par thème : variables --titre-* */}
+            {/* Flèche retour + barre titre sur une seule ligne, de la même largeur que les boutons (85 %) : flèche centrée sur la hauteur de la barre. Réglages par thème : variables --titre-*. Le titre est le pseudo une fois saisi, sinon « Moi ». */}
             <div className="titre-ligne">
                 <NavArrow direction="back" />
-                <BanniereTitre texte={t.messages}>
+                <BanniereTitre texte={pseudo || t.messages}>
                     {avatarChoisi !== null ? (
                         <button
                             type="button"
@@ -97,6 +100,7 @@ const MoiPage: React.FC = () => {
 
             <div className="create-box moi-info-box">
                 <p className="personnage-field-text">{t.vousInfoMemoire}</p>
+                <p className="personnage-field-text">{t.vousInfoAvatar}</p>
             </div>
 
             <div className="details-genre-row moi-genre-row">
@@ -121,83 +125,85 @@ const MoiPage: React.FC = () => {
                     ))}
                 </div>
             </div>
+
             {/* Avatar, pseudonyme, caractère : même composant PanneauDeroulant (barre + flèche + panneau collé sous la barre) */}
             <PanneauDeroulant
-            classe="moi-avatar-toggle"
-            titre={t.avatar}
-            ouvert={avatarOuvert}
-            onBasculer={() => panneau.basculer('avatar')}
-            droite={avatarChoisi !== null && <img src={AVATARS[avatarChoisi]} alt="" className="moi-avatar-toggle-img" />}
+                classe="moi-avatar-toggle"
+                titre={t.avatar}
+                ouvert={avatarOuvert}
+                onBasculer={() => panneau.basculer('avatar')}
+                droite={avatarChoisi !== null && <img src={AVATARS[avatarChoisi]} alt="" className="moi-avatar-toggle-img" />}
             >
-            <div className="moi-avatar-grid">
-            {AVATARS.map((avatar, i) => (
-                <button
-                type="button"
-                key={i}
-                className={`moi-avatar-item${avatarChoisi === i ? ' moi-avatar-item-active' : ''}`}
-                onClick={() => setAvatarChoisi(i)}
-                >
-                <img src={avatar} alt="" className="moi-avatar-img" />
-                </button>
-            ))}
-            </div>
+                <div className="moi-avatar-grid">
+                    {AVATARS.map((avatar, i) => (
+                        <button
+                            type="button"
+                            key={i}
+                            className={`moi-avatar-item${avatarChoisi === i ? ' moi-avatar-item-active' : ''}`}
+                            onClick={() => setAvatarChoisi(i)}
+                        >
+                            <img src={avatar} alt="" className="moi-avatar-img" />
+                        </button>
+                    ))}
+                </div>
             </PanneauDeroulant>
 
             <PanneauDeroulant
-            classe="moi-pseudo-toggle"
-            titre={t.pseudonyme}
-            ouvert={pseudoOuvert}
-            onBasculer={handleOuvrirPseudo}
+                classe="moi-pseudo-toggle"
+                titre={t.pseudonyme}
+                ouvert={pseudoOuvert}
+                onBasculer={handleOuvrirPseudo}
             >
-            <div className="moi-panel">
-            <input
-            type="text"
-            className="moi-champ"
-            placeholder={t.pseudoPlaceholder}
-            value={pseudoSaisie}
-            onChange={(e) => {
-                setPseudoSaisie(e.target.value);
-                // Enregistré dès la saisie : plus besoin d'appuyer sur Entrée pour le garder
-                const valeur = e.target.value.trim();
-                // Enregistré même vide : effacer toutes les lettres efface le pseudo (« Moi » redevient incomplète)
-                enregistrerPseudo(valeur);
-                setPseudo(valeur);            }}
-            onKeyDown={(e) => { if (e.key === 'Enter') handleValiderPseudo(); }}
-            maxLength={30}
-            spellCheck={false}
-            autoFocus
-            />
-            </div>
+                <div className="moi-panel">
+                    <input
+                        type="text"
+                        className="moi-champ"
+                        placeholder={t.pseudoPlaceholder}
+                        value={pseudoSaisie}
+                        onChange={(e) => {
+                            setPseudoSaisie(e.target.value);
+                            // Enregistré dès la saisie : plus besoin d'appuyer sur Entrée pour le garder
+                            const valeur = e.target.value.trim();
+                            // Enregistré même vide : effacer toutes les lettres efface le pseudo (« Moi » redevient incomplète, et le titre redevient « Moi »)
+                            enregistrerPseudo(valeur);
+                            setPseudo(valeur);
+                        }}
+                        onKeyDown={(e) => { if (e.key === 'Enter') handleValiderPseudo(); }}
+                        maxLength={PSEUDO_MAX}
+                        spellCheck={false}
+                        autoFocus
+                    />
+                </div>
             </PanneauDeroulant>
 
             <PanneauDeroulant
-            classe="moi-caractere-toggle"
-            titre={t.caractere}
-            ouvert={caractereOuvert}
-            onBasculer={() => panneau.basculer('caractere')}
+                classe="moi-caractere-toggle"
+                titre={t.caractere}
+                ouvert={caractereOuvert}
+                onBasculer={() => panneau.basculer('caractere')}
             >
-            <div className="moi-panel">
-            <textarea
-            className="moi-champ"
-            placeholder={t.caracterePlaceholder}
-            value={caractere}
-            onChange={(e) => setCaractere(e.target.value)}
-            rows={6}
-            spellCheck={false}
-            autoFocus
-            />
-            </div>
+                <div className="moi-panel">
+                    <textarea
+                        className="moi-champ"
+                        placeholder={t.caracterePlaceholder}
+                        value={caractere}
+                        onChange={(e) => setCaractere(e.target.value)}
+                        rows={6}
+                        spellCheck={false}
+                        autoFocus
+                    />
+                </div>
             </PanneauDeroulant>
 
             {/* Prévenir si nouvelle IA : Oui / Non. Aucun bouton actif = pas de réponse, « Moi » reste incomplète */}
             <div className="details-voix-row moi-prevenir-row">
-            <img src={assets.barre1} alt="" className="details-categories-bg" />
-            <div className="details-voix-content">
-            {/* 3 choix dans la barre : Oui (1er quart), phrase au milieu = pas de réponse (état de départ), Non (dernier quart). Le choix actif est vert, les autres rouges */}
-            <button type="button" className={`moi-prevenir-btn moi-prevenir-btn-oui${prevenirNouvelleIA === true ? ' moi-prevenir-btn-actif' : ''}`} onClick={() => setPrevenirNouvelleIA(true)}>{t.oui}</button>
-            <button type="button" className={`moi-prevenir-btn moi-prevenir-btn-milieu${prevenirNouvelleIA === null ? ' moi-prevenir-btn-actif' : ''}`} onClick={() => setPrevenirNouvelleIA(null)}>{t.prevenirNouvelleIA}</button>
-            <button type="button" className={`moi-prevenir-btn moi-prevenir-btn-non${prevenirNouvelleIA === false ? ' moi-prevenir-btn-actif' : ''}`} onClick={() => setPrevenirNouvelleIA(false)}>{t.non}</button>
-            </div>
+                <img src={assets.barre1} alt="" className="details-categories-bg" />
+                <div className="details-voix-content">
+                    {/* 3 choix dans la barre : Oui (1er quart), phrase au milieu = pas de réponse (état de départ), Non (dernier quart). Le choix actif est vert, les autres rouges */}
+                    <button type="button" className={`moi-prevenir-btn moi-prevenir-btn-oui${prevenirNouvelleIA === true ? ' moi-prevenir-btn-actif' : ''}`} onClick={() => setPrevenirNouvelleIA(true)}>{t.oui}</button>
+                    <button type="button" className={`moi-prevenir-btn moi-prevenir-btn-milieu${prevenirNouvelleIA === null ? ' moi-prevenir-btn-actif' : ''}`} onClick={() => setPrevenirNouvelleIA(null)}>{t.prevenirNouvelleIA}</button>
+                    <button type="button" className={`moi-prevenir-btn moi-prevenir-btn-non${prevenirNouvelleIA === false ? ' moi-prevenir-btn-actif' : ''}`} onClick={() => setPrevenirNouvelleIA(false)}>{t.non}</button>
+                </div>
             </div>
 
             <button type="button" className="details-voix-row moi-nav-row" onClick={() => navigate('/moi/creations')}>
@@ -220,4 +226,3 @@ const MoiPage: React.FC = () => {
 };
 
 export default MoiPage;
-
