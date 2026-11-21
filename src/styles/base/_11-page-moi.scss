@@ -2,47 +2,31 @@
 // Page « Moi » et liste des discussions.
 
 // --- Page moi ---
-// Ligne « flèche retour + barre titre » : même largeur que les boutons (85 %), flèche centrée sur la hauteur de la barre. Réglages par thème, en px (facultatifs) :
-//   --moi-titre-ecart    : espace entre la flèche et la barre (défaut 8px)
-//   --moi-titre-haut     : décalage vertical de la ligne, négatif = vers le haut (défaut -30px)
-//   --moi-titre-taille   : taille du mot « Moi » (défaut 20px)
-//   --moi-titre-espace   : espacement entre les lettres (défaut 1px)
-//   --moi-titre-avatar   : diamètre de l'avatar dans la barre (défaut 34px) ; sa position se règle avec --avatar-profil-dx / -dy
-.moi-titre-ligne {
-    display: flex;
-    align-items: center;
-    gap: var(--moi-titre-ecart, 8px);
-    width: 85%;
-    margin: var(--moi-titre-haut, -30px) auto 0;
-}
-.moi-titre-ligne .nav-arrow-btn {
-    position: static;
-    flex-shrink: 0;
-}
-.moi-titre-ligne .create-banner-title {
-    flex: 1;
-    min-width: 0;
-}
+// Avatar de la barre titre de la page Moi : taille réglable par thème (--moi-titre-avatar, défaut 34px) ; sa position se règle avec --avatar-profil-dx / -dy.
 .moi-page .profil-conversation-avatar-btn {
     width: var(--moi-titre-avatar, 34px); // la barre est plus étroite qu'avant : taille en px au lieu de 9 % de la barre
 }
-.moi-page .create-banner-text {
-    font-size: var(--moi-titre-taille, 20px);
-    letter-spacing: var(--moi-titre-espace, 1px);
+// Boîte d'info et champs de saisie (pseudo, caractère) : MÊME style (bordure 1px, fond en partie transparent), mêmes variables --champ-* déclarées dans chaque thème.
+// Sélecteur renforcé pour la boîte d'info : sinon « .theme-xxx .create-box » (même spécificité, chargé après) écraserait la bordure.
+.moi-page .create-box.moi-info-box,
+.moi-champ {
+    box-sizing: border-box;
+    border-radius: var(--radius-box);
+    border: 1px solid var(--champ-border-color);
+    background-color: var(--champ-bg);
+    color: var(--champ-text);
 }
 .moi-info-box {
     width: 85%;
     margin-left: auto;
     margin-right: auto;
     margin-top: 12px;
-    box-sizing: border-box;
-    border-color: var(--moi-info-border-color);
-    background-color: var(--box-bg);
     font-style: italic;
-    opacity: 0.85;
 }
-.moi-info-box .personnage-field-text {
+// Spécificité haute : le texte de la boîte d'info doit suivre --champ-text, quelle que soit la règle générale de .personnage-field-text.
+.moi-page .create-box.moi-info-box .personnage-field-text {
     font-size: 0.85em;
+    color: var(--champ-text);
 }
 .moi-genre-row {
     margin-top: 18px;
@@ -110,12 +94,12 @@ button.moi-avatar-item.moi-avatar-item-active {
     top: 50%;
     transform: translateY(-50%);
 }
-// Panneau purement fonctionnel (marge/largeur/animation) : l'élément qu'il contient a déjà son propre fond/bordure.
+// Panneau purement fonctionnel (largeur/animation) : 85 % centré, comme les barres et la boîte d'info. Le champ qu'il contient a son propre fond/bordure.
 .moi-panel {
-    margin-top: 0; // le champ touche la barre du bouton au-dessus
-    width: 100%;
+    margin: 0 auto; // le champ touche la barre du bouton au-dessus
+    width: 85%;
     box-sizing: border-box;
-    padding: 0 16px 16px; // aucune marge en haut : le champ touche la barre ; marges sur les côtés et en bas
+    padding: 0 0 16px; // aucune marge en haut ni sur les côtés : le champ a exactement la largeur des barres
     background-color: var(--moi-panel-bg);
     border: var(--border-width) solid var(--moi-panel-border-color);
     transform-origin: top;
@@ -125,18 +109,13 @@ button.moi-avatar-item.moi-avatar-item-active {
     from { transform: translateY(-14px); opacity: 0; }
     to { transform: translateY(0); opacity: 1; }
 }
-// Champ de saisie de la page "Moi" (pseudonyme = <input>, caractère = <textarea>) : toutes ses couleurs viennent des variables --champ-* déclarées dans chaque thème.
+// Champ de saisie de la page "Moi" (pseudonyme = <input>, caractère = <textarea>) : fond, bordure et couleur viennent de la règle commune ci-dessus.
 .moi-champ {
     width: 100%;
-    box-sizing: border-box;
-    border-radius: var(--radius-box);
-    border: var(--border-width) solid var(--champ-border-color);
     padding: 10px 12px;
     font-size: 0.9em;
     font-family: inherit;
     resize: vertical;
-    background-color: var(--champ-bg);
-    color: var(--champ-text);
 }
 .moi-champ::placeholder,
 .pseudo-popup-input::placeholder {

@@ -1,7 +1,8 @@
 /* src/pages/DetailsPersonnage.tsx */
 import React, { useEffect, useState } from 'react';
 import * as RouterDom from 'react-router-dom';
-import { useUiLang, useThemeAssets, HeaderRetour, BanniereTitre } from '../communs';
+import { useUiLang, useThemeAssets, BanniereTitre } from '../communs';
+import NavArrow from '../components/NavArrow';
 import { addUserCreation, blobUrlToDataUrl, modifierUserCreation, type UserCreation } from '../utils/userCreations';
 import { chargerVoixPersonnage, enregistrerVoixPersonnage } from '../utils/voixPersonnage';
 import { getDeviceId } from '../utils/deviceId';
@@ -229,10 +230,12 @@ const DetailsPersonnage: React.FC = () => {
 
     return (
         <div className="page-content-container create-page details-personnage-page">
-            <HeaderRetour />
-            <BanniereTitre texte={t.detailsPersonnageTitre}>
-                <img src={assets.palette} alt="" className="create-banner-icon" />
-            </BanniereTitre>
+            <div className="titre-ligne">
+                <NavArrow direction="back" />
+                <BanniereTitre texte={t.detailsPersonnageTitre}>
+                    <img src={assets.palette} alt="" className="create-banner-icon" />
+                </BanniereTitre>
+            </div>
 
             {(state.generatedImage || creationExistante?.imageUrl) && (
                 <div className="create-box create-preview-box details-photo-preview">

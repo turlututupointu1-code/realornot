@@ -40,3 +40,34 @@
     padding: 0 24px 6px;
     box-sizing: border-box;
 }
+
+// Ligne « flèche retour + barre titre » (toutes les pages sauf la discussion avec l'IA) : même largeur que les boutons (85 %), flèche centrée sur la hauteur de la barre. Réglages par thème (facultatifs) :
+//   --titre-ecart    : espace entre la flèche et la barre (défaut 8px)
+//   --titre-haut     : décalage vertical de la ligne, négatif = vers le haut (défaut -30px)
+//   --titre-taille   : taille du texte du titre (défaut 20px)
+//   --titre-espace   : espacement entre les lettres (défaut 1px)
+//   --titre-police   : police du titre (défaut : celle de l'appli). Mettre la police du thème PUIS un repli : les alphabets absents de la police (arabe, chinois…) utilisent le repli.
+//   --titre-graisse  : graisse du titre (défaut 700)
+//   --titre-ombre    : ombre(s) du titre, valable pour tous les alphabets (défaut : ombre douce)
+.titre-ligne {
+    display: flex;
+    align-items: center;
+    gap: var(--titre-ecart, 8px);
+    width: 85%;
+    margin: var(--titre-haut, -30px) auto 0;
+}
+.titre-ligne .nav-arrow-btn {
+    position: static;
+    flex-shrink: 0;
+}
+.titre-ligne .create-banner-title {
+    flex: 1;
+    min-width: 0;
+}
+.titre-ligne .create-banner-text {
+    font-family: var(--titre-police, inherit);
+    font-weight: var(--titre-graisse, 700);
+    font-size: var(--titre-taille, 20px);
+    letter-spacing: var(--titre-espace, 1px);
+    text-shadow: var(--titre-ombre, 0 2px 3px rgba(0, 0, 0, 0.6));
+}

@@ -1,7 +1,8 @@
 /* src/pages/VosCreationsPage.tsx */
 import React, { useEffect, useState } from 'react';
 import * as RouterDom from 'react-router-dom';
-import { useUiLang, useThemeAssets, HeaderRetour, BanniereTitre } from '../communs';
+import { useUiLang, useThemeAssets, BanniereTitre } from '../communs';
+import NavArrow from '../components/NavArrow';
 import { getMesCreations, type UserCreation } from '../utils/userCreations';
 import CreationFrame from '../components/CreationFrame';
 
@@ -31,11 +32,12 @@ const VosCreationsPage: React.FC = () => {
 
     return (
         <div className="page-content-container create-page moi-page vos-creations-page">
-            <HeaderRetour />
-
-            <BanniereTitre texte={t.vosCreations}>
-                <img src={assets.palette} alt="" className="create-banner-icon" />
-            </BanniereTitre>
+            <div className="titre-ligne">
+                <NavArrow direction="back" />
+                <BanniereTitre texte={t.vosCreations}>
+                    <img src={assets.palette} alt="" className="create-banner-icon" />
+                </BanniereTitre>
+            </div>
 
             <div className="creation-grid">
                 {/* La plus récente en premier (en haut à gauche). */}

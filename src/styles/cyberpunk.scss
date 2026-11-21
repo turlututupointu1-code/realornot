@@ -27,11 +27,11 @@ $dossier: 'cyberpunk';
     --input-bg: var(--histoire-box-bg); // fond des champs de saisie (pseudo, chat, commentaire) (proposé, à valider)
     --input-text: var(--theme-text-color); // texte tapé dans ces champs (proposé, à valider)
     --textarea-placeholder-color: #888888; // texte indicatif des zones de texte
-    --champ-bg: var(--box-bg); // fond du champ
-    --champ-text: var(--box-text); // texte tapé dans le champ
-    --champ-border-color: var(--box-border); // bordure du champ
-    --champ-placeholder-color: var(--box-text); // texte indicatif du champ
-    --champ-focus-border-color: var(--box-border); // bordure du champ au focus
+    --champ-bg: #0a1a2fcc; // fond du champ
+    --champ-text: #e0f7ff; // texte tapé dans le champ
+    --champ-border-color: #00e5ff; // bordure du champ
+    --champ-placeholder-color: #e0f7ff; // texte indicatif du champ
+    --champ-focus-border-color: #00e5ff; // bordure du champ au focus
     --champ-placeholder-opacity: 0.6; // opacité du texte indicatif des champs
     --champ-focus-shadow: 0 0 8px var(--box-border); // halo des champs au focus
     --chat-input-placeholder-color: #9ca8c9; // texte indicatif du champ de chat
@@ -230,6 +230,11 @@ $dossier: 'cyberpunk';
     --search-bar-padding-left: calc(27.7% - 5px); // position horizontale du mot « Recherche » (plus grand = plus à gauche)
     --banner-title-dx: 8px; // décalage horizontal du titre de la bannière (négatif = vers la gauche, positif = vers la droite)
     --banner-title-dy: -3px; // décalage vertical du titre de la bannière (négatif = vers le haut, positif = vers le bas)
+    --titre-police: "Orbitron", sans-serif; // police du titre (puis repli système pour les alphabets absents)
+    --titre-graisse: 700; // graisse du titre
+    --titre-taille: 20px; // taille du titre
+    --titre-espace: 2px; // espacement des lettres
+    --titre-ombre: 0 0 6px #00e5ff, 0 0 14px #7a2cff; // ombre du titre
 
     // fleche
     --pagination-arrow-gap: 0px; // rapproche les flèches du fond du texte « Page x / y » (plus négatif = plus près)

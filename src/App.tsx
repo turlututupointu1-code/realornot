@@ -1,8 +1,15 @@
 /* src/App.tsx (Version 1.3.0) */
 import React, { Suspense, lazy, useEffect, useState } from 'react';
 import * as RouterDom from 'react-router-dom';
+import '@fontsource/marck-script/400.css';
+import '@fontsource/cinzel-decorative/700.css';
+import '@fontsource/orbitron/700.css';
+import '@fontsource/playfair-display/700.css';
+import '@fontsource/comfortaa/700.css';
+import '@fontsource/lobster/400.css';
+import '@fontsource/quicksand/700.css';
+import '@fontsource/audiowide/400.css';
 import './styles/base.scss';
-//import './styles/theme-common.css';
 import './styles/fleches.css';
 import './styles/coque.scss';
 import './styles/dentelle.scss';
@@ -15,11 +22,6 @@ import './styles/laiton.scss';
 import './styles/relief-doux.scss';
 import './styles/onde-vapeur.scss';
 import './styles/vert-encapsule.scss';
-//import './styles/avatars.css';
-
-//import './styles/personnage-bubble-erreur.css';
-//import './styles/personnage-bubble.css';
-//import './styles/personnage-menu-contextuel.css';
 import ModeReelGuard from './pages/ModeReelGuard';
 import TopBar from './components/TopBar';
 import UpdatePrompt from './components/UpdatePrompt';

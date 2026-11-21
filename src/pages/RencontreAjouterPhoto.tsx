@@ -7,7 +7,8 @@ import { StatusBar } from '@capacitor/status-bar';
 import { useTheme } from '../context/theme';
 import { STATUT_PAR_THEME } from '../context/theme';
 import { useThemeAssets } from '../assets/themeAssets';*/
-import { useUiLang, useThemeAssets, HeaderRetour, BanniereTitre } from '../communs';
+import { useUiLang, useThemeAssets, BanniereTitre } from '../communs';
+import NavArrow from '../components/NavArrow';
 import { useCameraCapture } from '../utils/useCameraCapture';
 import CropPhoto from '../components/CropPhoto';
 import ZoomBar from '../components/ZoomBar';
@@ -114,10 +115,12 @@ const RencontreAjouterPhoto: React.FC = () => {
 
     return (
         <div className="page-content-container create-page telecharger-photo-page">
-            <HeaderRetour />
-            <BanniereTitre texte={t.choisirVotrePhoto}>
-                <img src={assets.appareilphoto} alt="" className="create-banner-icon" />
-            </BanniereTitre>
+            <div className="titre-ligne">
+                <NavArrow direction="back" />
+                <BanniereTitre texte={t.choisirVotrePhoto}>
+                    <img src={assets.appareilphoto} alt="" className="create-banner-icon" />
+                </BanniereTitre>
+            </div>
 
             {erreur && <p className="compte-erreur-texte">{erreur}</p>}
 

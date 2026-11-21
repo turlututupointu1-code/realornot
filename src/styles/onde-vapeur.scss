@@ -27,11 +27,11 @@ $dossier: 'onde-vapeur';
     --input-bg: #8B6F47; // fond des champs de saisie (pseudo, chat, commentaire) (proposé, à valider)
     --input-text: #ffffff; // texte tapé dans ces champs (proposé, à valider)
     --textarea-placeholder-color: var(--box-text); // texte indicatif des zones de texte
-    --champ-bg: var(--box-bg); // fond du champ
-    --champ-text: var(--box-text); // texte tapé dans le champ
-    --champ-border-color: var(--box-border); // bordure du champ
-    --champ-placeholder-color: var(--box-text); // texte indicatif du champ
-    --champ-focus-border-color: var(--box-border); // bordure du champ au focus
+    --champ-bg: #4a82c4d9; // fond du champ
+    --champ-text: #ffffff; // texte tapé dans le champ
+    --champ-border-color: #3a4350; // bordure du champ
+    --champ-placeholder-color: #ffffff; // texte indicatif du champ
+    --champ-focus-border-color: #3a4350; // bordure du champ au focus
     --champ-placeholder-opacity: 0.6; // opacité du texte indicatif des champs
     --champ-focus-shadow: none; // halo des champs au focus
     --chat-input-placeholder-color: #E8DDC8; // texte indicatif du champ de chat
@@ -228,6 +228,11 @@ $dossier: 'onde-vapeur';
     --search-bar-padding-left: calc(27.7% - 5px); // position horizontale du mot « Recherche » (plus grand = plus à gauche)
     --banner-title-dx: 0px; // décalage horizontal du titre de la bannière (négatif = vers la gauche, positif = vers la droite)
     --banner-title-dy: 0px; // décalage vertical du titre de la bannière (négatif = vers le haut, positif = vers le bas)
+    --titre-police: "Audiowide", sans-serif; // police du titre (puis repli système pour les alphabets absents)
+    --titre-graisse: 400; // graisse du titre
+    --titre-taille: 20px; // taille du titre
+    --titre-espace: 1px; // espacement des lettres
+    --titre-ombre: 0 0 6px #3a4350, 0 2px 3px #000a; // ombre du titre
 
     // fleche
     --pagination-arrow-gap: 0px; // rapproche les flèches du fond du texte « Page x / y » (plus négatif = plus près)

@@ -1,7 +1,8 @@
 /* src/pages/VosDiscussionsPage.tsx */
 import React, { useEffect, useState } from 'react';
 import * as RouterDom from 'react-router-dom';
-import { useUiLang, useThemeAssets, HeaderRetour, BanniereTitre } from '../communs';
+import { useUiLang, useThemeAssets, BanniereTitre } from '../communs';
+import NavArrow from '../components/NavArrow';
 import { getMesCreations, getUserCreations, type UserCreation } from '../utils/userCreations';
 
 const CHAT_KEY_PREFIX = 'realornot-chat-';
@@ -75,11 +76,12 @@ const VosDiscussionsPage: React.FC = () => {
 
     return (
         <div className="page-content-container create-page moi-page">
-            <HeaderRetour />
-
-            <BanniereTitre texte={t.vosDiscussions}>
-                <img src={assets.palette} alt="" className="create-banner-icon" />
-            </BanniereTitre>
+            <div className="titre-ligne">
+                <NavArrow direction="back" />
+                <BanniereTitre texte={t.vosDiscussions}>
+                    <img src={assets.palette} alt="" className="create-banner-icon" />
+                </BanniereTitre>
+            </div>
 
             <div className="moi-discussions-list">
                 {discussions.map(({ creation, dernierMessage }) => {

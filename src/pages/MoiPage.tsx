@@ -76,8 +76,8 @@ const MoiPage: React.FC = () => {
 
     return (
         <div className="page-content-container create-page moi-page">
-            {/* Flèche retour + barre titre sur une seule ligne, de la même largeur que les boutons (85 %) : flèche centrée sur la hauteur de la barre. Réglages par thème : variables --moi-titre-* */}
-            <div className="moi-titre-ligne">
+            {/* Flèche retour + barre titre sur une seule ligne, de la même largeur que les boutons (85 %) : flèche centrée sur la hauteur de la barre. Réglages par thème : variables --titre-* */}
+            <div className="titre-ligne">
                 <NavArrow direction="back" />
                 <BanniereTitre texte={t.messages}>
                     {avatarChoisi !== null ? (

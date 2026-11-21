@@ -1,6 +1,7 @@
 /* src/pages/ChoisirVoix.tsx */
 import React, { useState } from 'react';
-import { useUiLang, useThemeAssets, HeaderRetour, BanniereTitre } from '../communs';
+import { useUiLang, useThemeAssets, BanniereTitre } from '../communs';
+import NavArrow from '../components/NavArrow';
 import Voice from '../plugins/voice';
 import { VOIX_FEMININES, VOIX_MASCULINES, VOIX_NOM_FEMININE, VOIX_NOM_MASCULINE, VOIX_CHOISIE_KEY } from '../utils/voix';
 import type { VoixSection, VoixChoisie } from '../utils/voix';
@@ -69,10 +70,12 @@ const ChoisirVoix: React.FC = () => {
 
     return (
         <div className="page-content-container create-page">
-           <HeaderRetour />
-            <BanniereTitre texte={t.voix}>
-                <img src={assets.palette} alt="" className="create-banner-icon" />
-            </BanniereTitre>
+           <div className="titre-ligne">
+               <NavArrow direction="back" />
+               <BanniereTitre texte={t.voix}>
+                    <img src={assets.palette} alt="" className="create-banner-icon" />
+                </BanniereTitre>
+           </div>
 
             <p className="details-field-label voix-section-title">{t.voixFeminines}</p>
             {VOIX_FEMININES.map((section) => (

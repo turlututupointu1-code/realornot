@@ -27,12 +27,12 @@ $dossier: 'gothique';
     --input-bg: #8B6F47; // fond des champs de saisie (pseudo, chat, commentaire) (proposé, à valider)
     --input-text: #ffffff; // texte tapé dans ces champs (proposé, à valider)
     --textarea-placeholder-color: var(--search-bar-text-color); // texte indicatif des zones de texte
-    --champ-bg: var(--panel-dark-bg); // fond du champ
-    --champ-text: var(--box-text); // texte tapé dans le champ
-    --champ-border-color: var(--panel-border-subtle); // bordure du champ
-    --champ-placeholder-color: rgba(255, 255, 255, 0.45); // texte indicatif du champ
-    --champ-focus-border-color: var(--panel-border-subtle); // bordure du champ au focus
-    --champ-placeholder-opacity: 1; // opacité du texte indicatif des champs
+    --champ-bg: #141414f2; // fond du champ
+    --champ-text: #f5ecec; // texte tapé dans le champ
+    --champ-border-color: #b0b0b8; // bordure du champ
+    --champ-placeholder-color: #f5ecec; // texte indicatif du champ
+    --champ-focus-border-color: #b0b0b8; // bordure du champ au focus
+    --champ-placeholder-opacity: 0.6; // opacité du texte indicatif des champs
     --champ-focus-shadow: none; // halo des champs au focus
     --chat-input-placeholder-color: #c9a8bd; // texte indicatif du champ de chat
     --chat-input-focus-border-color: var(--zoom-label-color); // bordure du champ de chat au focus
@@ -228,6 +228,11 @@ $dossier: 'gothique';
     --search-bar-padding-left: calc(27.7% - -10px); // position horizontale du mot « Recherche » (plus grand = plus à gauche)
     --banner-title-dx: 0px; // décalage horizontal du titre de la bannière (négatif = vers la gauche, positif = vers la droite)
     --banner-title-dy: -6px; // décalage vertical du titre de la bannière (négatif = vers le haut, positif = vers le bas)
+    --titre-police: "Cinzel Decorative", serif; // police du titre (puis repli système pour les alphabets absents)
+    --titre-graisse: 700; // graisse du titre
+    --titre-taille: 19px; // taille du titre
+    --titre-espace: 1px; // espacement des lettres
+    --titre-ombre: 0 2px 2px #000, 0 0 8px #8b0000; // ombre du titre
 
     // fleche
     --pagination-arrow-gap: 0px; // rapproche les flèches du fond du texte « Page x / y » (plus négatif = plus près)

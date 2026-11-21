@@ -1,7 +1,8 @@
 /* src/pages/RencontreListePage.tsx */
 import React, { useEffect, useState } from 'react';
 import * as RouterDom from 'react-router-dom';
-import { useUiLang, HeaderRetour, BanniereTitre } from '../communs';
+import { useUiLang, BanniereTitre } from '../communs';
+import NavArrow from '../components/NavArrow';
 import type { ProfilRencontre } from '../utils/rencontre';
 import { obtenirProfilsRencontre, urlPhotoRencontre } from '../utils/rencontre';
 
@@ -77,9 +78,10 @@ const RencontreListePage: React.FC = () => {
 
     return (
         <div className="page-content-container create-page moi-page">
-            <HeaderRetour onClick={() => navigate('/mode-reel')} />
-
-            <BanniereTitre texte={titre} />
+            <div className="titre-ligne">
+                <NavArrow direction="back" onClick={() => navigate('/mode-reel')} />
+                <BanniereTitre texte={titre} />
+            </div>
 
             {!chargement && profilsAffiches.length === 0 && (
                 <p className="texte-vide-centre">{t.aucunProfilPourInstant ?? "Aucun profil pour l'instant."}</p>

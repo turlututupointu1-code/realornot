@@ -27,11 +27,11 @@ $dossier: 'dentelle';
     --input-bg: #8B6F47; // fond des champs de saisie (pseudo, chat, commentaire) (proposé, à valider)
     --input-text: #ffffff; // texte tapé dans ces champs (proposé, à valider)
     --textarea-placeholder-color: var(--box-text); // texte indicatif des zones de texte
-    --champ-bg: var(--box-bg); // fond du champ
-    --champ-text: var(--box-text); // texte tapé dans le champ
-    --champ-border-color: var(--box-border); // bordure du champ
-    --champ-placeholder-color: var(--box-text); // texte indicatif du champ
-    --champ-focus-border-color: var(--box-border); // bordure du champ au focus
+    --champ-bg: #f3e6d0e6; // fond du champ
+    --champ-text: #4a2f3d; // texte tapé dans le champ
+    --champ-border-color: #b99a7a; // bordure du champ
+    --champ-placeholder-color: #4a2f3d; // texte indicatif du champ
+    --champ-focus-border-color: #b99a7a; // bordure du champ au focus
     --champ-placeholder-opacity: 0.6; // opacité du texte indicatif des champs
     --champ-focus-shadow: none; // halo des champs au focus
     --chat-input-placeholder-color: #E8DDC8; // texte indicatif du champ de chat
@@ -167,7 +167,7 @@ $dossier: 'dentelle';
     --moi-avatar-item-active-bg: #fbeaf2; // fond de l'avatar choisi
     --moi-avatar-item-active-border-color: var(--salutation-box-bg); // bordure de l'avatar choisi
     --moi-info-text-color: var(--box-text); // texte de la boîte d'information
-    --moi-bar-text-color: var(--color-white); // texte et chevron des barres de la page Moi
+    --moi-bar-text-color: #4a2f3d; // texte et chevron des barres de la page Moi
 
     // ---- Photos ----
     --photo-bandeau-text: #1c2b36; // texte du bandeau de photo (page « Mes photos »)
@@ -228,6 +228,11 @@ $dossier: 'dentelle';
     --search-bar-padding-left: calc(27.7% - 20px); // position horizontale du mot « Recherche » (plus grand = plus à gauche)
     --banner-title-dx: 0px; // décalage horizontal du titre de la bannière (négatif = vers la gauche, positif = vers la droite)
     --banner-title-dy: 0px; // décalage vertical du titre de la bannière (négatif = vers le haut, positif = vers le bas)
+    --titre-police: "Marck Script", cursive, sans-serif; // police du titre (puis repli système pour les alphabets absents)
+    --titre-graisse: 400; // graisse du titre
+    --titre-taille: 26px; // taille du titre
+    --titre-espace: 1px; // espacement des lettres
+    --titre-ombre: 0 1px 0 #fff9, 0 2px 4px #4a2f3dcc; // ombre du titre
 
     // fleche
     --pagination-arrow-gap: -6px; // rapproche les flèches du fond du texte « Page x / y » (plus négatif = plus près)

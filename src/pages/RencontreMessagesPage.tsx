@@ -1,7 +1,8 @@
 /* src/pages/RencontreMessagesPage.tsx */
 import React, { useEffect, useState } from 'react';
 import * as RouterDom from 'react-router-dom';
-import { useUiLang, HeaderRetour, BanniereTitre } from '../communs';
+import { useUiLang, BanniereTitre } from '../communs';
+import NavArrow from '../components/NavArrow';
 import type { ConversationRencontre } from '../utils/rencontre';
 import { obtenirConversationsRencontre } from '../utils/rencontre';
 
@@ -30,8 +31,10 @@ const RencontreMessagesPage: React.FC = () => {
 
     return (
         <div className="page-content-container create-page moi-page">
-            <HeaderRetour />
-            <BanniereTitre texte={t.messagesPageTitre ?? 'Messages'} />
+            <div className="titre-ligne">
+                <NavArrow direction="back" />
+                <BanniereTitre texte={t.messagesPageTitre ?? 'Messages'} />
+            </div>
 
             {conversations.length === 0 && (
                 <p className="texte-vide-centre">{t.aucunMessageTexte ?? 'Aucun message pour l\'instant.'}</p>

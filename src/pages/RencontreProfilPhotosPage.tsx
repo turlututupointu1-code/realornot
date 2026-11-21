@@ -1,7 +1,8 @@
 /* src/pages/RencontreProfilPhotosPage.tsx */
 import React, { useEffect, useState } from 'react';
 import * as RouterDom from 'react-router-dom';
-import { useUiLang, HeaderRetour, BanniereTitre } from '../communs';
+import { useUiLang, BanniereTitre } from '../communs';
+import NavArrow from '../components/NavArrow';
 import type { PhotoRencontre, ProfilRencontre } from '../utils/rencontre';
 import { obtenirProfilsRencontre, urlPhotoRencontre } from '../utils/rencontre';
 
@@ -35,9 +36,10 @@ const RencontreProfilPhotosPage: React.FC = () => {
 
     return (
         <div className="page-content-container create-page rencontre-page rencontre-souspage">
-            <HeaderRetour />
-
-            <BanniereTitre texte={profil?.prenom ?? pseudo ?? 'Profil'} />
+            <div className="titre-ligne">
+                <NavArrow direction="back" />
+                <BanniereTitre texte={profil?.prenom ?? pseudo ?? 'Profil'} />
+            </div>
 
             {photos.length === 0 && (
                 <p style={{ textAlign: 'center', opacity: 0.7 }}>

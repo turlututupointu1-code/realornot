@@ -1,6 +1,7 @@
 /* src/pages/TelechargerPage.tsx */
 import React, { useEffect, useState } from 'react';
-import { useThemeAssets, BanniereTitre, HeaderRetour } from '../communs';
+import { useThemeAssets, BanniereTitre } from '../communs';
+import NavArrow from '../components/NavArrow';
 import { obtenirReleases, urlTelechargementRelease, type Releases, type Plateforme } from '../utils/releases';
 
 // Page publique de téléchargement (voir spec_page_telechargement.md) -
@@ -23,9 +24,10 @@ const TelechargerPage: React.FC = () => {
 
     return (
         <div className="page-content-container create-page telechargement-page">
-            <HeaderRetour />
-
-            <BanniereTitre texte="Télécharger l'application" />
+            <div className="titre-ligne">
+                <NavArrow direction="back" />
+                <BanniereTitre texte="Télécharger l'application" />
+            </div>
 
             {erreur && <p className="compte-erreur-texte">{erreur}</p>}
             {!releases && !erreur && <p>Chargement...</p>}

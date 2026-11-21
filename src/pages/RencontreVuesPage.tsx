@@ -1,7 +1,8 @@
 /* src/pages/RencontreVuesPage.tsx */
 import React, { useEffect, useState } from 'react';
 import * as RouterDom from 'react-router-dom';
-import { useUiLang, HeaderRetour, BanniereTitre } from '../communs';
+import { useUiLang, BanniereTitre } from '../communs';
+import NavArrow from '../components/NavArrow';
 import type { VisiteRencontre } from '../utils/rencontre';
 import { obtenirVuesRencontre } from '../utils/rencontre';
 
@@ -48,8 +49,10 @@ const RencontreVuesPage: React.FC = () => {
 
     return (
         <div className="page-content-container create-page moi-page">
-            <HeaderRetour />
-            <BanniereTitre texte={t.vuesPageTitre ?? 'Vues de profil'} />
+            <div className="titre-ligne">
+                <NavArrow direction="back" />
+                <BanniereTitre texte={t.vuesPageTitre ?? 'Vues de profil'} />
+            </div>
 
             {listeVide && (
                 <p className="texte-vide-centre">{t.aucuneVueTexte ?? 'Personne n\'a encore vu ton profil.'}</p>

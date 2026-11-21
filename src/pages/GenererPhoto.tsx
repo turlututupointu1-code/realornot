@@ -2,6 +2,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import * as RouterDom from 'react-router-dom';
 import { useUiLang, useThemeAssets, HeaderRetour, BanniereTitre, ProgressBar } from '../communs';
+import NavArrow from '../components/NavArrow';
 import { SERVER_BASE_URL } from '../config';
 import previewRealiste from '../images/styles/realiste.webp';
 import previewAnime from '../images/styles/anime.webp';
@@ -206,11 +207,12 @@ const GenererPhoto: React.FC = () => {
     if (!selectedStyle) {
         return (
             <div className="page-content-container create-page">
-                <HeaderRetour />
-
-                <BanniereTitre texte={t.genererTitre}>
-                    <img src={assets.palette} alt="" className="create-banner-icon" />
-                </BanniereTitre>
+                <div className="titre-ligne">
+                    <NavArrow direction="back" />
+                    <BanniereTitre texte={t.genererTitre}>
+                        <img src={assets.palette} alt="" className="create-banner-icon" />
+                    </BanniereTitre>
+                </div>
 
                 <div className="style-grid">
                     {STYLE_OPTIONS.map((style) => (
@@ -242,10 +244,12 @@ const GenererPhoto: React.FC = () => {
     if (generatedImage) {
         return (
             <div className="page-content-container create-page generer-resultat-page">
-            <HeaderRetour onClick={annulerResultat} />
-            <BanniereTitre texte={t.genere}>
-            <img src={assets.palette} alt="" className="create-banner-icon" />
-            </BanniereTitre>
+            <div className="titre-ligne">
+                <NavArrow direction="back" onClick={annulerResultat} />
+                <BanniereTitre texte={t.genere}>
+                <img src={assets.palette} alt="" className="create-banner-icon" />
+                </BanniereTitre>
+            </div>
             <div className="create-buttons">
             <div className="create-box create-preview-box">
             <img src={generatedImage} alt={t.genere} className="create-preview-img" />

@@ -1,7 +1,8 @@
 /* src/pages/RencontreProfilPage.tsx */
 import React, { useEffect, useState } from 'react';
 import * as RouterDom from 'react-router-dom';
-import { useUiLang, useThemeAssets, HeaderRetour, BanniereTitre } from '../communs';
+import { useUiLang, useThemeAssets, BanniereTitre } from '../communs';
+import NavArrow from '../components/NavArrow';
 import ActionsBlocageSignalement from '../components/ActionsBlocageSignalement';
 import type { ProfilRencontre } from '../utils/rencontre';
 import { obtenirProfilsRencontre, urlPhotoRencontre, enregistrerVueProfilRencontre } from '../utils/rencontre';
@@ -43,8 +44,10 @@ const RencontreProfilPage: React.FC = () => {
 
     return (
         <div className="page-content-container create-page rencontre-page rencontre-souspage">
-            <HeaderRetour />
-            <BanniereTitre texte={profil?.prenom ?? pseudo ?? 'Profil'} />
+            <div className="titre-ligne">
+                <NavArrow direction="back" />
+                <BanniereTitre texte={profil?.prenom ?? pseudo ?? 'Profil'} />
+            </div>
 
             {!profil && <p className="texte-vide-centre">{t.profilIntrouvable ?? 'Profil introuvable.'}</p>}
 

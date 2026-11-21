@@ -1,7 +1,8 @@
 /* src/pages/CreatePhoto.tsx */
 import React from 'react';
 import * as RouterDom from 'react-router-dom';
-import { useUiLang, useThemeAssets, HeaderRetour, BanniereTitre } from '../communs';
+import { useUiLang, useThemeAssets, BanniereTitre } from '../communs';
+import NavArrow from '../components/NavArrow';
 
 const CreatePhoto: React.FC = () => {
     const t = useUiLang();
@@ -9,10 +10,12 @@ const CreatePhoto: React.FC = () => {
 
     return (
         <div className="page-content-container create-page create-photo-page">
-            <HeaderRetour />
-            <BanniereTitre texte={t.titre}>
-                <img src={assets.creer} alt="" className="create-banner-icon" />
-            </BanniereTitre>
+            <div className="titre-ligne">
+                <NavArrow direction="back" />
+                <BanniereTitre texte={t.titre}>
+                    <img src={assets.creer} alt="" className="create-banner-icon" />
+                </BanniereTitre>
+            </div>
 
             <div className="create-buttons">
                 <RouterDom.Link to="/creer/generer" className="create-btn create-btn-image btn-bouton-png">

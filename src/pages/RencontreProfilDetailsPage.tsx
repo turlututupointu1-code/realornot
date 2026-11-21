@@ -2,7 +2,8 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import * as RouterDom from 'react-router-dom';
 import { useTheme } from '../context/theme';
-import { useUiLang, HeaderRetour, BanniereTitre } from '../communs';
+import { useUiLang, BanniereTitre } from '../communs';
+import NavArrow from '../components/NavArrow';
 import type { ProfilRencontre, QuestionRencontre } from '../utils/rencontre';
 import {
     obtenirProfilsRencontre,
@@ -79,8 +80,10 @@ const RencontreProfilDetailsPage: React.FC = () => {
 
     return (
         <div className="page-content-container create-page rencontre-page rencontre-souspage">
-            <HeaderRetour />
-            <BanniereTitre texte={profil?.prenom ?? pseudo ?? 'Profil'} />
+            <div className="titre-ligne">
+                <NavArrow direction="back" />
+                <BanniereTitre texte={profil?.prenom ?? pseudo ?? 'Profil'} />
+            </div>
 
             {!profil && <p className="texte-vide-centre">{t.profilIntrouvable ?? 'Profil introuvable.'}</p>}
 
