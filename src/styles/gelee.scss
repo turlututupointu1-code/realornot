@@ -168,6 +168,21 @@ $dossier: 'gelee';
     --moi-avatar-item-active-border-color: var(--salutation-box-bg); // bordure de l'avatar choisi
     --moi-info-text-color: var(--box-text); // texte de la boîte d'information
     --moi-bar-text-color: var(--color-white); // texte et chevron des barres de la page Moi
+    --genre-info-bg: #f6ecf2; // nom du genre choisi (au-dessus du symbole) : fond opaque
+    --genre-info-bord: #9575cd; // bordure 1px
+    --genre-info-texte: #4a2f3d; // texte
+    --genre-cadre-haut: 14%; // choix du genre : cadre intérieur de la barre (en % de la barre), le curseur glisse à l'intérieur
+    --genre-cadre-droite: 4%;
+    --genre-cadre-bas: 15%;
+    --genre-cadre-gauche: 8%;
+    --genre-actif-bg: #ffffff40; // fond du curseur (semi-transparent)
+    --genre-actif-bord: #ffffffcc; // contour 1px du curseur
+    --genre-actif-halo: 0 0 8px #ffffff99; // halo du curseur
+    --genre-rayon: 14px; // arrondi du curseur
+    --prevenir-actif: #064E2B; // Oui / Non / phrase : choix actif
+    --prevenir-inactif: #7A0A18; // choix non actif
+    --prevenir-ombre: 0 1px 0 #ffffff99; // ombre du texte (lisibilité)
+    --prevenir-trait: #4a2f3d66; // fines lignes entre les 3 zones
 
     // ---- Photos ----
     --photo-bandeau-text: #1c2b36; // texte du bandeau de photo (page « Mes photos »)

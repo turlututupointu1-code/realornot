@@ -171,6 +171,21 @@ $dossier: 'givre';
     --moi-avatar-item-active-border-color: var(--salutation-box-bg); // bordure de l'avatar choisi
     --moi-info-text-color: var(--box-text); // texte de la boîte d'information
     --moi-bar-text-color: var(--color-white); // texte et chevron des barres de la page Moi
+    --genre-info-bg: #1f5fb0; // nom du genre choisi (au-dessus du symbole) : fond opaque
+    --genre-info-bord: #8fd3ff; // bordure 1px
+    --genre-info-texte: #eaf6ff; // texte
+    --genre-cadre-haut: 8%; // choix du genre : cadre intérieur de la barre (en % de la barre), le curseur glisse à l'intérieur
+    --genre-cadre-droite: 8%;
+    --genre-cadre-bas: 8%;
+    --genre-cadre-gauche: 8%;
+    --genre-actif-bg: #8fd3ff33; // fond du curseur (semi-transparent)
+    --genre-actif-bord: #cfeeff; // contour 1px du curseur
+    --genre-actif-halo: 0 0 8px #8fd3ffaa; // halo du curseur
+    --genre-rayon: 10px; // arrondi du curseur
+    --prevenir-actif: #7CFFC4; // Oui / Non / phrase : choix actif
+    --prevenir-inactif: #FF8FA3; // choix non actif
+    --prevenir-ombre: 0 0 4px #000, 0 1px 2px #000; // ombre du texte (lisibilité)
+    --prevenir-trait: #ffffff59; // fines lignes entre les 3 zones
 
     // ---- Photos ----
     --photo-bandeau-text: #1c2b36; // texte du bandeau de photo (page « Mes photos »)

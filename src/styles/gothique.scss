@@ -168,6 +168,21 @@ $dossier: 'gothique';
     --moi-avatar-item-active-border-color: var(--box-accent); // bordure de l'avatar choisi
     --moi-info-text-color: var(--theme-text-color); // texte de la boîte d'information
     --moi-bar-text-color: var(--color-white); // texte et chevron des barres de la page Moi
+    --genre-info-bg: #141414; // nom du genre choisi (au-dessus du symbole) : fond opaque
+    --genre-info-bord: #b0b0b8; // bordure 1px
+    --genre-info-texte: #f5ecec; // texte
+    --genre-cadre-haut: 15%; // choix du genre : cadre intérieur de la barre (en % de la barre), le curseur glisse à l'intérieur
+    --genre-cadre-droite: 4%;
+    --genre-cadre-bas: 15%;
+    --genre-cadre-gauche: 6%;
+    --genre-actif-bg: #8b000066; // fond du curseur (semi-transparent)
+    --genre-actif-bord: #c4a876; // contour 1px du curseur
+    --genre-actif-halo: 0 0 8px #8b0000cc; // halo du curseur
+    --genre-rayon: 6px; // arrondi du curseur
+    --prevenir-actif: #5EEAA5; // Oui / Non / phrase : choix actif
+    --prevenir-inactif: #FF6B7A; // choix non actif
+    --prevenir-ombre: 0 0 4px #000, 0 1px 2px #000; // ombre du texte (lisibilité)
+    --prevenir-trait: #ffffff40; // fines lignes entre les 3 zones
 
     // ---- Photos ----
     --photo-bandeau-text: #1c2b36; // texte du bandeau de photo (page « Mes photos »)

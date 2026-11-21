@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import * as RouterDom from 'react-router-dom';
 import { useUiLang, useThemeAssets, BanniereTitre } from '../communs';
 import NavArrow from '../components/NavArrow';
+import SelecteurGenre from '../components/SelecteurGenre';
 import { useAvatarUtilisateur } from '../utils/useAvatarUtilisateur';
 import {
     type ProfilConversation,
@@ -18,30 +19,6 @@ interface LocationState {
         imageUrl: string;
     };
 }
-
-// Symboles de genre, alignés par position avec t.genres (mêmes couleurs que
-// sur la page Moi / Détails du personnage).
-const GENRE_SYMBOLS = ['♀', '♂', '⚧', '⚥', '⚪'];
-
-// Non-binaire : petit drapeau (jaune, blanc, violet, noir) plutôt qu'un
-// symbole, à la place du rond de GENRE_SYMBOLS[4].
-const IconGenreNonBinaire: React.FC = () => (
-    <svg viewBox="0 0 24 16" className="details-genre-flag">
-        <rect width="24" height="4" y="0" fill="#FCF434" />
-        <rect width="24" height="4" y="4" fill="#FFFFFF" />
-        <rect width="24" height="4" y="8" fill="#9C59D1" />
-        <rect width="24" height="4" y="12" fill="#2C2C2C" />
-    </svg>
-);
-
-// Intersexe : drapeau officiel (fond jaune, cercle violet centré) à la place
-// du symbole GENRE_SYMBOLS[3].
-const IconGenreIntersexe: React.FC = () => (
-    <svg viewBox="0 0 24 16" className="details-genre-flag">
-        <rect width="24" height="16" fill="#FFD800" />
-        <circle cx="12" cy="8" r="5" fill="none" stroke="#7902AA" strokeWidth="2.5" />
-    </svg>
-);
 
 const chatKey = (id: number) => `realornot-chat-${id}`;
 
@@ -61,7 +38,6 @@ const ProfilConversationUtilisateurPage: React.FC = () => {
     const [profilConversation, setProfilConversation] = useState<ProfilConversation>(() =>
         chargerProfilConversation(creation?.id)
     );
-    const [activeGenreTooltip, setActiveGenreTooltip] = useState<number | null>(null);
     const [signalementOuvert, setSignalementOuvert] = useState(false);
     const [motifChoisi, setMotifChoisi] = useState<string | null>(null);
     const [commentaireSignalement, setCommentaireSignalement] = useState('');
@@ -117,12 +93,6 @@ const ProfilConversationUtilisateurPage: React.FC = () => {
             setEnvoiEnCours(false);
         }
     };
-
-    useEffect(() => {
-        if (activeGenreTooltip === null) return;
-        const timer = window.setTimeout(() => setActiveGenreTooltip(null), 5000);
-        return () => window.clearTimeout(timer);
-    }, [activeGenreTooltip]);
 
     useEffect(() => {
         if (creation?.id === undefined) return;
@@ -197,28 +167,12 @@ const ProfilConversationUtilisateurPage: React.FC = () => {
             </div>
             </div>
 
-                <div className="details-genre-row profil-conversation-genre-row">
-                    <img src={assets.barre2} alt="" className="details-categories-bg" />
-                    <div className="details-genre-items">
-                        {GENRE_SYMBOLS.map((symbol, i) => (
-                            <div key={symbol} className="details-genre-item">
-                                <button
-                                    type="button"
-                                    className={`details-genre-symbol details-genre-symbol-${i}${profilConversation.genre === i ? ' details-genre-symbol-active' : ''}`}
-                                    onClick={() => {
-                                        setProfilConversation((p) => ({ ...p, genre: i }));
-                                        setActiveGenreTooltip(activeGenreTooltip === i ? null : i);
-                                    }}
-                                >
-                                    {i === 3 ? <IconGenreIntersexe /> : i === 4 ? <IconGenreNonBinaire /> : symbol}
-                                </button>
-                                {activeGenreTooltip === i && (
-                                    <span className="details-genre-tooltip">{t.genres[i]}</span>
-                                )}
-                            </div>
-                        ))}
-                    </div>
-                </div>
+                <SelecteurGenre
+                    genre={profilConversation.genre}
+                    onChange={(i) => setProfilConversation((p) => ({ ...p, genre: i }))}
+                    barre="barre2"
+                    classe="profil-conversation-genre-row"
+                />
 
                 <div className="profil-conversation-boxed">
                     <button

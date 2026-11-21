@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import * as RouterDom from 'react-router-dom';
 import { useUiLang, useThemeAssets, BanniereTitre } from '../communs';
 import NavArrow from '../components/NavArrow';
+import SelecteurGenre from '../components/SelecteurGenre';
 import { addUserCreation, blobUrlToDataUrl, modifierUserCreation, type UserCreation } from '../utils/userCreations';
 import { chargerVoixPersonnage, enregistrerVoixPersonnage } from '../utils/voixPersonnage';
 import { getDeviceId } from '../utils/deviceId';
@@ -72,29 +73,6 @@ interface LocationState {
 // consulte le personnage.
 const CATEGORY_CODES = ['Famille', 'Amis', 'Rencontres', 'People', 'Fiction', 'Histoire'];
 
-// Symboles de genre, alignés par position avec t.genres.
-const GENRE_SYMBOLS = ['♀', '♂', '⚧', '⚥', '⚪'];
-
-// Non-binaire : petit drapeau (jaune, blanc, violet, noir) plutôt qu'un
-// symbole, à la place du rond de GENRE_SYMBOLS[4].
-const IconGenreNonBinaire: React.FC = () => (
-    <svg viewBox="0 0 24 16" className="details-genre-flag">
-        <rect width="24" height="4" y="0" fill="#FCF434" />
-        <rect width="24" height="4" y="4" fill="#FFFFFF" />
-        <rect width="24" height="4" y="8" fill="#9C59D1" />
-        <rect width="24" height="4" y="12" fill="#2C2C2C" />
-    </svg>
-);
-
-// Intersexe : drapeau officiel (fond jaune, cercle violet centré) à la place
-// du symbole GENRE_SYMBOLS[3].
-const IconGenreIntersexe: React.FC = () => (
-    <svg viewBox="0 0 24 16" className="details-genre-flag">
-        <rect width="24" height="16" fill="#FFD800" />
-        <circle cx="12" cy="8" r="5" fill="none" stroke="#7902AA" strokeWidth="2.5" />
-    </svg>
-);
-
 const DetailsPersonnage: React.FC = () => {
     const t = useUiLang();
     const assets = useThemeAssets();
@@ -122,19 +100,12 @@ const DetailsPersonnage: React.FC = () => {
     const [isPublic, setIsPublic] = useState(creationExistante?.isPublic ?? true);
     const [isSaving, setIsSaving] = useState(false);
     const [saveError, setSaveError] = useState<string | null>(null);
-    const [activeGenreTooltip, setActiveGenreTooltip] = useState<number | null>(null);
     const [genre, setGenre] = useState<number | null>(creationExistante?.genre ?? brouillonInitial.genre);
     const [voixChoisie] = useState<VoixChoisie | null>(() => (
         creationExistante
             ? (creationExistante.voix ?? chargerVoixPersonnage(creationExistante.id) ?? chargerVoixChoisie())
             : chargerVoixChoisie()
     ));
-
-    useEffect(() => {
-        if (activeGenreTooltip === null) return;
-        const timer = window.setTimeout(() => setActiveGenreTooltip(null), 5000);
-        return () => window.clearTimeout(timer);
-    }, [activeGenreTooltip]);
 
     useEffect(() => {
         if (isEdition) return;
@@ -285,28 +256,7 @@ const DetailsPersonnage: React.FC = () => {
                 </div>
             </div>
 
-            <div className="details-genre-row">
-                <img src={assets.barre1} alt="" className="details-categories-bg" />
-                <div className="details-genre-items">
-                    {GENRE_SYMBOLS.map((symbol, i) => (
-                        <div key={symbol} className="details-genre-item">
-                            <button
-                                type="button"
-                                className={`details-genre-symbol details-genre-symbol-${i}${genre === i ? ' details-genre-symbol-active' : ''}`}
-                                onClick={() => {
-                                    setGenre(i);
-                                    setActiveGenreTooltip(activeGenreTooltip === i ? null : i);
-                                }}
-                            >
-                                {i === 3 ? <IconGenreIntersexe /> : i === 4 ? <IconGenreNonBinaire /> : symbol}
-                            </button>
-                            {activeGenreTooltip === i && (
-                                <span className="details-genre-tooltip">{t.genres[i]}</span>
-                            )}
-                        </div>
-                    ))}
-                </div>
-            </div>
+            <SelecteurGenre genre={genre} onChange={setGenre} />
 
             <button type="button" className="details-voix-row voix-choisie-row" onClick={() => navigate('/creer/voix')}>
                 <img src={assets.barre1} alt="" className="details-categories-bg" />

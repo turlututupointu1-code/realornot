@@ -168,6 +168,21 @@ $dossier: 'dentelle';
     --moi-avatar-item-active-border-color: var(--salutation-box-bg); // bordure de l'avatar choisi
     --moi-info-text-color: var(--box-text); // texte de la boîte d'information
     --moi-bar-text-color: #4a2f3d; // texte et chevron des barres de la page Moi
+    --genre-info-bg: #f3e6d0; // nom du genre choisi (au-dessus du symbole) : fond opaque
+    --genre-info-bord: #b99a7a; // bordure 1px
+    --genre-info-texte: #4a2f3d; // texte
+    --genre-cadre-haut: 14%; // choix du genre : cadre intérieur de la barre (en % de la barre), le curseur glisse à l'intérieur
+    --genre-cadre-droite: 3%;
+    --genre-cadre-bas: 15%;
+    --genre-cadre-gauche: 3.5%;
+    --genre-actif-bg: #b99a7a40; // fond du curseur (semi-transparent)
+    --genre-actif-bord: #8a6a4a; // contour 1px du curseur
+    --genre-actif-halo: 0 0 6px #b99a7a80; // halo du curseur
+    --genre-rayon: 14px; // arrondi du curseur
+    --prevenir-actif: #0B6B42; // Oui / Non / phrase : choix actif
+    --prevenir-inactif: #A3202E; // choix non actif
+    --prevenir-ombre: 0 1px 0 #fffc; // ombre du texte (lisibilité)
+    --prevenir-trait: #4a2f3d66; // fines lignes entre les 3 zones
 
     // ---- Photos ----
     --photo-bandeau-text: #1c2b36; // texte du bandeau de photo (page « Mes photos »)

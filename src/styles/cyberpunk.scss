@@ -169,6 +169,21 @@ $dossier: 'cyberpunk';
     --moi-avatar-item-active-border-color: #b2306f; // bordure de l'avatar choisi
     --moi-info-text-color: var(--theme-text-color); // texte de la boîte d'information
     --moi-bar-text-color: var(--color-white); // texte et chevron des barres de la page Moi
+    --genre-info-bg: #0a1a2f; // nom du genre choisi (au-dessus du symbole) : fond opaque
+    --genre-info-bord: #00e5ff; // bordure 1px
+    --genre-info-texte: #e0f7ff; // texte
+    --genre-cadre-haut: 22%; // choix du genre : cadre intérieur de la barre (en % de la barre), le curseur glisse à l'intérieur
+    --genre-cadre-droite: 6%;
+    --genre-cadre-bas: 22%;
+    --genre-cadre-gauche: 6%;
+    --genre-actif-bg: #00e5ff33; // fond du curseur (semi-transparent)
+    --genre-actif-bord: #00e5ff; // contour 1px du curseur
+    --genre-actif-halo: 0 0 8px #00e5ff99; // halo du curseur
+    --genre-rayon: 6px; // arrondi du curseur
+    --prevenir-actif: #5CFFB0; // Oui / Non / phrase : choix actif
+    --prevenir-inactif: #FF7A9A; // choix non actif
+    --prevenir-ombre: 0 0 4px #000, 0 1px 2px #000; // ombre du texte (lisibilité)
+    --prevenir-trait: #ffffff59; // fines lignes entre les 3 zones
 
     // ---- Photos ----
     --photo-bandeau-text: #1c2b36; // texte du bandeau de photo (page « Mes photos »)

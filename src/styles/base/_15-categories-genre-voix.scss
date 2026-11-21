@@ -64,17 +64,24 @@
     height: 14px;
     width: auto;
 }
+// Zone des 5 symboles : suit le cadre intérieur de la barre du thème (--genre-cadre-*, en % de la barre) et la partage en 5 cases égales.
+// isolation : le curseur (z-index -1) reste derrière les symboles mais devant l'image de la barre.
 .details-genre-items {
-    @extend %absolute-inset;
-    display: flex;
+    position: absolute;
+    inset: var(--genre-cadre-haut, 14%) var(--genre-cadre-droite, 4%) var(--genre-cadre-bas, 14%) var(--genre-cadre-gauche, 4%);
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
     align-items: stretch;
+    isolation: isolate;
+}
+.details-genre-items .details-genre-item {
+    display: flex;
     justify-content: center;
-    gap: 14px;
-    padding: 0 16px;
+    min-width: 0;
 }
 button.details-genre-symbol {
     @extend %flex-center;
-    width: 30px;
+    width: 100%;
     height: 100%;
     border-radius: 0;
     border: none;
@@ -95,13 +102,27 @@ button.details-genre-symbol-2 { color: $c-genre-purple; }
     overflow: hidden;
 }
 
-// Symbole de genre sélectionné : fond du thème derrière le symbole (même image que les suggestions sélectionnées).
-// Concerne la page « Mon profil », la page « Moi » et la page Détails du personnage.
-button.details-genre-symbol.details-genre-symbol-active {
-    background-image: var(--img-suggestion-active) !important;
-    background-size: 100% calc(100% - var(--fond-retrait)) !important; // hauteur réglée par thème avec --fond-retrait
-    background-repeat: no-repeat !important;
-    background-position: center !important;
+// Curseur : un rectangle qui glisse le long du cadre intérieur jusqu'au symbole choisi (--genre-i = 0 à 4, posé par SelecteurGenre).
+// Couleurs, contour, halo et arrondi par thème : --genre-actif-bg, --genre-actif-bord, --genre-actif-halo, --genre-rayon.
+// Concerne les pages « Mon profil », « Moi » et Détails du personnage.
+.details-genre-curseur {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    width: 20%;
+    z-index: -1;
+    box-sizing: border-box;
+    pointer-events: none;
+    border-radius: var(--genre-rayon);
+    border: 1px solid var(--genre-actif-bord);
+    background: var(--genre-actif-bg);
+    box-shadow: var(--genre-actif-halo);
+    transform: translateX(calc(var(--genre-i, 0) * 100%));
+    transition: transform 0.3s ease, opacity 0.2s ease;
+}
+.details-genre-curseur-cache {
+    opacity: 0;
 }
 
 .details-genre-tooltip {
@@ -109,10 +130,10 @@ button.details-genre-symbol.details-genre-symbol-active {
     bottom: calc(100% + 6px);
     left: 50%;
     transform: translateX(-50%);
-    // Même style que l'onglet « dossier » : fond opaque, bordure et texte du thème (variables déjà réglées dans chaque fichier de thème).
-    background-color: var(--dossier-onglet-bg);
-    color: var(--box-text);
-    border: max(var(--box-border-width), var(--border-width)) solid var(--box-border);
+    // Nom du genre choisi : fond opaque, texte et bordure 1px propres à chaque thème (--genre-info-bg / -texte / -bord), comme les champs de saisie.
+    background-color: var(--genre-info-bg);
+    color: var(--genre-info-texte);
+    border: 1px solid var(--genre-info-bord);
     font-weight: 700;
     font-size: 0.75em;
     padding: 4px 10px;

@@ -168,6 +168,21 @@ $dossier: 'laiton';
     --moi-avatar-item-active-border-color: var(--salutation-box-bg); // bordure de l'avatar choisi
     --moi-info-text-color: var(--box-text); // texte de la boîte d'information
     --moi-bar-text-color: var(--color-white); // texte et chevron des barres de la page Moi
+    --genre-info-bg: #3d62a8; // nom du genre choisi (au-dessus du symbole) : fond opaque
+    --genre-info-bord: #c9a96a; // bordure 1px
+    --genre-info-texte: #f6ecd0; // texte
+    --genre-cadre-haut: 12%; // choix du genre : cadre intérieur de la barre (en % de la barre), le curseur glisse à l'intérieur
+    --genre-cadre-droite: 3.5%;
+    --genre-cadre-bas: 20%;
+    --genre-cadre-gauche: 4.5%;
+    --genre-actif-bg: #c9a96a40; // fond du curseur (semi-transparent)
+    --genre-actif-bord: #e6c987; // contour 1px du curseur
+    --genre-actif-halo: 0 0 6px #c9a96a99; // halo du curseur
+    --genre-rayon: 4px; // arrondi du curseur
+    --prevenir-actif: #7CFFC4; // Oui / Non / phrase : choix actif
+    --prevenir-inactif: #FF9AA8; // choix non actif
+    --prevenir-ombre: 0 0 4px #000, 0 1px 2px #000; // ombre du texte (lisibilité)
+    --prevenir-trait: #ffffff59; // fines lignes entre les 3 zones
 
     // ---- Photos ----
     --photo-bandeau-text: #1c2b36; // texte du bandeau de photo (page « Mes photos »)

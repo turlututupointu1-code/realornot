@@ -168,6 +168,21 @@ $dossier: 'relief-doux';
     --moi-avatar-item-active-border-color: var(--salutation-box-bg); // bordure de l'avatar choisi
     --moi-info-text-color: var(--box-text); // texte de la boîte d'information
     --moi-bar-text-color: var(--color-white); // texte et chevron des barres de la page Moi
+    --genre-info-bg: #b9c7e6; // nom du genre choisi (au-dessus du symbole) : fond opaque
+    --genre-info-bord: #8a96b8; // bordure 1px
+    --genre-info-texte: #2f3a5a; // texte
+    --genre-cadre-haut: 14%; // choix du genre : cadre intérieur de la barre (en % de la barre), le curseur glisse à l'intérieur
+    --genre-cadre-droite: 3%;
+    --genre-cadre-bas: 17%;
+    --genre-cadre-gauche: 3.5%;
+    --genre-actif-bg: #ffffff66; // fond du curseur (semi-transparent)
+    --genre-actif-bord: #7e8db3; // contour 1px du curseur
+    --genre-actif-halo: 0 0 6px #7e8db388; // halo du curseur
+    --genre-rayon: 12px; // arrondi du curseur
+    --prevenir-actif: #0B6B42; // Oui / Non / phrase : choix actif
+    --prevenir-inactif: #A01B2C; // choix non actif
+    --prevenir-ombre: 0 1px 0 #fffc; // ombre du texte (lisibilité)
+    --prevenir-trait: #2f3a5a55; // fines lignes entre les 3 zones
 
     // ---- Photos ----
     --photo-bandeau-text: #1c2b36; // texte du bandeau de photo (page « Mes photos »)

@@ -69,17 +69,17 @@ button.moi-prevenir-btn {
     font-size: clamp(11px, 3.2vw, 14px);
     line-height: 1.15;
     text-align: center;
-    color: #FB7185; // rouge : choix non actif
-    text-shadow: 0 0 3px rgba(0, 0, 0, 0.7); // lisible sur tous les fonds de barre
+    color: var(--prevenir-inactif); // choix non actif (couleur propre à chaque thème)
+    text-shadow: var(--prevenir-ombre); // lisibilité sur le dessin de la barre
     cursor: pointer;
 }
 button.moi-prevenir-btn.moi-prevenir-btn-actif {
-    color: #34D399; // vert : choix actif
+    color: var(--prevenir-actif); // choix actif (couleur propre à chaque thème)
 }
 // Fines lignes de chaque côté de la phrase pour montrer les 3 zones
 button.moi-prevenir-btn-milieu {
-    border-left: 1px solid rgba(255, 255, 255, 0.35);
-    border-right: 1px solid rgba(255, 255, 255, 0.35);
+    border-left: 1px solid var(--prevenir-trait);
+    border-right: 1px solid var(--prevenir-trait);
 }
 // Côté « Personne réelle » (classe mode-reel posée par App.tsx) : autre fond d'écran (fondecran2) et autre coque (coque2).
 // Chaque thème choisit ses images avec --wallpaper-reel et --img-coque-reel.

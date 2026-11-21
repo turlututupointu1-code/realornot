@@ -168,6 +168,21 @@ $dossier: 'onde-vapeur';
     --moi-avatar-item-active-border-color: var(--salutation-box-bg); // bordure de l'avatar choisi
     --moi-info-text-color: var(--box-text); // texte de la boîte d'information
     --moi-bar-text-color: var(--color-white); // texte et chevron des barres de la page Moi
+    --genre-info-bg: #4a82c4; // nom du genre choisi (au-dessus du symbole) : fond opaque
+    --genre-info-bord: #3a4350; // bordure 1px
+    --genre-info-texte: #ffffff; // texte
+    --genre-cadre-haut: 9%; // choix du genre : cadre intérieur de la barre (en % de la barre), le curseur glisse à l'intérieur
+    --genre-cadre-droite: 8.5%;
+    --genre-cadre-bas: 9%;
+    --genre-cadre-gauche: 8.7%;
+    --genre-actif-bg: #ffffff33; // fond du curseur (semi-transparent)
+    --genre-actif-bord: #ffffffcc; // contour 1px du curseur
+    --genre-actif-halo: 0 0 6px #ffffff88; // halo du curseur
+    --genre-rayon: 4px; // arrondi du curseur
+    --prevenir-actif: #B8FFD9; // Oui / Non / phrase : choix actif
+    --prevenir-inactif: #FFC2C2; // choix non actif
+    --prevenir-ombre: 0 1px 3px #000c; // ombre du texte (lisibilité)
+    --prevenir-trait: #ffffff66; // fines lignes entre les 3 zones
 
     // ---- Photos ----
     --photo-bandeau-text: #1c2b36; // texte du bandeau de photo (page « Mes photos »)

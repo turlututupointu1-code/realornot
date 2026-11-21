@@ -7,40 +7,15 @@ import { AVATARS, chargerProfilVous, enregistrerProfilVous } from '../utils/vous
 import { chargerPseudo, enregistrerPseudo } from '../utils/pseudo';
 import { useUnSeulOuvert } from '../utils/useUnSeulOuvert';
 import PanneauDeroulant from '../components/PanneauDeroulant';
+import SelecteurGenre from '../components/SelecteurGenre';
 
 // Longueur maximale du pseudo (champ de saisie et titre de la page).
 const PSEUDO_MAX = 15;
-
-// Symboles de genre, alignés par position avec t.genres (mêmes couleurs que
-// sur la page Détails du personnage).
-const GENRE_SYMBOLS = ['♀', '♂', '⚧', '⚥', '⚪'];
-
-// Non-binaire : petit drapeau (jaune, blanc, violet, noir) plutôt qu'un
-// symbole, à la place du rond de GENRE_SYMBOLS[4] (voir IconGenreNonBinaire
-// dans le rendu ci-dessous).
-const IconGenreNonBinaire: React.FC = () => (
-    <svg viewBox="0 0 24 16" className="details-genre-flag">
-        <rect width="24" height="4" y="0" fill="#FCF434" />
-        <rect width="24" height="4" y="4" fill="#FFFFFF" />
-        <rect width="24" height="4" y="8" fill="#9C59D1" />
-        <rect width="24" height="4" y="12" fill="#2C2C2C" />
-    </svg>
-);
-
-// Intersexe : drapeau officiel (fond jaune, cercle violet centré) à la place
-// du symbole GENRE_SYMBOLS[3].
-const IconGenreIntersexe: React.FC = () => (
-    <svg viewBox="0 0 24 16" className="details-genre-flag">
-        <rect width="24" height="16" fill="#FFD800" />
-        <circle cx="12" cy="8" r="5" fill="none" stroke="#7902AA" strokeWidth="2.5" />
-    </svg>
-);
 
 const MoiPage: React.FC = () => {
     const t = useUiLang();
     const assets = useThemeAssets();
     const navigate = RouterDom.useNavigate();
-    const [activeGenreTooltip, setActiveGenreTooltip] = useState<number | null>(null);
     const [genre, setGenre] = useState<number | null>(() => chargerProfilVous().genre);
     // Un seul panneau ouvert à la fois : avatar, pseudo ou caractère (ouvrir l'un ferme les autres)
     const panneau = useUnSeulOuvert<'avatar' | 'pseudo' | 'caractere'>();
@@ -66,12 +41,6 @@ const MoiPage: React.FC = () => {
         setPseudo(valeur);
         panneau.fermer();
     };
-
-    useEffect(() => {
-        if (activeGenreTooltip === null) return;
-        const timer = window.setTimeout(() => setActiveGenreTooltip(null), 5000);
-        return () => window.clearTimeout(timer);
-    }, [activeGenreTooltip]);
 
     useEffect(() => {
         enregistrerProfilVous({ genre, avatarChoisi, caractere, prevenirNouvelleIA });
@@ -103,28 +72,7 @@ const MoiPage: React.FC = () => {
                 <p className="personnage-field-text">{t.vousInfoAvatar}</p>
             </div>
 
-            <div className="details-genre-row moi-genre-row">
-                <img src={assets.barre1} alt="" className="details-categories-bg" />
-                <div className="details-genre-items">
-                    {GENRE_SYMBOLS.map((symbol, i) => (
-                        <div key={symbol} className="details-genre-item">
-                            <button
-                                type="button"
-                                className={`details-genre-symbol details-genre-symbol-${i}${genre === i ? ' details-genre-symbol-active' : ''}`}
-                                onClick={() => {
-                                    setGenre(i);
-                                    setActiveGenreTooltip(activeGenreTooltip === i ? null : i);
-                                }}
-                            >
-                                {i === 3 ? <IconGenreIntersexe /> : i === 4 ? <IconGenreNonBinaire /> : symbol}
-                            </button>
-                            {activeGenreTooltip === i && (
-                                <span className="details-genre-tooltip">{t.genres[i]}</span>
-                            )}
-                        </div>
-                    ))}
-                </div>
-            </div>
+            <SelecteurGenre genre={genre} onChange={setGenre} classe="moi-genre-row" />
 
             {/* Avatar, pseudonyme, caractère : même composant PanneauDeroulant (barre + flèche + panneau collé sous la barre) */}
             <PanneauDeroulant

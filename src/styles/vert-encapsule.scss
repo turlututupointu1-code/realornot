@@ -168,6 +168,21 @@ $dossier: 'vert-encapsule';
     --moi-avatar-item-active-border-color: var(--salutation-box-bg); // bordure de l'avatar choisi
     --moi-info-text-color: var(--box-text); // texte de la boîte d'information
     --moi-bar-text-color: var(--color-white); // texte et chevron des barres de la page Moi
+    --genre-info-bg: #a8e0c4; // nom du genre choisi (au-dessus du symbole) : fond opaque
+    --genre-info-bord: #6fbf9a; // bordure 1px
+    --genre-info-texte: #1f4a36; // texte
+    --genre-cadre-haut: 12%; // choix du genre : cadre intérieur de la barre (en % de la barre), le curseur glisse à l'intérieur
+    --genre-cadre-droite: 1.5%;
+    --genre-cadre-bas: 12%;
+    --genre-cadre-gauche: 2%;
+    --genre-actif-bg: #ffffff4d; // fond du curseur (semi-transparent)
+    --genre-actif-bord: #1f7a52; // contour 1px du curseur
+    --genre-actif-halo: 0 0 8px #ffffffaa; // halo du curseur
+    --genre-rayon: 14px; // arrondi du curseur
+    --prevenir-actif: #0A5A32; // Oui / Non / phrase : choix actif
+    --prevenir-inactif: #9B1C2C; // choix non actif
+    --prevenir-ombre: 0 1px 0 #ffffffb3; // ombre du texte (lisibilité)
+    --prevenir-trait: #1f4a3655; // fines lignes entre les 3 zones
 
     // ---- Photos ----
     --photo-bandeau-text: #1c2b36; // texte du bandeau de photo (page « Mes photos »)
