@@ -590,46 +590,42 @@ const PersonnagePage: React.FC = () => {
             )}
 
             <div className={`personnage-content${photoRevelee ? ' personnage-content-masque' : ''}`}>
-                <div className="personnage-header-fixed">
+                {/* Flèche retour + barre titre sur une seule ligne (comme « Moi », mêmes dimensions). Dans la barre : avatar à gauche, drapeau « Signaler » à droite, « Personnage non réel » sous le nom. */}
+                <div className="titre-ligne">
                     <NavArrow direction="back" />
-
-                    {!estCreateur && (
-                        <button
-                            type="button"
-                            className="signaler-btn"
-                            onClick={() => setSignalementOuvert(true)}
-                            aria-label={t.signalerBouton}
-                        >
-                            <img src={assets.drapeau} alt="" className="signaler-btn-img" />
-                        </button>
-                    )}
-
-                    {creation?.creatorPseudo && (
-                        <div className="personnage-creator-banner">
-                            {t.personnageCreeParIA}
-                        </div>
-                    )}
+                    <BanniereTitre texte={traduit.title}>
+                        {creation && avatarUtilisateur && (
+                            <button
+                                type="button"
+                                className="profil-conversation-avatar-btn"
+                                /* Créateur : ouvre "Détails du personnage" en mode modification ; autres utilisateurs : page "Mon profil" simplifiée */
+                                onClick={() => (estCreateur
+                                    ? navigate('/creer/personnage', { state: { creationExistante: creation, depuisDiscussion: true } }) // depuisDiscussion : permet d'afficher "Recommencer la conversation" dans Détails du personnage
+                                    : navigate(`/personnage/${creation.id}/utilisateur`, { state: { creation } })
+                                )}
+                                aria-label={t.modifierProfilConversation}
+                            >
+                                <img src={avatarUtilisateur} alt="" className="profil-conversation-avatar-img" />
+                                <span className="personnage-user-avatar-pencil">
+                                    <IconPencil />
+                                </span>
+                            </button>
+                        )}
+                        {!estCreateur && (
+                            <button
+                                type="button"
+                                className="signaler-btn"
+                                onClick={() => setSignalementOuvert(true)}
+                                aria-label={t.signalerBouton}
+                            >
+                                <img src={assets.drapeau} alt="" className="signaler-btn-img" />
+                            </button>
+                        )}
+                        {creation?.creatorPseudo && (
+                            <span className="personnage-sous-titre">{t.personnageCreeParIA}</span>
+                        )}
+                    </BanniereTitre>
                 </div>
-
-                <BanniereTitre texte={traduit.title}>
-                    {creation && avatarUtilisateur && (
-                        <button
-                            type="button"
-                            className="personnage-user-avatar-banner-btn"
-                            /* Créateur : ouvre "Détails du personnage" en mode modification ; autres utilisateurs : page "Mon profil" simplifiée */
-                            onClick={() => (estCreateur
-                                ? navigate('/creer/personnage', { state: { creationExistante: creation, depuisDiscussion: true } }) // depuisDiscussion : permet d'afficher "Recommencer la conversation" dans Détails du personnage
-                                : navigate(`/personnage/${creation.id}/utilisateur`, { state: { creation } })
-                            )}
-                            aria-label={t.modifierProfilConversation}
-                        >
-                            <img src={avatarUtilisateur} alt="" className="personnage-user-avatar-banner-img" />
-                            <span className="personnage-user-avatar-pencil">
-                                <IconPencil />
-                            </span>
-                        </button>
-                    )}
-                </BanniereTitre>
 
                 <div className="create-buttons">
                     {creation?.histoire && (

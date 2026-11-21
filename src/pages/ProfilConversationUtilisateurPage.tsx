@@ -10,7 +10,6 @@ import {
     chargerProfilConversation,
     enregistrerProfilConversation,
 } from '../utils/profilConversation';
-import { envoyerSignalement } from '../utils/signalements';
 
 interface LocationState {
     creation?: {
@@ -38,13 +37,6 @@ const ProfilConversationUtilisateurPage: React.FC = () => {
     const [profilConversation, setProfilConversation] = useState<ProfilConversation>(() =>
         chargerProfilConversation(creation?.id)
     );
-    const [signalementOuvert, setSignalementOuvert] = useState(false);
-    const [motifChoisi, setMotifChoisi] = useState<string | null>(null);
-    const [commentaireSignalement, setCommentaireSignalement] = useState('');
-    const [envoiEnCours, setEnvoiEnCours] = useState(false);
-    const [signalementConfirme, setSignalementConfirme] = useState(false);
-    // Vrai pendant l'animation de descente de la fenêtre « Signaler » (avant qu'elle soit retirée).
-    const [signalementSortie, setSignalementSortie] = useState(false);
     // Confirmation "recommencer" (voir consigne_prudence_popups.md) -
     // remplace window.confirm par une fenêtre interne ; la logique qui suit
     // (localStorage.removeItem + navigate(-1) dans confirmerRecommencer,
@@ -52,47 +44,6 @@ const ProfilConversationUtilisateurPage: React.FC = () => {
     const [confirmationRecommencerOuverte, setConfirmationRecommencerOuverte] = useState(false);
     // Vrai pendant l'animation de descente de la fenêtre de confirmation (avant qu'elle soit retirée).
     const [confirmationSortie, setConfirmationSortie] = useState(false);
-
-    const motifs = [
-        t.motifContenuSexuel,
-        t.motifSuicideAutomutilation,
-        t.motifSecuriteEnfants,
-        t.motifHarcelement,
-        t.motifDiscoursHaineux,
-        t.motifAutre,
-    ];
-
-    // Ferme la fenêtre « Signaler » : la fait d'abord redescendre (0,3 s, même durée que l'animation CSS),
-    // puis la retire et remet les champs à zéro.
-    const fermerSignalement = () => {
-        if (signalementSortie) return; // fermeture déjà en cours
-        setSignalementSortie(true);
-        window.setTimeout(() => {
-            setSignalementOuvert(false);
-            setMotifChoisi(null);
-            setCommentaireSignalement('');
-            setSignalementConfirme(false);
-            setSignalementSortie(false);
-        }, 300);
-    };
-
-    const handleEnvoyerSignalement = async () => {
-        if (!motifChoisi || envoiEnCours) return;
-        setEnvoiEnCours(true);
-        try {
-            await envoyerSignalement({
-                creationId: creation?.id,
-                creationTitle: creation?.title || '',
-                motif: motifChoisi,
-                commentaire: commentaireSignalement.trim(),
-            });
-            setSignalementConfirme(true);
-        } catch (err) {
-            console.log('Signalement échoué', err);
-        } finally {
-            setEnvoiEnCours(false);
-        }
-    };
 
     useEffect(() => {
         if (creation?.id === undefined) return;
@@ -125,15 +76,6 @@ const ProfilConversationUtilisateurPage: React.FC = () => {
         <div className="page-content-container create-page profil-conversation-page">
             <div className="profil-conversation-header-fixed">
                 <NavArrow direction="back" />
-
-                <button
-                    type="button"
-                    className="signaler-btn"
-                    onClick={() => setSignalementOuvert(true)}
-                    aria-label={t.signalerBouton}
-                >
-                    <img src={assets.drapeau} alt="" className="signaler-btn-img" />
-                </button>
             </div>
 
             <BanniereTitre texte={t.profilConversationTitre}>
@@ -187,70 +129,6 @@ const ProfilConversationUtilisateurPage: React.FC = () => {
                     </button>
                 </div>
             </div>
-
-            {signalementOuvert && (
-                <div className={`update-prompt-overlay signaler-feuille-overlay${signalementSortie ? ' signaler-feuille-overlay-sortie' : ''}`}>
-                <div className={`update-prompt-box signaler-feuille${signalementSortie ? ' signaler-feuille-sortie' : ''}`}>
-                        {signalementConfirme ? (
-                            <p className="update-prompt-text">{t.signalementEnvoye}</p>
-                        ) : (
-                            <>
-                                <p className="update-prompt-text">{t.signalerTitre}</p>
-                                <div className="signaler-motifs">
-                                    {motifs.map((motif) => (
-                                        <button
-                                            key={motif}
-                                            type="button"
-                                            className={`signaler-motif-btn${motifChoisi === motif ? ' signaler-motif-btn-actif' : ''}`}
-                                            onClick={() => setMotifChoisi(motif)}
-                                        >
-                                            {motif}
-                                        </button>
-                                    ))}
-                                </div>
-                                <textarea
-                                    className="moi-champ signaler-commentaire"
-                                    placeholder={t.signalerCommentairePlaceholder}
-                                    value={commentaireSignalement}
-                                    onChange={(e) => setCommentaireSignalement(e.target.value)}
-                                    rows={3}
-                                    maxLength={300}
-                                />
-                            </>
-                        )}
-                        <div className="update-prompt-actions">
-                            {signalementConfirme ? (
-                                <button
-                                    type="button"
-                                    className="update-prompt-btn update-prompt-btn-primary"
-                                    onClick={fermerSignalement}
-                                >
-                                    {t.valider}
-                                </button>
-                            ) : (
-                                <>
-                                    <button
-                                        type="button"
-                                        className="update-prompt-btn update-prompt-btn-secondary"
-                                        onClick={fermerSignalement}
-                                        disabled={envoiEnCours}
-                                    >
-                                        {t.annuler}
-                                    </button>
-                                    <button
-                                        type="button"
-                                        className="update-prompt-btn update-prompt-btn-primary"
-                                        onClick={handleEnvoyerSignalement}
-                                        disabled={!motifChoisi || envoiEnCours}
-                                    >
-                                        {t.envoyer}
-                                    </button>
-                                </>
-                            )}
-                        </div>
-                    </div>
-                </div>
-            )}
 
             {confirmationRecommencerOuverte && (
                 <div className={`update-prompt-overlay signaler-feuille-overlay${confirmationSortie ? ' signaler-feuille-overlay-sortie' : ''}`}>
