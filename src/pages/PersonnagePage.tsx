@@ -304,6 +304,26 @@ const PersonnagePage: React.FC = () => {
         return () => viewport.removeEventListener('resize', surRedimensionnement);
     }, []);
 
+    // Barre (flèche + titre) : se cache quand on descend dans la conversation, réapparaît dès qu'on remonte légèrement.
+    const [barreVisible, setBarreVisible] = useState(true);
+    const dernierDefilementRef = useRef(0);
+    useEffect(() => {
+        // Écoute en capture : fonctionne que la page défile elle-même ou un conteneur interne.
+        const surDefilement = (e: Event) => {
+            const cible = e.target;
+            const el = cible instanceof Document ? document.scrollingElement : cible;
+            if (!(el instanceof HTMLElement) || el instanceof HTMLTextAreaElement || el instanceof HTMLInputElement) return;
+            const y = el.scrollTop;
+            const dernier = dernierDefilementRef.current;
+            if (y < 10) setBarreVisible(true);
+            else if (y > dernier + 4 && y > 60) setBarreVisible(false);
+            else if (y < dernier - 4) setBarreVisible(true);
+            dernierDefilementRef.current = y;
+        };
+        window.addEventListener('scroll', surDefilement, true);
+        return () => window.removeEventListener('scroll', surDefilement, true);
+    }, []);
+
     // Genre/caractère à envoyer au personnage : celui propre à cette
     // conversation s'il a été personnalisé, sinon le profil global "moi".
     const construireProfilUtilisateur = () => resoudreProfilPourEnvoi(creation?.id, t.genres);
@@ -638,7 +658,7 @@ const PersonnagePage: React.FC = () => {
 
             <div className={`personnage-content${photoRevelee ? ' personnage-content-masque' : ''}`}>
                 {/* Flèche retour + barre titre sur une seule ligne (comme « Moi », mêmes dimensions). Dans la barre : avatar à gauche, drapeau « Signaler » à droite, « Personnage non réel » sous le nom. */}
-                <div className="titre-ligne">
+                <div className={`titre-ligne titre-ligne-collante${barreVisible ? '' : ' titre-ligne-cachee'}`}>
                     <NavArrow direction="back" />
                     <BanniereTitre texte={traduit.title}>
                         {creation && avatarUtilisateur && (

@@ -139,7 +139,6 @@ export interface Translations {
     modifierProfilConversation: string;
     recommencerConversation: string;
     confirmerRecommencer: string;
-    confirmerRembobiner: string;
     quiEtesVous: string;
     oui: string;
     ecrireA: string; // contient {nom}, remplacé par le nom de l'IA
@@ -2361,18 +2360,6 @@ const textes: Textes = {
         ja: 'この会話を最初からやり直しますか？メッセージ履歴は完全に削除されます。',
         ko: '이 대화를 다시 시작할까요? 메시지 기록이 영구적으로 삭제됩니다.',
         ar: 'هل تريد إعادة بدء هذه المحادثة؟ سيتم حذف سجل الرسائل نهائيًا.',
-    },
-    confirmerRembobiner: {
-        fr: "Les messages en dessous seront définitivement effacés. Continuer ?",
-        en: 'The messages below will be permanently deleted. Continue?',
-        es: 'Los mensajes de abajo se eliminarán permanentemente. ¿Continuar?',
-        de: 'Die Nachrichten darunter werden dauerhaft gelöscht. Fortfahren?',
-        it: 'I messaggi sottostanti verranno eliminati definitivamente. Continuare?',
-        pt: 'As mensagens abaixo serão excluídas permanentemente. Continuar?',
-        zh: '下面的消息将被永久删除。是否继续？',
-        ja: '以下のメッセージは完全に削除されます。続行しますか？',
-        ko: '아래 메시지가 영구적으로 삭제됩니다. 계속하시겠습니까?',
-        ar: 'سيتم حذف الرسائل أدناه نهائيًا. هل تريد المتابعة؟',
     },
     quiEtesVous: {
         fr: 'Qui es-tu pour cette IA ?',
