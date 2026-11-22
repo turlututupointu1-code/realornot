@@ -434,3 +434,21 @@
     display: flex;
     gap: 12px;
 }
+
+// Signaler : boutons entiers. Les images des boutons (proportion 400 x 113) ne sont plus rognées (cover) :
+// chaque bouton garde la proportion de son image, texte centré. Motifs à 66 % de la largeur ; la fenêtre défile si besoin.
+.update-prompt-box:has(.signaler-motifs) .signaler-motif-btn,
+.update-prompt-box:has(.signaler-motifs) .update-prompt-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    aspect-ratio: 400 / 113;
+    background-size: 100% 100%;
+    line-height: 1.1;
+    text-align: center;
+}
+.update-prompt-box:has(.signaler-motifs) .signaler-motif-btn {
+    width: 66%;
+    align-self: center;
+}

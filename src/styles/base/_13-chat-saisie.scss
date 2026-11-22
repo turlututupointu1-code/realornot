@@ -20,20 +20,23 @@
     opacity: 0;
     pointer-events: none;
 }
+// Champ de saisie : mêmes couleurs que les autres champs de l'appli (--champ-*, par thème), bordure 1px, fond en partie transparent.
 .personnage-chat-input {
     flex: 1;
     border-radius: var(--radius-pill);
-    border: var(--border-width) solid var(--chat-input-border);
+    border: 1px solid var(--champ-border-color);
     padding: 10px 16px;
     font-size: 0.9em;
-    background-color: var(--input-bg);
-    color: var(--input-text);
+    background-color: var(--champ-bg);
+    color: var(--champ-text);
     outline: none;
 }
 .personnage-chat-input::placeholder {
-    color: var(--chat-input-placeholder-color);
-}.personnage-chat-input:focus {
-    border-color: var(--chat-input-focus-border-color);
+    color: var(--champ-text);
+    opacity: 0.6;
+}
+.personnage-chat-input:focus {
+    border-color: var(--champ-text);
 }
 
 .personnage-bg {
@@ -45,4 +48,17 @@
     position: relative;
     z-index: 1;
     transition: opacity 0.25s ease;
+}
+// Flèche d'envoi : taille réglable par thème (--fleche-envoi-taille).
+.personnage-chat-input-bar .personnage-chat-send {
+    flex-shrink: 0;
+    width: var(--fleche-envoi-taille, 44px);
+    height: var(--fleche-envoi-taille, 44px);
+    padding: 0;
+}
+.personnage-chat-input-bar .personnage-chat-send img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
 }

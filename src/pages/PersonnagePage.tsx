@@ -73,6 +73,12 @@ const IconPencil: React.FC = () => (
     </svg>
 );
 
+const IconCoche: React.FC = () => (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+        <polyline points="20 6 9 17 4 12" />
+    </svg>
+);
+
 const IconHautParleur: React.FC = () => (
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
         <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" />
@@ -162,6 +168,8 @@ const PersonnagePage: React.FC = () => {
     const [regeneratingId, setRegeneratingId] = useState<number | null>(null);
     const [editingId, setEditingId] = useState<number | null>(null);
     const [editDraft, setEditDraft] = useState('');
+    // Message dont on vient de copier le texte (la coche remplace l'icône 1,5 s).
+    const [copieId, setCopieId] = useState<number | null>(null);
     // Messages utilisateur envoyés au serveur mais restés sans réponse
     // (erreur ou réponse vide après retries côté serveur). Un message
     // marqué ici n'est jamais renvoyé au serveur dans l'historique d'un
@@ -485,8 +493,47 @@ const PersonnagePage: React.FC = () => {
         setEditDraft(message.text);
     };
 
-    const handleCopierMessage = (texte: string) => {
+    const handleCopierMessage = (messageId: number, texte: string) => {
         navigator.clipboard?.writeText(texte).catch((err) => console.log('Copie échouée', err));
+        setCopieId(messageId);
+        window.setTimeout(() => setCopieId((courant) => (courant === messageId ? null : courant)), 1500);
+    };
+
+    // Rembobiner (un seul appui) : on efface tout ce qui suit :
+    // sous un message de l'utilisateur on garde ce message, sous un message de l'IA on retire aussi ce message ; puis l'IA répond de nouveau.
+    // (Sous le dernier message de l'IA, rien à effacer : c'est une simple régénération, voir handleRegenerate.)
+    const handleRembobiner = async (messageId: number) => {
+        if (isWaitingReply || !creation) return;
+        const index = messages.findIndex((m) => m.id === messageId);
+        if (index === -1) return;
+        const gardes = messages.slice(0, messages[index].sender === 'user' ? index + 1 : index);
+        if (gardes.length === 0) return;
+        const dernierGardeId = gardes[gardes.length - 1].id;
+        setMessages(gardes);
+        setFailedMessageIds((prev) => new Set([...prev].filter((x) => x <= dernierGardeId)));
+
+        setIsWaitingReply(true);
+        try {
+            const envoi = gardes.filter((m) => m.id === dernierGardeId || !failedMessageIds.has(m.id));
+            const { reply, etatDelta } = await askCharacterReply({
+                name: creation.title,
+                bio: creation.bio,
+                description: creation.description,
+                histoire: creation.histoire,
+                salutation: creation.salutation,
+                history: envoi.map((m) => ({ sender: m.sender, text: m.text })),
+                etat: plierEtatMessages(envoi),
+                profilUtilisateur: construireProfilUtilisateur(),
+                lang,
+            });
+            setMessages((prev) => [...prev, { id: prev.length, sender: 'character', text: reply, etatDelta }]);
+        } catch (err) {
+            console.log('Réponse après rembobinage échouée', err);
+            // Le dernier message gardé est celui de l'utilisateur : bulle « Réessayer ».
+            setFailedMessageIds((prev) => new Set(prev).add(dernierGardeId));
+        } finally {
+            setIsWaitingReply(false);
+        }
     };
 
 
@@ -695,30 +742,44 @@ const PersonnagePage: React.FC = () => {
                                                 </button>
                                             </div>
                                         )}
-                                        {editingId !== message.id && ( // boutons haut-parleur, relancer, crayon et copier : sous tous les messages (IA et utilisateur)
+                                        {/* Haut-parleur : pastille accrochée au bord haut de la bulle, à gauche */}
+                                        {editingId !== message.id && parametresVoix && (
+                                            <button
+                                                type="button"
+                                                className="personnage-bubble-action-btn personnage-bubble-action-voix personnage-bubble-voix-haut"
+                                                onClick={() => lireMessage(message.text)}
+                                                aria-label={t.ecouter}
+                                            >
+                                                <IconHautParleur />
+                                            </button>
+                                        )}
+                                        {editingId !== message.id && ( // boutons relancer, crayon et copier : sous tous les messages (IA et utilisateur)
                                             <div className="personnage-bubble-actions">
-                                            {parametresVoix && (
-                                                    <button
-                                                        type="button"
-                                                        className="personnage-bubble-action-btn personnage-bubble-action-voix"
-                                                        onClick={() => lireMessage(message.text)}
-                                                        aria-label={t.ecouter}
-                                                    >
-                                                        <IconHautParleur />
-                                                    </button>
-                                                )}
-                                                {/* Relancer : seulement sous les messages du personnage (l'utilisateur n'a pas besoin de recharger ses propres messages) */}
+                                                {/* Relancer / rembobiner : dernier message de l'IA = régénère son texte ; message plus ancien = efface ce qui suit et l'IA répond de nouveau */}
                                                 {message.sender === 'character' && (
                                                     <button
                                                     type="button"
                                                     className="personnage-bubble-action-btn"
-                                                    onClick={() => handleRegenerate(message.id)}
-                                                    disabled={regeneratingId !== null || isWaitingReply}
+                                                    onClick={() => (message.id === messages.length - 1 ? handleRegenerate(message.id) : handleRembobiner(message.id))}
+                                                    disabled={regeneratingId !== null || isWaitingReply || (message.id === 0 && message.id !== messages.length - 1)}
                                                     aria-label={t.regenerer}
                                                     >
                                                     <IconReload />
                                                     </button>
                                                 )}
+                                                {/* Rembobiner : sous les messages de l'utilisateur (efface les messages en dessous et l'IA répond de nouveau) */}
+                                                {message.sender === 'user' && (
+                                                    <button
+                                                        type="button"
+                                                        className="personnage-bubble-action-btn"
+                                                        onClick={() => handleRembobiner(message.id)}
+                                                        disabled={regeneratingId !== null || isWaitingReply}
+                                                        aria-label={t.rembobinerMessage}
+                                                    >
+                                                        <IconReload />
+                                                    </button>
+                                                )}
+                                                {message.sender === 'character' && message.id === messages.length - 1 && (
                                                 <button
                                                     type="button"
                                                     className="personnage-bubble-action-btn"
@@ -728,14 +789,15 @@ const PersonnagePage: React.FC = () => {
                                                     >
                                                     <IconPencil />
                                                     </button>
+                                                )}
                                                     {/* Bouton copier : copie le texte de ce message, toujours visible à droite du crayon */}
                                                     <button
                                                     type="button"
                                                     className="personnage-bubble-action-btn"
-                                                    onClick={() => handleCopierMessage(message.text)}
+                                                    onClick={() => handleCopierMessage(message.id, message.text)}
                                                     aria-label={t.copierMessage}
                                                     >
-                                                    <IconCopier />
+                                                    {copieId === message.id ? <IconCoche /> : <IconCopier />}
                                                     </button>
                                             </div>
                                         )}
@@ -793,12 +855,7 @@ const PersonnagePage: React.FC = () => {
                         rows={2}
                         disabled={editingId !== null}
                         onChange={(e) => setDraft(e.target.value)}
-                        onKeyDown={(e) => {
-                            if (e.key === 'Enter' && !e.shiftKey) {
-                                e.preventDefault();
-                                handleSend();
-                            }
-                        }}
+                        enterKeyHint="enter"
                     />
                     <button
                         type="button"
