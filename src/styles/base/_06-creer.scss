@@ -310,3 +310,73 @@
     margin-top: 10px;
     color: var(--generating-text-color);
 }
+
+// Page « Créer la photo du personnage » : titre long -> deux lignes, un peu plus petit, avec de la place pour l'icône à gauche.
+// Réglages par thème (facultatifs) :
+//   --creer-titre-echelle    : taille du titre par rapport à --titre-taille (défaut 0.85)
+//   --creer-titre-pad-gauche : marge à gauche (défaut 8% = symétrique, texte centré sur la barre)
+//   --creer-titre-pad-droite : marge à droite (défaut 8%)
+//   --creer-titre-interligne : espace entre les deux lignes (défaut 1.05, plus petit = plus serré)
+//   --creer-icone-dx / -dy   : décalage de l'icône dans le cercle du titre, en % de l'icône (positif = droite / bas)
+.create-photo-page .titre-ligne .create-banner-text {
+    white-space: normal;
+    font-size: calc(var(--titre-taille, 20px) * var(--creer-titre-echelle, 0.85));
+    line-height: var(--creer-titre-interligne, 1.05);
+    box-sizing: border-box;
+    transform: translate(var(--creer-titre-dx, 0px), var(--banner-title-dy, 0px)); // ignore --banner-title-dx (réglé pour les autres pages) ; --creer-titre-dx = petit décalage propre à cette page
+    padding: 0 var(--creer-titre-pad-droite, 8%) 0 var(--creer-titre-pad-gauche, 8%);
+}
+.create-photo-page .titre-ligne .create-banner-icon {
+    translate: var(--creer-icone-dx, 0%) var(--creer-icone-dy, 0%);
+}
+
+// Page « Créer la photo » : icône du titre agrandie (--creer-icone-echelle, 1.5 = +50 %), même centre qu'avant.
+// Réglable par thème (facultatif) : --creer-icone-echelle
+.create-photo-page .titre-ligne .create-banner-icon {
+    transform: translate(calc(-50% + var(--icon-profil-dx) + 8%), calc(-50% + var(--icon-profil-dy) + 15%)) scale(var(--creer-icone-echelle, 1.5));
+}
+
+// Page « Créer la photo » : boutons descendus et texte des boutons légèrement agrandi (le reste de la page ne bouge pas).
+// Réglable par thème (facultatif) : --creer-boutons-bas (descente), --creer-bouton-texte-echelle (taille du texte)
+.create-photo-page .create-buttons {
+    translate: 0 var(--creer-boutons-bas, 30px);
+}
+.create-photo-page .create-btn-title {
+    display: inline-block;
+    scale: var(--creer-bouton-texte-echelle, 1.15);
+}
+
+// Page « Créer la photo » : silhouettes de proportions différentes -> même boîte, image entière (contain), pieds alignés en bas.
+// Réglable par thème (facultatif) :
+//   --silhouette-hauteur : hauteur de la boîte (défaut 400px) ; une silhouette large est limitée par la largeur de l'écran
+//   --silhouette-marge   : marge gauche/droite (défaut 8px)
+//   --silhouette-dy      : décalage vertical, positif = vers le bas (défaut 0px), sans changer la mise en page autour
+.create-photo-page .create-silhouette {
+    height: var(--silhouette-hauteur, 400px);
+    padding: 0 var(--silhouette-marge, 8px);
+    object-fit: contain;
+    object-position: center bottom;
+    translate: 0 var(--silhouette-dy, 0px);
+}
+
+// Page « Créer la photo » : texte des boutons centré verticalement sur le milieu du bouton.
+// Réglable par thème (facultatif) : --creer-bouton-texte-dy (décalage fin, positif = vers le bas), utile si le dessin du bouton n'est pas symétrique.
+.create-photo-page .create-buttons .btn-bouton-png .create-btn-caption {
+    top: 0;
+    bottom: 0;
+    height: auto;
+    padding-top: 0;
+    padding-bottom: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.create-photo-page .create-buttons .btn-bouton-png .create-btn-title {
+    translate: 0 var(--creer-bouton-texte-dy, 0px);
+}
+
+// Page « Créer la photo » : décalage des icônes à gauche des boutons, propre à cette page.
+// Réglable par thème (facultatif) : --creer-btn-icone-dx / --creer-btn-icone-dy, en % de l'icône (négatif = gauche / haut).
+.create-photo-page .create-buttons .create-banner-icon {
+    translate: var(--creer-btn-icone-dx, 0%) var(--creer-btn-icone-dy, 0%);
+}

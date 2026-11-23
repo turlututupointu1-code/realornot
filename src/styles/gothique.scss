@@ -219,6 +219,13 @@ $dossier: 'gothique';
     --scroll-thumb-hover: #b3122a; // curseur quand la souris passe dessus
     --icon-profil-dx: 41%; // icône sur le titre, en % de la largeur de l'icône (suit la taille de la bannière : même rendu sur téléphone et tablette) ; 41% ≈ 11px sur téléphone
     --icon-profil-dy: 11%; // ≈ 3px sur téléphone
+    --creer-titre-echelle: 0.72; // page Créer la photo : taille du titre (x --titre-taille)
+    --creer-icone-dx: 0%; // page Créer la photo : décalage de l'icône dans le cercle du titre (positif = vers la droite)
+    --creer-icone-dy: 0%; // positif = vers le bas
+    --creer-titre-pad-droite: 3%; // page Créer la photo : marge à droite du cartouche
+    --silhouette-dy: 100px; // page Créer la photo : décalage vertical de la silhouette pour que les pieds posent sur le sol du fond (positif = vers le bas)
+    --creer-btn-icone-dx: -80%; // page Créer la photo : icônes des boutons (négatif = vers la gauche, en % de l'icône)
+    --creer-titre-pad-gauche: 20%; // page Créer la photo : début du cartouche = fin du cercle de gauche (en % de la barre) ; le texte est centré dans le cartouche
     --btn-icone-dx: 130%; // icône à gauche des boutons-images, en % de la largeur de l'icône (suit la taille du bouton : même rendu sur téléphone et tablette) ; positif = vers la droite ; 17% ≈ 5px sur téléphone
     --btn-icone-dy: 10%; // positif = vers le bas
     // Position du texte dans les boutons des pages (annuler / continuer : Signaler, Rembobiner...) : suit le dessin de continuer

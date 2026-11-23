@@ -603,7 +603,7 @@ const PersonnagePage: React.FC = () => {
     // révélation de la photo (bulles de dialogue, saisie, boutons, titres),
     // pour ne pas gêner leur usage normal (lecture, édition, navigation).
     const PRESS_EXCLUDED_SELECTOR =
-        'button, input, textarea, .personnage-bubble, .personnage-chat-input-bar, .create-banner-title, .personnage-histoire-box';
+        'button, input, textarea, .signaler-page, .personnage-bubble, .personnage-chat-input-bar, .create-banner-title, .personnage-histoire-box';
 
     const annulerRevelationEnAttente = () => {
         if (revealTimerRef.current !== null) {
@@ -893,13 +893,13 @@ const PersonnagePage: React.FC = () => {
             </div>
 
             {signalementOuvert && (
-                <div className={`update-prompt-overlay signaler-feuille-overlay${signalementSortie ? ' signaler-feuille-overlay-sortie' : ''}`}>
-                <div className={`update-prompt-box signaler-feuille${signalementSortie ? ' signaler-feuille-sortie' : ''}`}>
+                <div className={`signaler-page${signalementSortie ? ' signaler-feuille-sortie' : ''}`}>
+                    <div className="signaler-page-box">
                         {signalementConfirme ? (
-                            <p className="update-prompt-text">{t.signalementEnvoye}</p>
+                            <p className="signaler-page-texte">{t.signalementEnvoye}</p>
                         ) : (
                             <>
-                                <p className="update-prompt-text">{t.signalerTitre}</p>
+                                <p className="signaler-page-texte">{t.signalerTitre}</p>
                                 <div className="signaler-motifs">
                                     {motifs.map((motif) => (
                                         <button
@@ -922,20 +922,16 @@ const PersonnagePage: React.FC = () => {
                                 />
                             </>
                         )}
-                        <div className="update-prompt-actions">
+                        <div className="signaler-page-actions">
                             {signalementConfirme ? (
-                                <button
-                                    type="button"
-                                    className="update-prompt-btn update-prompt-btn-primary"
-                                    onClick={fermerSignalement}
-                                >
+                                <button type="button" className="signaler-page-btn signaler-page-btn-continuer" onClick={fermerSignalement}>
                                     {t.valider}
                                 </button>
                             ) : (
                                 <>
                                     <button
                                         type="button"
-                                        className="update-prompt-btn update-prompt-btn-secondary"
+                                        className="signaler-page-btn"
                                         onClick={fermerSignalement}
                                         disabled={envoiEnCours}
                                     >
@@ -943,7 +939,7 @@ const PersonnagePage: React.FC = () => {
                                     </button>
                                     <button
                                         type="button"
-                                        className="update-prompt-btn update-prompt-btn-primary"
+                                        className="signaler-page-btn signaler-page-btn-continuer"
                                         onClick={handleEnvoyerSignalement}
                                         disabled={!motifChoisi || envoiEnCours}
                                     >

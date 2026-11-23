@@ -74,19 +74,19 @@ const ProfilConversationUtilisateurPage: React.FC = () => {
 
     return (
         <div className="page-content-container create-page profil-conversation-page">
-            <div className="profil-conversation-header-fixed">
+            {/* Flèche retour + barre titre sur une seule ligne (comme « Moi »). Réglages par thème : variables --titre-*. */}
+            <div className="titre-ligne">
                 <NavArrow direction="back" />
+                <BanniereTitre texte={t.profilConversationTitre}>
+                    {avatarUtilisateur ? (
+                        <span className="profil-conversation-avatar-btn" aria-hidden="true">
+                            <img src={avatarUtilisateur} alt="" className="profil-conversation-avatar-img" />
+                        </span>
+                    ) : (
+                        <img src={assets.palette} alt="" className="create-banner-icon" />
+                    )}
+                </BanniereTitre>
             </div>
-
-            <BanniereTitre texte={t.profilConversationTitre}>
-                {avatarUtilisateur ? (
-                    <span className="profil-conversation-avatar-btn" aria-hidden="true">
-                        <img src={avatarUtilisateur} alt="" className="profil-conversation-avatar-img" />
-                    </span>
-                ) : (
-                    <img src={assets.palette} alt="" className="create-banner-icon" />
-                )}
-            </BanniereTitre>
 
             {avatarUtilisateur && (
                 <div className="profil-conversation-avatar-large">

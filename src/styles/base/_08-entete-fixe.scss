@@ -1,29 +1,6 @@
 // src/styles/base/_08-entete-fixe.scss
-// En-tête fixe (flèche retour, drapeau, « créé par »).
+// Ligne flèche retour + barre titre.
 
-// Boîte commune à la flèche retour et au texte "créé par..." : un seul décalage de zone sécurisée pour les deux.
-// Boîte flèche + titre + drapeau : flex row, flèche et drapeau restent alignés automatiquement.
-// Boîte commune à la flèche retour (et au drapeau signaler, si présent) sur "Mon profil" et la conversation avec un personnage.
-.profil-conversation-header-fixed {
-    position: fixed;
-    top: calc(var(--safe-top) + 5px);
-    left: 0;
-    right: 0;
-    height: 32px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0 16px;
-    box-sizing: border-box;
-    // z-index 100 : sinon caché sous la coque décorative en vue navigateur large.
-    z-index: 100;
-    pointer-events: none;
-}
-.profil-conversation-header-fixed .nav-arrow-btn,
-.profil-conversation-header-fixed .signaler-btn {
-    position: static;
-    pointer-events: auto;
-}
 
 // Ligne « flèche retour + barre titre » (toutes les pages sauf la discussion avec l'IA) : même largeur que les boutons (85 %), flèche centrée sur la hauteur de la barre. Réglages par thème (facultatifs) :
 //   --titre-ecart    : espace entre la flèche et la barre (défaut 8px)

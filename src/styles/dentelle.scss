@@ -219,6 +219,12 @@ $dossier: 'dentelle';
     --scroll-thumb-hover: #dcb560; // curseur quand la souris passe dessus
     --icon-profil-dx: 15%; // icône sur le titre, en % de la largeur de l'icône (suit la taille de la bannière : même rendu sur téléphone et tablette) ; 15% ≈ 4px sur téléphone
     --icon-profil-dy: 25%; // ≈ 3px sur téléphone
+    --creer-icone-dx: 0%; // page Créer la photo : décalage de l'icône dans le cercle du titre (positif = vers la droite)
+    --creer-icone-dy: 0%; // positif = vers le bas
+    --creer-titre-interligne: 0.85; // page Créer la photo : espace entre les deux lignes du titre
+    --creer-titre-pad-droite: 3%; // page Créer la photo : marge à droite du cartouche
+    --creer-titre-pad-gauche: 16%; // page Créer la photo : début du cartouche = fin du cercle de gauche (en % de la barre) ; le texte est centré dans le cartouche
+    --creer-titre-echelle: 0.70; // page Créer la photo : taille du titre (x --titre-taille)
     --btn-icone-dx: 34%; // icône à gauche des boutons-images, en % de la largeur de l'icône (suit la taille du bouton : même rendu sur téléphone et tablette) ; positif = vers la droite ; 34% ≈ 10px sur téléphone
     --btn-icone-dy: 14%; // positif = vers le bas ; ≈ 4px sur téléphone
     // Position du texte dans les boutons des pages (annuler / continuer : Signaler, Rembobiner...) : suit le dessin de continuer

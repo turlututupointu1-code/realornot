@@ -326,8 +326,6 @@
 }
 
 // Boutons "annuler"/"continuer" des popups (Signaler, Rembobiner) : chaque thème ne fournit plus que --img-btn-annuler/--img-btn-continuer.
-.update-prompt-box:has(.signaler-motifs) .update-prompt-btn-secondary,
-.update-prompt-box:has(.signaler-motifs) .signaler-motif-btn:not(.signaler-motif-btn-actif),
 .profil-recommencer-confirmation .update-prompt-btn-secondary { // confirmation « recommencer la conversation » : image annuler
     background-image: var(--img-btn-annuler);
     background-size: cover;
@@ -337,8 +335,6 @@
     border: none;
     color: $c-white;
 }
-.update-prompt-box:has(.signaler-motifs) .update-prompt-btn-primary,
-.update-prompt-box:has(.signaler-motifs) .signaler-motif-btn-actif,
 .profil-recommencer-confirmation .update-prompt-btn-primary { // confirmation « recommencer la conversation » : image continuer
     background-image: var(--img-btn-continuer);
     background-size: cover;
@@ -366,3 +362,79 @@
     text-align: center;
 }
 
+// Signaler ce personnage : page plein écran (fond d'écran et boîte du thème), qui monte du bas comme « Passer en mode réel ».
+// Boutons-images affichés en entier, même taille dans les deux états (le changement de couleur ne les déplace plus) ; un texte long passe sur 2 lignes.
+.signaler-page {
+    position: fixed;
+    inset: 0;
+    z-index: 100;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+    padding: calc(var(--safe-top, 0px) + 16px) 16px calc(var(--safe-bottom, 0px) + 16px);
+    background-color: var(--theme-bg-color);
+    background-image: var(--wallpaper);
+    background-size: cover;
+    background-position: center;
+}
+.signaler-page:not(.signaler-feuille-sortie) {
+    animation: signaler-feuille-monte 0.3s ease-out;
+}
+.signaler-page-box {
+    width: 100%;
+    max-width: 420px;
+    margin: auto;
+    box-sizing: border-box;
+    padding: 20px;
+    background-color: var(--box-bg);
+    border: var(--border-width) solid var(--box-border);
+    border-radius: var(--radius-box);
+}
+.signaler-page-texte {
+    margin: 0 0 16px;
+    text-align: center;
+    font-size: 0.95em;
+    color: var(--box-text);
+    white-space: pre-line;
+}
+.signaler-page .signaler-motif-btn,
+.signaler-page .signaler-page-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    aspect-ratio: 400 / 113;
+    padding: 0 14%;
+    border: none;
+    border-radius: 0;
+    background: var(--img-btn-annuler) center / 100% 100% no-repeat;
+    color: $c-white;
+    line-height: 1.15;
+    text-align: center;
+    overflow-wrap: anywhere;
+    cursor: pointer;
+}
+.signaler-page .signaler-motif-btn {
+    width: 80%;
+    align-self: center;
+}
+.signaler-page .signaler-motif-btn-actif,
+.signaler-page .signaler-page-btn-continuer {
+    background-image: var(--img-btn-continuer);
+}
+.signaler-page .signaler-page-btn:disabled {
+    opacity: 0.5;
+    cursor: default;
+}
+.signaler-page-actions {
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: 1fr;
+    gap: 12px;
+    margin-top: 16px;
+}
+.signaler-page .signaler-page-btn:only-child {
+    width: 60%;
+    justify-self: center;
+}
