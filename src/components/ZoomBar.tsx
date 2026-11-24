@@ -18,10 +18,12 @@ interface ZoomBarProps {
 
 const ZoomBar: React.FC<ZoomBarProps> = ({ min, max, value, onChange, className }) => {
     const assets = useThemeAssets();
-    const barRef = useRef<HTMLDivElement>(null);
+    // Le doigt est mesuré sur la fente (même zone que le remplissage), pas sur toute
+    // l'image : 0 % tombe pile au bord gauche de la fente, 100 % pile au bord droit.
+    const railRef = useRef<HTMLDivElement>(null);
 
     const valeurDepuisPosition = (clientX: number): number => {
-        const el = barRef.current;
+        const el = railRef.current;
         if (!el) return value;
         const rect = el.getBoundingClientRect();
         const ratio = Math.min(1, Math.max(0, (clientX - rect.left) / rect.width));
@@ -38,9 +40,10 @@ const ZoomBar: React.FC<ZoomBarProps> = ({ min, max, value, onChange, className 
         onChange(valeurDepuisPosition(e.clientX));
     };
 
+    const fraction = Math.min(1, Math.max(0, (value - min) / (max - min)));
+
     return (
         <div
-            ref={barRef}
             className={`zoom-bar${className ? ` ${className}` : ''}`}
             onPointerDown={handlePointerDown}
             onPointerMove={handlePointerMove}
@@ -50,8 +53,12 @@ const ZoomBar: React.FC<ZoomBarProps> = ({ min, max, value, onChange, className 
             <div className="zoom-slot">
                 <div
                     className="zoom-fill"
-                    style={{ width: `${((value - min) / (max - min)) * 100}%` }}
+                    style={{ width: `${fraction * 100}%` }}
                 />
+            </div>
+            {/* Même zone que la fente, mais sans rognage : la poignée peut dépasser de la fente. */}
+            <div ref={railRef} className="zoom-rail">
+                <span className="zoom-thumb" style={{ left: `${fraction * 100}%` }} />
             </div>
         </div>
     );

@@ -236,8 +236,11 @@ $dossier: 'gothique';
     // ---- Rainure de la barre de zoom (position dans progression) ----
     --zoom-slot-top: 43%; // la rainure se réduit au trait noir du milieu de la barre (plus grand = plus fin)
     --zoom-slot-bottom: 43%;
-    --zoom-slot-left: 4%;
-    --zoom-slot-right: 4.5%;
+    --zoom-slot-left: 6.4%;
+    --zoom-slot-right: 6.4%;
+    --zoom-bouton: url('../images/#{$dossier}/bouton.webp');
+    --zoom-bouton-ratio: 0.517;
+    --zoom-bouton-hauteur: 46px;
     // Rainure de la barre de progression
     --progress-slot-top: 43%;
     --progress-slot-bottom: 43%;

@@ -2,6 +2,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useUiLang, useThemeAssets, ProgressBar } from '../communs';
 import ZoomBar from './ZoomBar';
+import BanniereTitre from './BanniereTitre';
 
 interface CropPhotoProps {
     imageSrc: string;
@@ -34,6 +35,12 @@ const CropPhoto: React.FC<CropPhotoProps> = ({ imageSrc, onCancel, onConfirm }) 
     const dragRef = useRef<{ startX: number; startY: number; panStart: Pan } | null>(null);
     const [enregistrement, setEnregistrement] = useState(false);
     const [viewportSize, setViewportSize] = useState({ w: 0, h: 0 });
+    // Indice « tu peux déplacer la photo » : masqué au premier toucher du cadre, ou après 6 s.
+    const [indiceVu, setIndiceVu] = useState(false);
+    useEffect(() => {
+        const minuteur = window.setTimeout(() => setIndiceVu(true), 6000);
+        return () => window.clearTimeout(minuteur);
+    }, []);
 
     // baseScale = échelle à zoom=1 pour que l'image couvre tout le cadre 9:16
     // (comme background-size: cover), quelle que soit son orientation d'origine.
@@ -147,16 +154,18 @@ const CropPhoto: React.FC<CropPhotoProps> = ({ imageSrc, onCancel, onConfirm }) 
 
     return (
         <div className="crop-overlay">
-            <div className="create-banner-title">
-                <img src={assets.titre2} alt="" className="create-banner-bg" />
-                <span className="create-banner-text">{t.recadrerInstruction}</span>
-            </div>
+            <BanniereTitre texte={t.recadrerInstruction}>
+                <img src={assets.appareilphoto} alt="" className="create-banner-icon" />
+            </BanniereTitre>
 
             <div className="crop-body">
                 <div
                     ref={viewportRef}
                     className="crop-viewport"
-                    onPointerDown={handlePointerDown}
+                    onPointerDown={(e) => {
+                        setIndiceVu(true);
+                        handlePointerDown(e);
+                    }}
                     onPointerMove={handlePointerMove}
                     onPointerUp={handlePointerUp}
                     onPointerCancel={handlePointerUp}
@@ -178,6 +187,11 @@ const CropPhoto: React.FC<CropPhotoProps> = ({ imageSrc, onCancel, onConfirm }) 
                                 : undefined
                         }
                     />
+                    {!indiceVu && (
+                        <svg className="crop-indice-deplacer" viewBox="0 0 48 48" aria-hidden="true">
+                            <path d="M24 6V42M6 24H42M18 12L24 6L30 12M18 36L24 42L30 36M12 18L6 24L12 30M36 18L42 24L36 30" />
+                        </svg>
+                    )}
                 </div>
 
                 <ZoomBar min={MIN_ZOOM} max={MAX_ZOOM} value={zoom} onChange={handleZoomChange} />

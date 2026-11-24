@@ -104,3 +104,19 @@ input[type="range"].zoom-input {
 .compte-mot-de-passe-wrapper {
     position: relative;
 }
+
+/* >>> cyberpunk-textes-bleus */
+// Cyberpunk : titres de bannière et textes des boutons PNG en bleu (comme la recherche), graisse normale.
+.theme-cyberpunk .create-banner-title .create-banner-text {
+    color: var(--search-bar-text-color);
+}
+.theme-cyberpunk .btn-bouton-png,
+.theme-cyberpunk .btn-bouton-png .create-btn-title,
+.theme-cyberpunk .btn-bouton-png .create-btn-caption {
+    color: var(--search-bar-text-color);
+    font-weight: 400;
+}
+.theme-cyberpunk .creation-card-title { font-weight: 400; }
+/* <<< cyberpunk-textes-bleus */
+/* cyberpunk-titre-graisse */
+.theme-cyberpunk .create-banner-title .create-banner-text { font-weight: 400 !important; }

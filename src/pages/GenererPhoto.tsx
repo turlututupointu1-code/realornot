@@ -206,7 +206,7 @@ const GenererPhoto: React.FC = () => {
 
     if (!selectedStyle) {
         return (
-            <div className="page-content-container create-page">
+            <div className="page-content-container create-page generer-style-page">
                 <div className="titre-ligne">
                     <NavArrow direction="back" />
                     <BanniereTitre texte={t.genererTitre}>

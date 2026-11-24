@@ -120,6 +120,8 @@
     // Décalage vertical direct de l'illustration (positif = vers le bas), sans changer la mise en page autour.
     position: relative;
     top: 30px;
+    // Même décalage par thème que la page « Créer la photo » (positif = vers le bas).
+    translate: 0 var(--silhouette-dy, 0px);
 }
 .create-banner-icon {
     position: absolute;
@@ -318,7 +320,10 @@
 //   --creer-titre-pad-droite : marge à droite (défaut 8%)
 //   --creer-titre-interligne : espace entre les deux lignes (défaut 1.05, plus petit = plus serré)
 //   --creer-icone-dx / -dy   : décalage de l'icône dans le cercle du titre, en % de l'icône (positif = droite / bas)
-.create-photo-page .titre-ligne .create-banner-text {
+.create-photo-page .titre-ligne .create-banner-text,
+.telecharger-photo-page .titre-ligne .create-banner-text,
+.generer-style-page .titre-ligne .create-banner-text,
+.profil-conversation-page .titre-ligne .create-banner-text {
     white-space: normal;
     font-size: calc(var(--titre-taille, 20px) * var(--creer-titre-echelle, 0.85));
     line-height: var(--creer-titre-interligne, 1.05);
@@ -326,13 +331,19 @@
     transform: translate(var(--creer-titre-dx, 0px), var(--banner-title-dy, 0px)); // ignore --banner-title-dx (réglé pour les autres pages) ; --creer-titre-dx = petit décalage propre à cette page
     padding: 0 var(--creer-titre-pad-droite, 8%) 0 var(--creer-titre-pad-gauche, 8%);
 }
-.create-photo-page .titre-ligne .create-banner-icon {
+.create-photo-page .titre-ligne .create-banner-icon,
+.telecharger-photo-page .titre-ligne .create-banner-icon,
+.generer-style-page .titre-ligne .create-banner-icon,
+.profil-conversation-page .titre-ligne .create-banner-icon {
     translate: var(--creer-icone-dx, 0%) var(--creer-icone-dy, 0%);
 }
 
 // Page « Créer la photo » : icône du titre agrandie (--creer-icone-echelle, 1.5 = +50 %), même centre qu'avant.
 // Réglable par thème (facultatif) : --creer-icone-echelle
-.create-photo-page .titre-ligne .create-banner-icon {
+.create-photo-page .titre-ligne .create-banner-icon,
+.telecharger-photo-page .titre-ligne .create-banner-icon,
+.generer-style-page .titre-ligne .create-banner-icon,
+.profil-conversation-page .titre-ligne .create-banner-icon {
     transform: translate(calc(-50% + var(--icon-profil-dx) + 8%), calc(-50% + var(--icon-profil-dy) + 15%)) scale(var(--creer-icone-echelle, 1.5));
 }
 

@@ -143,8 +143,8 @@ $dossier: 'relief-doux';
     --progress-glow: rgba(184, 166, 136, 0.5); // lueur autour de la barre
     --zoom-label-color: #000000; // couleur du texte "ZOOM" (repris de base.scss)
     --details-generating-text-color: #d94f4f; // texte « génération en cours » de la page Détails
-    --zoom-fill-start: var(--box-border); // début du dégradé de la barre de zoom
-    --zoom-fill-end: #E8DFC8; // fin du dégradé de la barre de zoom
+    --zoom-fill-start: #4b6ea8; // début du dégradé de la barre de zoom
+    --zoom-fill-end: #9bbbe6; // fin du dégradé de la barre de zoom
     --zoom-label-shadow: none; // ombre du libellé de zoom
     --crop-viewport-border-color: var(--box-border); // bordure du cadre de recadrage
 
@@ -234,8 +234,11 @@ $dossier: 'relief-doux';
     // ---- Rainure de la barre de zoom (position dans progression) ----
     --zoom-slot-top: 35.6%;
     --zoom-slot-bottom: 33.9%;
-    --zoom-slot-left: 14.7%;
-    --zoom-slot-right: 12.7%;
+    --zoom-slot-left: 6.4%;
+    --zoom-slot-right: 6.4%;
+    --zoom-bouton: url('../images/#{$dossier}/bouton.webp');
+    --zoom-bouton-ratio: 0.533;
+    --zoom-bouton-hauteur: 46px;
     // Rainure de la barre de progression (même image progression que le zoom)
     --progress-slot-top: 35.6%;
     --progress-slot-bottom: 33.9%;

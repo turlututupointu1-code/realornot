@@ -112,7 +112,7 @@ $dossier: 'cyberpunk';
     --creation-card-image-bg: #8B0000; // fond d'attente de l'image
     --creation-card-shadow: none; // ombre portée de la vignette (repris de base.scss)
     --creation-card-text-shadow: none; // ombre portée du texte (repris de base.scss)
-    --creation-card-title-color: var(--bulle-user-border); // nom du personnage sur la vignette
+    --creation-card-title-color: var(--search-bar-text-color); // nom du personnage sur la vignette
     --creation-card-border-1: var(--bulle-user-border); // bordure des cartes 1, 4, 7… (cycle de 3)
     --creation-card-border-2: #b026ff; // bordure des cartes 2, 5, 8…
     --creation-card-border-3: var(--search-bar-text-color); // bordure des cartes 3, 6, 9…
@@ -236,8 +236,11 @@ $dossier: 'cyberpunk';
     // ---- Rainure de la barre de zoom (position dans progression) ----
     --zoom-slot-top: 40%; // la rainure se réduit au trait du milieu de la barre (plus grand = plus fin)
     --zoom-slot-bottom: 40%;
-    --zoom-slot-left: 2%;
-    --zoom-slot-right: 2%;
+    --zoom-slot-left: 6%;
+    --zoom-slot-right: 6%;
+    --zoom-bouton: url('../images/#{$dossier}/bouton.webp');
+    --zoom-bouton-ratio: 0.517;
+    --zoom-bouton-hauteur: 46px;
     // Rainure de la barre de progression (valeurs d'avant)
     --progress-slot-top: 22.77%;
     --progress-slot-bottom: 22.77%;
@@ -251,7 +254,7 @@ $dossier: 'cyberpunk';
     --banner-title-dx: 8px; // décalage horizontal du titre de la bannière (négatif = vers la gauche, positif = vers la droite)
     --banner-title-dy: -3px; // décalage vertical du titre de la bannière (négatif = vers le haut, positif = vers le bas)
     --titre-police: "Orbitron", sans-serif; // police du titre (puis repli système pour les alphabets absents)
-    --titre-graisse: 700; // graisse du titre
+    --titre-graisse: 400; // graisse du titre
     --titre-taille: 20px; // taille du titre
     --titre-espace: 2px; // espacement des lettres
     --titre-ombre: 0 0 6px #00e5ff, 0 0 14px #7a2cff; // ombre du titre

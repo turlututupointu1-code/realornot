@@ -235,8 +235,11 @@ $dossier: 'dentelle';
     // ---- Rainure de la barre de zoom (position dans progression) ----
     --zoom-slot-top: 35.6%;
     --zoom-slot-bottom: 33.9%;
-    --zoom-slot-left: 14.7%;
-    --zoom-slot-right: 12.7%;
+    --zoom-slot-left: 6.4%;
+    --zoom-slot-right: 6%;
+    --zoom-bouton: url('../images/#{$dossier}/bouton.webp');
+    --zoom-bouton-ratio: 0.542;
+    --zoom-bouton-hauteur: 46px;
     // Rainure de la barre de progression (même image progression que le zoom)
     --progress-slot-top: 35.6%;
     --progress-slot-bottom: 33.9%;
