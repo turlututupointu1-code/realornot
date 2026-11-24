@@ -204,11 +204,9 @@ $dossier: 'givre';
     --img-search-bar: url('../images/#{$dossier}/recherche.webp');
     --img-fleche-haut: url('../images/#{$dossier}/flechehaut.webp'); // flèche du haut de l'ascenseur
     --img-fleche-bas: url('../images/#{$dossier}/flechebas.webp'); // flèche du bas de l'ascenseur
-    --img-suggestion-active: url('../images/#{$dossier}/fond.webp');
     --img-btn-annuler: url('../images/#{$dossier}/annuler.webp');
     --img-btn-continuer: url('../images/#{$dossier}/continuer.webp');
     --img-btn-prendre-photo: var(--img-btn-annuler); // image du bouton « prendre une photo » (Rencontre)
-    --fond-retrait: 12%; // hauteur de fond : la barre moins cette valeur, en % de la hauteur de la barre (0% = pleine hauteur, plus grand = image plus basse) ; en % pour que téléphone et tablette donnent le même rendu
     // ---- Avatar sur la bannière titre : décalage en pixels par rapport à l'emplacement de base (à recaler avec les nouvelles images) ----
     --avatar-user-dx: 3px; // avatar de la conversation
     --avatar-user-dy: 0px;
@@ -226,6 +224,8 @@ $dossier: 'givre';
     --creer-icone-dy: 0%; // positif = vers le bas
     --creer-titre-pad-droite: 3%; // page Créer la photo : marge à droite du cartouche
     --creer-titre-pad-gauche: 20%; // page Créer la photo : début du cartouche = fin du cercle de gauche (en % de la barre) ; le texte est centré dans le cartouche
+    --creer-titre-interligne: 0.85; // page Créer la photo : espace entre les deux lignes du titre - à régler
+    --creer-titre-echelle: 0.70; // page Créer la photo : taille du titre (x --titre-taille) - à régler
     --btn-icone-dx: 34%; // icône à gauche des boutons-images, en % de la largeur de l'icône (suit la taille du bouton : même rendu sur téléphone et tablette) ; positif = vers la droite ; 34% ≈ 10px sur téléphone
     --btn-icone-dy: 14%; // positif = vers le bas ; ≈ 4px sur téléphone
     // Position du texte dans les boutons des pages (annuler / continuer : Signaler, Rembobiner...) : suit le dessin de continuer
@@ -261,6 +261,7 @@ $dossier: 'givre';
 
     // fleche
     --pagination-arrow-gap: -10px; // rapproche les flèches du fond du texte « Page x / y » (plus négatif = plus près)
+    --pagination-arrow-double-gap: 0px; // écarte la double flèche de la flèche simple (positif = plus loin) - à régler
     --pagination-arrow-height: 11px; // flèches de pages plus petites (défaut : 15px)
     --pagination-arrow-width: 26px; // longueur des flèches de pages (défaut : auto = proportionnelle)
     --fleche-icone-height: 24px; // flèches des lignes « Vos créations », « Vos discussions »… : hauteur

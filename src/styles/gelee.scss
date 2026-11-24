@@ -201,11 +201,9 @@ $dossier: 'gelee';
     --img-search-bar: url('../images/#{$dossier}/recherche.webp');
     --img-fleche-haut: url('../images/#{$dossier}/flechehaut.webp'); // flèche du haut de l'ascenseur
     --img-fleche-bas: url('../images/#{$dossier}/flechebas.webp'); // flèche du bas de l'ascenseur
-    --img-suggestion-active: url('../images/#{$dossier}/fond.webp');
     --img-btn-annuler: url('../images/#{$dossier}/annuler.webp');
     --img-btn-continuer: url('../images/#{$dossier}/continuer.webp');
     --img-btn-prendre-photo: var(--img-btn-annuler); // image du bouton « prendre une photo » (Rencontre)
-    --fond-retrait: 12%; // hauteur de fond : la barre moins cette valeur, en % de la hauteur de la barre (0% = pleine hauteur, plus grand = image plus basse) ; en % pour que téléphone et tablette donnent le même rendu
     // ---- Avatar sur la bannière titre : décalage en pixels par rapport à l'emplacement de base (à recaler avec les nouvelles images) ----
     --avatar-user-dx: 3px; // avatar de la conversation
     --avatar-user-dy: 0px;
