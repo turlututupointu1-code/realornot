@@ -17,8 +17,10 @@ const apercu = (key: string, genre: Genre): string => APERCUS[`../images/styles/
 // Chaque clé est aussi le nom des images (<clé>-f.webp / <clé>-h.webp) et la
 // valeur envoyée au serveur.
 const STYLE_KEYS: string[] = [
-    'realiste',
     'photorealiste',
+    'haute-couture',
+    'streetwear',
+    'cocooning',
     'anime',
     'manga',
     'cartoon-3d',
