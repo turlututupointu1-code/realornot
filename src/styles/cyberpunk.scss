@@ -119,7 +119,7 @@ $dossier: 'cyberpunk';
     --creation-card-border-3: var(--search-bar-text-color); // bordure des cartes 3, 6, 9…
 
     // ---- Cartes de style ----
-    --style-card-border: 2px solid var(--bulle-user-border); // bordure de la vignette
+    --style-card-border: 1px solid var(--bulle-user-border); // bordure de la vignette
     --style-card-gradient: var(--creation-card-gradient); // dégradé sur la vignette de style
     --style-card-label-color: var(--bulle-user-border); // libellé du style
     --style-card-radius: 0 0 var(--radius-box) var(--radius-box); // arrondi bas de la vignette (repris de base.scss)

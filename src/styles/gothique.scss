@@ -118,7 +118,7 @@ $dossier: 'gothique';
     --creation-card-border-3: var(--creation-card-border); // bordure des cartes 3, 6, 9…
 
     // ---- Cartes de style ----
-    --style-card-border: 2px solid var(--box-bg); // bordure de la vignette
+    --style-card-border: 1px solid var(--box-bg); // bordure de la vignette
     --style-card-gradient: var(--creation-card-gradient); // dégradé sur la vignette de style
     --style-card-label-color: var(--box-text); // libellé du style
     --style-card-radius: 0 0 var(--radius-box) var(--radius-box); // arrondi bas de la vignette (repris de base.scss)
@@ -132,7 +132,7 @@ $dossier: 'gothique';
 
     // ---- Discussions ----
     --discussion-item-bg: var(--box-bg); // fond dégradé d'une conversation
-    --discussion-item-border: 2px solid var(--box-border); // bordure d'une conversation
+    --discussion-item-border: 1px solid var(--box-border); // bordure d'une conversation
     --discussion-item-preview-color: inherit; // aperçu du dernier message (repris de base.scss)
     --discussion-item-title-color: inherit; // nom du personnage dans la liste (repris de base.scss)
 

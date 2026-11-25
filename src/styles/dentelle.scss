@@ -118,7 +118,7 @@ $dossier: 'dentelle';
     --creation-card-border-3: var(--creation-card-border); // bordure des cartes 3, 6, 9…
 
     // ---- Cartes de style ----
-    --style-card-border: 2px solid var(--box-border); // bordure de la vignette
+    --style-card-border: 1px solid var(--box-border); // bordure de la vignette
     --style-card-gradient: var(--creation-card-gradient); // dégradé sur la vignette de style
     --style-card-label-color: var(--creation-card-title-color); // libellé du style
     --style-card-radius: 0 0 var(--radius-box) var(--radius-box); // arrondi bas de la vignette (repris de base.scss)

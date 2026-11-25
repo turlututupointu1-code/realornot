@@ -7,13 +7,13 @@ $dossier: 'verre-translucide';
     --theme-text-color: #5a4a5c; // texte par défaut
 
     // ---- Boîtes génériques ----
-    --box-accent: #C4A876; // couleur d'accent (focus, éléments actifs) (proposé, à valider)
-    --box-bg: #A48860CC; // fond des boîtes de texte génériques
-    --dossier-onglet-bg: #99846D; // fond de l'onglet « dossier » : version opaque de --box-bg (cache la bordure de la boîte dessous)
+    --box-accent: #6f8fc0; // couleur d'accent (focus, éléments actifs) (proposé, à valider)
+    --box-bg: #c8dcf5cc; // fond des boîtes de texte génériques
+    --dossier-onglet-bg: #B6C7E4; // fond de l'onglet « dossier » : version opaque de --box-bg (cache la bordure de la boîte dessous)
     --upload-note-color: #c0392b; // avertissement rouge sous les choix de photo
-    --box-border: #C4A876; // bordure des boîtes de texte génériques
-    --box-text: #4a2f3d; // texte des boîtes de texte génériques
-    --box-text-muted: #1A3A4788; // texte atténué (placeholder, sous-titres) (repris de base.scss)
+    --box-border: #6f8fc0; // bordure des boîtes de texte génériques
+    --box-text: #23406b; // texte des boîtes de texte génériques
+    --box-text-muted: #23406b88; // texte atténué (placeholder, sous-titres) (repris de base.scss)
     --color-white: #ffffff; // blanc générique réutilisé à plusieurs endroits (proposé, à valider)
     --dark-text: var(--theme-text-color); // texte sombre sur fond cyan (boutons primaires/actifs) (proposé, à valider)
     --panel-border-subtle: var(--box-border); // bordure discrète des panneaux sombres (proposé, à valider)
@@ -118,7 +118,7 @@ $dossier: 'verre-translucide';
     --creation-card-border-3: var(--creation-card-border); // bordure des cartes 3, 6, 9…
 
     // ---- Cartes de style ----
-    --style-card-border: 2px solid var(--box-border); // bordure de la vignette
+    --style-card-border: 1px solid var(--box-border); // bordure de la vignette
     --style-card-gradient: var(--creation-card-gradient); // dégradé sur la vignette de style
     --style-card-label-color: var(--creation-card-title-color); // libellé du style
     --style-card-radius: 0 0 var(--radius-box) var(--radius-box); // arrondi bas de la vignette (repris de base.scss)

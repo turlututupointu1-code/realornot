@@ -176,7 +176,7 @@
     }
     *::-webkit-scrollbar-thumb {
         background: var(--pagination-label-bg);
-        border: 2px solid var(--pagination-label-border-color);
+        border: 1px solid var(--pagination-label-border-color);
         border-radius: 8px;
     }
     *::-webkit-scrollbar-thumb:hover {
@@ -491,3 +491,34 @@
   }
 }
 /* <<< style-fond-champ */
+
+/* >>> style-bordures-thumb */
+// Vignette + texte : une seule ligne de chaque côté de la jonction.
+// Bordure basse de la vignette (.style-card-image-wrap) + bordure haute du texte (.style-card-label),
+// collées l'une à l'autre. L'image intérieure (.style-card-preview) n'a pas de bordure.
+.generer-style-page {
+  .style-grid .style-card {
+    gap: 0 !important;
+    row-gap: 0 !important;
+    border: 0 !important;
+  }
+
+  .style-grid .style-card-image-wrap {
+    margin-bottom: 0 !important;
+    border-bottom-width: 1px !important;
+    border-bottom-left-radius: 0 !important;
+    border-bottom-right-radius: 0 !important;
+  }
+
+  .style-grid .style-card-preview {
+    border: 0 !important;
+  }
+
+  .style-grid .style-card-label {
+    margin-top: 0 !important;
+    border-top-width: 1px !important;
+    border-top-left-radius: 0 !important;
+    border-top-right-radius: 0 !important;
+  }
+}
+/* <<< style-bordures-thumb */
