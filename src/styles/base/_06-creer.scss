@@ -391,3 +391,103 @@
 .create-photo-page .create-buttons .create-banner-icon {
     translate: var(--creer-btn-icone-dx, 0%) var(--creer-btn-icone-dy, 0%);
 }
+
+
+
+/* >>> style-onglets */
+// Page « Choisir le style artistique » : onglets Femme / Homme avec le même système que
+// « Détails du personnage » (.profil-dossier + .profil-dossier-onglet, couleur --dossier-onglet-bg
+// de chaque thème), grille de 24 styles sur 3 colonnes.
+// Variables facultatives : --style-grid-gap (8px), --style-card-label-taille (0.78em),
+// --style-onglet-inactif-opacite (0.7)
+.generer-style-page {
+  .style-onglets {
+    display: flex;
+    align-items: flex-end;
+    gap: 6px;
+    max-width: 100%;
+  }
+
+  .style-onglet {
+    cursor: pointer;
+    user-select: none;
+  }
+
+  // Onglet non choisi : posé derrière, la bordure du cadre reste visible dessous
+  .style-onglet:not(.style-onglet-actif) {
+    margin-bottom: 0;
+    z-index: 0;
+    opacity: var(--style-onglet-inactif-opacite, 0.7);
+  }
+
+  .style-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: var(--style-grid-gap, 8px);
+  }
+
+  // Libellé centré ; GenererPhoto.tsx le réduit tout seul (jusqu'à moitié) si un mot dépasse la carte
+  .style-card .style-card-label {
+    display: block;
+    width: 100%;
+    box-sizing: border-box;
+    text-align: center;
+    white-space: normal;
+    overflow-wrap: normal;
+    overflow: hidden;
+    font-size: var(--style-card-label-taille, 0.78em);
+    line-height: 1.1;
+  }
+}
+/* <<< style-onglets */
+
+/* >>> style-fond-champ */
+// Page « Choisir le style artistique » : cadre et onglets aux couleurs des champs
+// (comme le bloc « Ces informations… » de la page Moi).
+// --style-onglet-bg (par thème) : fond OPAQUE de l'onglet, doit ressembler au fond du cadre.
+// !important : 7 thèmes ont encore une règle .theme-x .create-box copiée de dentelle (couleurs en dur).
+// Réglages facultatifs par thème : --style-cadre-opacite (0.65 : plus petit = plus transparent),
+// --style-vignette-bordure (défaut --champ-border-color), --style-vignette-fond (défaut transparent).
+.generer-style-page {
+  // Cadre : le fond est porté par un pseudo-élément, pour pouvoir baisser son opacité
+  // sans toucher au contenu (--champ-bg garde sa propre transparence, multipliée par l'opacité).
+  .profil-dossier .create-box {
+    position: relative;
+    isolation: isolate;
+    background: transparent !important;
+    border-color: var(--champ-border-color) !important;
+    color: var(--champ-text);
+  }
+
+  .profil-dossier .create-box::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    border-radius: inherit;
+    background: var(--champ-bg);
+    opacity: var(--style-cadre-opacite, 0.65);
+    pointer-events: none;
+  }
+
+  // Vignettes : fond léger et bordure de 1px aux couleurs du thème, sur les éléments qui ont déjà
+  // une bordure (image, cadre de l'image, libellé) ; aucune bordure n'est ajoutée autour de la carte.
+  .style-grid .style-card {
+    background: var(--style-vignette-fond, transparent) !important;
+  }
+
+  .style-grid .style-card-image-wrap,
+  .style-grid .style-card-preview,
+  .style-grid .style-card-label {
+    border-color: var(--style-vignette-bordure, var(--champ-border-color)) !important;
+    border-width: 1px !important;
+    border-image: none !important;
+  }
+
+  .style-onglet {
+    background: var(--style-onglet-bg, var(--dossier-onglet-bg));
+    border-color: var(--champ-border-color);
+    color: var(--champ-text);
+  }
+}
+/* <<< style-fond-champ */

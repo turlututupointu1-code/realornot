@@ -9,7 +9,7 @@ $dossier: 'vert-encapsule';
     // ---- Boîtes génériques ----
     --box-accent: #C4A876; // couleur d'accent (focus, éléments actifs) (proposé, à valider)
     --box-bg: #A48860CC; // fond des boîtes de texte génériques
-    --dossier-onglet-bg: #A48860; // fond de l'onglet « dossier » : version opaque de --box-bg (cache la bordure de la boîte dessous)
+    --dossier-onglet-bg: #8D8259; // fond de l'onglet « dossier » : version opaque de --box-bg (cache la bordure de la boîte dessous)
     --upload-note-color: #c0392b; // avertissement rouge sous les choix de photo
     --box-border: #C4A876; // bordure des boîtes de texte génériques
     --box-text: #4a2f3d; // texte des boîtes de texte génériques
@@ -28,6 +28,7 @@ $dossier: 'vert-encapsule';
     --input-text: #ffffff; // texte tapé dans ces champs (proposé, à valider)
     --textarea-placeholder-color: var(--box-text); // texte indicatif des zones de texte
     --champ-bg: #a8e0c4cc; // fond du champ
+    --style-onglet-bg: #90C8A9; // fond opaque des onglets de la page des styles : --champ-bg sur le fond d'écran (estimé)
     --champ-text: #1f4a36; // texte tapé dans le champ
     --champ-border-color: #6fbf9a; // bordure du champ
     --champ-placeholder-color: #1f4a36; // texte indicatif du champ

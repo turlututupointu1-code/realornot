@@ -9,7 +9,7 @@ $dossier: 'verre-translucide';
     // ---- Boîtes génériques ----
     --box-accent: #C4A876; // couleur d'accent (focus, éléments actifs) (proposé, à valider)
     --box-bg: #A48860CC; // fond des boîtes de texte génériques
-    --dossier-onglet-bg: #A48860; // fond de l'onglet « dossier » : version opaque de --box-bg (cache la bordure de la boîte dessous)
+    --dossier-onglet-bg: #99846D; // fond de l'onglet « dossier » : version opaque de --box-bg (cache la bordure de la boîte dessous)
     --upload-note-color: #c0392b; // avertissement rouge sous les choix de photo
     --box-border: #C4A876; // bordure des boîtes de texte génériques
     --box-text: #4a2f3d; // texte des boîtes de texte génériques
@@ -28,6 +28,7 @@ $dossier: 'verre-translucide';
     --input-text: #ffffff; // texte tapé dans ces champs (proposé, à valider)
     --textarea-placeholder-color: var(--box-text); // texte indicatif des zones de texte
     --champ-bg: #c8dcf5cc; // fond du champ
+    --style-onglet-bg: #B6C7E4; // fond opaque des onglets de la page des styles : --champ-bg sur le fond d'écran (estimé)
     --champ-text: #23406b; // texte tapé dans le champ
     --champ-border-color: #6f8fc0; // bordure du champ
     --champ-placeholder-color: #23406b; // texte indicatif du champ

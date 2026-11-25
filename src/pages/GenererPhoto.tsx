@@ -1,33 +1,59 @@
 /* src/pages/GenererPhoto.tsx */
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useLayoutEffect, useRef } from 'react';
 import * as RouterDom from 'react-router-dom';
 import { useUiLang, useThemeAssets, HeaderRetour, BanniereTitre, ProgressBar } from '../communs';
 import NavArrow from '../components/NavArrow';
 import { SERVER_BASE_URL } from '../config';
-import previewRealiste from '../images/styles/realiste.webp';
-import previewAnime from '../images/styles/anime.webp';
-import previewPeinture from '../images/styles/peinture.webp';
-import previewFantaisie from '../images/styles/fantaisie.webp';
-import previewCyberpunk from '../images/styles/cyberpunk.webp';
-import previewAquarelle from '../images/styles/aquarelle.webp';
-import previewFurry from '../images/styles/furry.webp';
 
-interface StyleOption {
-    key: string;
-    gradient: string;
-    preview: string;
-}
+type Genre = 'f' | 'h';
+
+// Aperçus : src/images/styles/<style>-f.webp (femme) et <style>-h.webp (homme).
+// Vite les charge tous d'un coup, plus besoin d'un import par image.
+const APERCUS = import.meta.glob('../images/styles/*.webp', { eager: true, import: 'default' }) as Record<string, string>;
+const apercu = (key: string, genre: Genre): string => APERCUS[`../images/styles/${key}-${genre}.webp`] ?? '';
 
 // Le libellé affiché vient de t.styleNames (traduit) ; l'ordre ci-dessous doit
 // rester aligné avec l'ordre de t.styleNames dans translations.ts.
-const STYLE_OPTIONS: StyleOption[] = [
-    { key: 'realiste', gradient: 'linear-gradient(135deg, #d9c2a0, #8a6f4f)', preview: previewRealiste },
-    { key: 'anime', gradient: 'linear-gradient(135deg, #f2a9c9, #b98ac9)', preview: previewAnime },
-    { key: 'peinture', gradient: 'linear-gradient(135deg, #c4a876, #4a3728)', preview: previewPeinture },
-    { key: 'fantaisie', gradient: 'linear-gradient(135deg, #5a4a5c, #00bcd4)', preview: previewFantaisie },
-    { key: 'cyberpunk', gradient: 'linear-gradient(135deg, #FE34E0, #00bcd4)', preview: previewCyberpunk },
-    { key: 'aquarelle', gradient: 'linear-gradient(135deg, #9fd8cb, #6fa8dc)', preview: previewAquarelle },
-    { key: 'furry', gradient: 'linear-gradient(135deg, #f2b880, #c96f4a)', preview: previewFurry },
+// Chaque clé est aussi le nom des images (<clé>-f.webp / <clé>-h.webp) et la
+// valeur envoyée au serveur.
+const STYLE_KEYS: string[] = [
+    'realiste',
+    'photorealiste',
+    'anime',
+    'manga',
+    'cartoon-3d',
+    'claymation',
+    'peinture',
+    'aquarelle',
+    'fusain',
+    'art-nouveau',
+    'estampe-japonaise',
+    'wabi-sabi',
+    'annee50-pinup',
+    'noir-blanc',
+    'polar',
+    'pixel-art',
+    'pop-art',
+    'synthwave',
+    'frutiger-aero',
+    'cyberpunk',
+    'biopunk',
+    'steampunk',
+    'solarpunk',
+    'retro-futurisme',
+    'space-opera',
+    'hard-sci-fi',
+    'post-apocalyptique',
+    'gothique',
+    'dark-academia',
+    'grimdark',
+    'dreamcore',
+    'cottagecore',
+    'heroic-fantasy',
+    'mythologique',
+    'wuxia',
+    'elfe',
+    'furry',
 ];
 
 const MAX_DESCRIPTION_LENGTH = 400;
@@ -69,14 +95,49 @@ const chargerJobActif = (): ActiveJob | null => {
     }
 };
 
+// Réduction maximale d'un libellé trop large (0,5 = moitié de la taille normale)
+const ECHELLE_MIN_ETIQUETTE = 0.5;
+
+// Libellé d'une carte de style : si un mot est plus large que la carte (Cyberpunk,
+// Steampunk, Post-apocalyptique, mots allemands...), la taille se réduit toute seule.
+// Remesuré au changement de largeur et quand les polices ont fini de charger.
+const EtiquetteStyle: React.FC<{ texte: string }> = ({ texte }) => {
+    const ref = useRef<HTMLSpanElement>(null);
+
+    useLayoutEffect(() => {
+        const el = ref.current;
+        if (!el) return;
+        const ajuster = () => {
+            el.style.fontSize = '';
+            const base = parseFloat(getComputedStyle(el).fontSize);
+            let echelle = 1;
+            while (el.scrollWidth > el.clientWidth + 1 && echelle > ECHELLE_MIN_ETIQUETTE) {
+                echelle -= 0.04;
+                el.style.fontSize = `${(base * echelle).toFixed(2)}px`;
+            }
+        };
+        ajuster();
+        const carte = el.parentElement;
+        const observateur = new ResizeObserver(ajuster);
+        if (carte) observateur.observe(carte);
+        document.fonts?.ready.then(ajuster);
+        return () => observateur.disconnect();
+    }, [texte]);
+
+    return <span ref={ref} className="style-card-label">{texte}</span>;
+};
+
 const GenererPhoto: React.FC = () => {
     const t = useUiLang();
     const assets = useThemeAssets();
     const navigate = RouterDom.useNavigate();
-    const [selectedStyle, setSelectedStyle] = useState<StyleOption | null>(() => {
+    // Style choisi (clé) ; null = on est encore sur la grille des styles
+    const [selectedStyle, setSelectedStyle] = useState<string | null>(() => {
         const job = chargerJobActif();
-        return job ? STYLE_OPTIONS.find((s) => s.key === job.styleKey) ?? null : null;
+        return job && STYLE_KEYS.includes(job.styleKey) ? job.styleKey : null;
     });
+    // Onglet de la grille : styles femme (f) ou homme (h)
+    const [genre, setGenre] = useState<Genre>('f');
     const [description, setDescription] = useState(() => chargerJobActif()?.description ?? '');
     // Aucune photo tant qu'aucune génération n'est terminée
     const [generatedImage, setGeneratedImage] = useState<string | null>(null);
@@ -88,7 +149,7 @@ const GenererPhoto: React.FC = () => {
     const [lastGeneratedDescription, setLastGeneratedDescription] = useState<string | null>(null);
 
     const styleLabel = (key: string) => {
-        const index = STYLE_OPTIONS.findIndex((s) => s.key === key);
+        const index = STYLE_KEYS.indexOf(key);
         return index >= 0 ? t.styleNames[index] : key;
     };
 
@@ -180,7 +241,7 @@ const GenererPhoto: React.FC = () => {
             const response = await fetch(`${SERVER_BASE_URL}/generate`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ prompt: description, style: selectedStyle?.key }),
+                body: JSON.stringify({ prompt: description, style: selectedStyle }),
             });
             if (!response.ok) {
                 const errData = await response.json().catch(() => null);
@@ -193,7 +254,7 @@ const GenererPhoto: React.FC = () => {
                 jobId: data.job_id,
                 startTime,
                 description,
-                styleKey: selectedStyle?.key || '',
+                styleKey: selectedStyle || '',
             };
             localStorage.setItem(ACTIVE_JOB_KEY, JSON.stringify(job));
             pollJob(job.jobId, startTime, description);
@@ -204,6 +265,7 @@ const GenererPhoto: React.FC = () => {
         }
     };
 
+    // Écran 1 : grille des styles, avec deux onglets (Femme / Homme) façon dossier carton
     if (!selectedStyle) {
         return (
             <div className="page-content-container create-page generer-style-page">
@@ -214,20 +276,43 @@ const GenererPhoto: React.FC = () => {
                     </BanniereTitre>
                 </div>
 
-                <div className="style-grid">
-                    {STYLE_OPTIONS.map((style) => (
-                        <button
-                            type="button"
-                            key={style.key}
-                            className="style-card"
-                            onClick={() => setSelectedStyle(style)}
-                        >
-                            <span className="style-card-image-wrap" style={{ background: style.gradient }}>
-                                <img src={style.preview} alt="" className="style-card-preview" />
-                            </span>
-                            <span className="style-card-label">{styleLabel(style.key)}</span>
-                        </button>
-                    ))}
+                <div className="create-buttons">
+                    {/* Même système que « Détails du personnage » : onglets .profil-dossier-onglet + cadre .create-box
+                        (la couleur des onglets vient de --dossier-onglet-bg de chaque thème) */}
+                    <div className="profil-dossier">
+                        <div className="style-onglets" role="tablist">
+                            {(['f', 'h'] as Genre[]).map((g, i) => (
+                                <p
+                                    key={g}
+                                    role="tab"
+                                    tabIndex={0}
+                                    aria-selected={genre === g}
+                                    className={`profil-dossier-onglet style-onglet${genre === g ? ' style-onglet-actif' : ''}`}
+                                    onClick={() => setGenre(g)}
+                                    onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') setGenre(g); }}
+                                >
+                                    {t.genres[i]}
+                                </p>
+                            ))}
+                        </div>
+                        <div className="create-box">
+                            <div className="style-grid">
+                                {STYLE_KEYS.map((key) => (
+                                    <button
+                                        type="button"
+                                        key={key}
+                                        className="style-card"
+                                        onClick={() => setSelectedStyle(key)}
+                                    >
+                                        <span className="style-card-image-wrap">
+                                            <img src={apercu(key, genre)} alt="" className="style-card-preview" loading="lazy" />
+                                        </span>
+                                        <EtiquetteStyle texte={styleLabel(key)} />
+                                    </button>
+                                ))}
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         );
@@ -244,64 +329,65 @@ const GenererPhoto: React.FC = () => {
     if (generatedImage) {
         return (
             <div className="page-content-container create-page generer-resultat-page">
-            <div className="titre-ligne">
-                <NavArrow direction="back" onClick={annulerResultat} />
-                <BanniereTitre texte={t.genere}>
-                <img src={assets.palette} alt="" className="create-banner-icon" />
-                </BanniereTitre>
-            </div>
-            <div className="create-buttons">
-            <div className="create-box create-preview-box">
-            <img src={generatedImage} alt={t.genere} className="create-preview-img" />
-            </div>
-            <div className="crop-actions">
-            <button type="button" className="crop-btn crop-btn-cancel" onClick={annulerResultat}>
-            {t.annuler}
-            </button>
-            <button
-            type="button"
-            className="crop-btn crop-btn-confirm"
-            onClick={() => navigate('/creer/personnage', {
-                state: { generatedImage, description, styleLabel: styleLabel(selectedStyle.key) },
-            })}
-            >
-            {t.continuer}
-            </button>
-            </div>
-            </div>
+                <div className="titre-ligne">
+                    <NavArrow direction="back" onClick={annulerResultat} />
+                    <BanniereTitre texte={t.genere}>
+                        <img src={assets.palette} alt="" className="create-banner-icon" />
+                    </BanniereTitre>
+                </div>
+                <div className="create-buttons">
+                    <div className="create-box create-preview-box">
+                        <img src={generatedImage} alt={t.genere} className="create-preview-img" />
+                    </div>
+                    <div className="crop-actions">
+                        <button type="button" className="crop-btn crop-btn-cancel" onClick={annulerResultat}>
+                            {t.annuler}
+                        </button>
+                        <button
+                            type="button"
+                            className="crop-btn crop-btn-confirm"
+                            onClick={() => navigate('/creer/personnage', {
+                                state: { generatedImage, description, styleLabel: styleLabel(selectedStyle) },
+                            })}
+                        >
+                            {t.continuer}
+                        </button>
+                    </div>
+                </div>
             </div>
         );
     }
 
+    // Écran 2 : description + bouton Générer
     return (
         <div className="page-content-container create-page generer-photo-page">
-        <HeaderRetour onClick={() => setSelectedStyle(null)} />
+            <HeaderRetour onClick={() => setSelectedStyle(null)} />
 
-        <div className="generer-title-group">
+            <div className="generer-title-group">
                 <BanniereTitre texte={t.generer}>
                     <img src={assets.palette} alt="" className="create-banner-icon" />
-                    </BanniereTitre>
-                    </div>
+                </BanniereTitre>
+            </div>
 
-                    <div className="create-buttons">
-                    {/* Onglet de dossier au-dessus du champ : style choisi + compteur de générations du jour (remplace la plaque et titrebas) */}
-                    <div className="profil-dossier">
-                    <p className="profil-dossier-onglet">{`${styleLabel(selectedStyle.key)}  ${generationCount}/${DAILY_GENERATION_LIMIT}`}</p>
+            <div className="create-buttons">
+                {/* Onglet de dossier au-dessus du champ : style choisi + compteur de générations du jour (remplace la plaque et titrebas) */}
+                <div className="profil-dossier">
+                    <p className="profil-dossier-onglet">{`${styleLabel(selectedStyle)}  ${generationCount}/${DAILY_GENERATION_LIMIT}`}</p>
                     <div className="create-box">
-                    <textarea
-                    className="create-textarea"
-                    placeholder={t.placeholder}
-                        value={description}
-                        onChange={(e) => setDescription(e.target.value)}
-                        onFocus={() => setHasFocusedDescription(true)}
-                        rows={4}
-                        maxLength={MAX_DESCRIPTION_LENGTH}
-                        spellCheck={false}
+                        <textarea
+                            className="create-textarea"
+                            placeholder={t.placeholder}
+                            value={description}
+                            onChange={(e) => setDescription(e.target.value)}
+                            onFocus={() => setHasFocusedDescription(true)}
+                            rows={4}
+                            maxLength={MAX_DESCRIPTION_LENGTH}
+                            spellCheck={false}
                         />
-                        </div>
-                        </div>
-                        <button
-                        className={`create-btn create-btn-image btn-bouton-png${isButtonFaded ? ' create-btn-faded' : ''}`}
+                    </div>
+                </div>
+                <button
+                    className={`create-btn create-btn-image btn-bouton-png${isButtonFaded ? ' create-btn-faded' : ''}`}
                     onClick={handleGenerateImage}
                     disabled={isGenerating}
                 >
@@ -315,25 +401,6 @@ const GenererPhoto: React.FC = () => {
                 {generationError && <p className="generating-text">{generationError}</p>}
                 {/* Silhouette du thème, sous le bouton Générer */}
                 <img src={assets.silhouette} alt="" className="create-silhouette" />
-                {generatedImage && (
-                    <>
-                        <button
-                            className="create-btn create-btn-image btn-bouton-png"
-                            onClick={() => navigate('/creer/personnage', {
-                                state: { generatedImage, description, styleLabel: selectedStyle ? styleLabel(selectedStyle.key) : '' },
-                            })}
-                        >
-                            <img src={assets.barre1} alt="" />
-                            <img src={assets.palette} alt="" className="create-banner-icon" />
-                            <div className="create-btn-caption">
-                                <span className="create-btn-title">{t.detailsPersonnageTitre}</span>
-                            </div>
-                        </button>
-                        <div className="create-box create-preview-box">
-                            <img src={generatedImage} alt={t.genere} className="create-preview-img" />
-                        </div>
-                    </>
-                )}
             </div>
         </div>
     );
