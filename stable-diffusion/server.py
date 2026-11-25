@@ -254,16 +254,46 @@ NEGATIVE_PROMPT = (
 )
 
 STYLE_PROMPTS = {
-    "realiste": (
-        "candid photo, amateur smartphone photo, unposed, casual snapshot, "
-        "natural everyday lighting, no professional photoshoot, no studio lighting, "
-        "no glamour, no fashion magazine style, photorealistic, natural skin texture"
-    ),
-    "anime": "anime style, cel shading, vibrant colors, japanese animation",
-    "peinture": "oil painting, painterly brush strokes, fine art",
+    "realiste": "candid photo, amateur smartphone photo, unposed, casual snapshot, natural everyday lighting, no professional photoshoot, no studio lighting, no glamour, no fashion magazine style, photorealistic, natural skin texture",
     "fantaisie": "fantasy art, magical atmosphere, ethereal lighting, dreamlike",
-    "cyberpunk": "cyberpunk style, neon lights, futuristic, high tech",
-    "aquarelle": "watercolor painting, soft washes, delicate colors",
+    "photorealiste": "ultra realistic photograph, 35mm photo, natural light, detailed skin texture, sharp focus, realistic proportions, high detail",
+    "haute-couture": "wearing an avant-garde haute couture gown, runway fashion, sculptural designer dress, dramatic fashion editorial, luxury, elegant pose, high fashion photography",
+    "streetwear": "wearing trendy streetwear, oversized hoodie, sneakers, baggy cargo pants, urban street background, graffiti wall, street fashion photo",
+    "cocooning": "wearing cozy comfortable hygge clothing, oversized chunky knit sweater, thick wool socks, soft plaid scarf or blanket wrapped around, warm soft fabrics, soft warm lighting",
+    "anime": "anime style, cel shading, vibrant colors, clean line art, big expressive eyes, japanese animation",
+    "manga": "black and white manga illustration, ink linework, screentone shading, dynamic composition, japanese comic style, everything monochrome except the colors explicitly described in the scene (for example only the hair is colored)",
+    "cartoon-3d": "3D animated movie character, Pixar style 3D render, stylized proportions, big eyes, smooth shading, subsurface scattering, soft studio lighting, CGI",
+    "claymation": "claymation stop-motion style, handmade plasticine clay figures, visible fingerprints in the clay, miniature handmade set, soft studio light",
+    "peinture": "oil painting on canvas, thick visible brush strokes, impasto texture, canvas grain, hand-painted, painterly, old masters style, not a photograph",
+    "aquarelle": "watercolor painting, soft washes, bleeding colors, wet on wet, paper texture, delicate pastel colors, loose brushwork",
+    "fusain": "charcoal drawing, black charcoal on rough paper, smudged shading, expressive strokes, monochrome sketch",
+    "art-nouveau": "art nouveau illustration, Alphonse Mucha style, ornate floral border, flowing organic lines, decorative frame, muted gold and earth tones, elegant",
+    "estampe-japonaise": "ukiyo-e Japanese woodblock print, flat colors, bold outlines, washi paper texture, Hokusai style, traditional Japanese composition",
+    "wabi-sabi": "wabi-sabi aesthetic, imperfect handmade beauty, muted earthy tones, weathered natural textures, linen clothing, minimalist rustic setting, quiet serene mood, soft diffused light",
+    "annee50-pinup": "1950s pin-up illustration, retro vintage style, polka dot dress, victory rolls hairstyle, red lipstick, Gil Elvgren style, warm saturated colors",
+    "noir-blanc": "black and white photograph, high contrast monochrome, dramatic shadows, film grain, classic portrait",
+    "polar": "film noir detective, 1940s noir, trench coat, fedora, moody shadows, rain, venetian blind light, cigarette smoke, black and white high contrast, crime thriller",
+    "pixel-art": "pixel art, 16-bit retro video game sprite, limited color palette, crisp square pixels, dithering",
+    "pop-art": "pop art, Andy Warhol and Roy Lichtenstein style, bold flat colors, halftone dots, thick black outlines, comic book style",
+    "synthwave": "synthwave retrowave style, 80s neon grid, magenta and cyan neon glow, purple sunset, chrome, retro futuristic, outrun",
+    "frutiger-aero": "Frutiger Aero aesthetic, glossy aqua bubbles, glass effect, lush green grass, blue sky, clean bright optimistic early 2000s tech style, water droplets",
+    "cyberpunk": "cyberpunk style, neon lights, rainy futuristic city at night, cybernetic implants, holograms, high tech low life, Blade Runner atmosphere",
+    "biopunk": "biopunk style, organic bio-engineered technology, living tissue and tubes, genetic mutation, bioluminescent glow, fleshy machinery, laboratory, sickly green tones",
+    "steampunk": "steampunk style, Victorian era, brass gears, goggles, corset, leather, steam machines, copper pipes, airship, sepia tones",
+    "solarpunk": "solarpunk style, utopian eco-future, lush greenery on buildings, solar panels, wind turbines, art nouveau architecture, bright optimistic sunlight, sustainable city",
+    "retro-futurisme": "retro-futurism, 1960s vision of the future, atomic age, space age fashion, chrome rockets, flying cars, pastel colors, vintage sci-fi poster",
+    "space-opera": "space opera, epic science fiction, starships, alien planets, galactic empire, space suit, glowing nebula, cinematic",
+    "hard-sci-fi": "hard science fiction, realistic spaceship interior, accurate technology, space station, functional spacesuit, cold clinical lighting, detailed engineering, grounded realism",
+    "post-apocalyptique": "post-apocalyptic wasteland, ruined city, survivor in scavenged gear, dust, rust, overgrown ruins, desolate, gritty, desaturated",
+    "gothique": "gothic style, dark romantic, black lace and velvet, gothic cathedral, candlelight, pale skin, moody shadows, Victorian gothic",
+    "dark-academia": "dark academia aesthetic, old university library, tweed blazer, plaid, leather books, candlelight, autumn tones, moody, classical architecture",
+    "grimdark": "grimdark style, bleak brutal dark fantasy, battered armor, mud and blood, ruined battlefield, oppressive atmosphere, gritty, desaturated, war-torn",
+    "dreamcore": "dreamcore aesthetic, surreal dreamlike nostalgic liminal space, pastel hazy glow, soft focus, VHS grain, floating clouds, uncanny, strange childhood memories",
+    "cottagecore": "cottagecore aesthetic, countryside cottage, wildflower meadow, prairie dress, straw hat, baking, soft golden light, pastoral, cozy rustic",
+    "heroic-fantasy": "heroic fantasy art, epic fantasy, armor and sword, castles, mountains, magic, dramatic lighting, painterly",
+    "mythologique": "Greek mythology, ancient gods, marble columns, toga and laurel wreath, Mount Olympus, divine golden light, epic classical painting",
+    "wuxia": "wuxia style, Chinese martial arts, flowing hanfu robes, bamboo forest, misty mountains, sword fighter, ink wash painting feel, graceful action",
+    "elfe": "elf with long pointed ears, ethereal elven beauty, fantasy forest, elegant flowing elven clothing, magical glow",
     "furry": "furry art style, anthropomorphic animal character, digital illustration",
 }
 
@@ -276,11 +306,68 @@ STYLE_PROMPTS = {
 # activement un style plutôt que de simplement espérer que le positif
 # l'emporte, et est nettement plus efficace pour ça en pratique.
 STYLE_NEGATIVE_PROMPTS = {
-    "realiste": (
-        "glamour, fashion photoshoot, professional photoshoot, studio lighting, "
-        "dramatic pose, dramatic lighting, magazine cover, professional model pose, "
-        "glossy skin, sunglasses, high fashion"
-    ),
+    "photorealiste": "cartoon, anime, illustration, painting, drawing, 3d render",
+    "haute-couture": "casual clothes, t-shirt, jeans, sportswear",
+    "streetwear": "formal wear, evening gown, suit, dress",
+    "cocooning": "formal clothes, suit, evening gown, tight clothes",
+    "anime": "photo, photorealistic, realistic, 3d render",
+    "manga": "photo, realistic, 3d render, full color painting",
+    "cartoon-3d": "photo, flat 2d, drawing, sketch, realistic skin",
+    "claymation": "photo, flat 2d drawing, smooth cgi",
+    "peinture": "photo, photograph, photorealistic, realistic skin, 3d render, digital art, anime, smooth",
+    "aquarelle": "photo, photorealistic, 3d render, thick outlines, oil paint",
+    "fusain": "color, colorful, photo, 3d render, painting",
+    "art-nouveau": "photo, 3d render, modern, minimalist",
+    "estampe-japonaise": "photo, 3d render, realistic shading, gradient",
+    "wabi-sabi": "glossy, neon, luxury, shiny, cluttered, saturated colors",
+    "annee50-pinup": "modern clothes, futuristic, photo, 3d render",
+    "noir-blanc": "color, colorful, saturated",
+    "polar": "bright colors, cheerful, sunny, cartoon",
+    "pixel-art": "photo, smooth, blurry, high resolution, realistic, 3d render",
+    "pop-art": "photo, realistic, muted colors, soft shading",
+    "synthwave": "daylight, natural, rustic, muted colors",
+    "frutiger-aero": "dark, gritty, grunge, dystopian",
+    "cyberpunk": "medieval, rustic, daylight, countryside",
+    "biopunk": "clean, medieval, cute",
+    "steampunk": "modern, neon, futuristic, plastic",
+    "solarpunk": "dystopian, dark, polluted, grim",
+    "retro-futurisme": "modern, gritty, dark, realistic photo",
+    "space-opera": "medieval, rustic, countryside, modern city",
+    "hard-sci-fi": "fantasy, magic, cartoon, neon",
+    "post-apocalyptique": "clean, new, luxury, cheerful, colorful",
+    "gothique": "bright, cheerful, pastel, sunny",
+    "dark-academia": "neon, futuristic, bright, beach",
+    "grimdark": "cheerful, colorful, clean, cute, bright",
+    "dreamcore": "sharp, gritty, realistic, harsh",
+    "cottagecore": "urban, neon, futuristic, gritty",
+    "heroic-fantasy": "modern, sci-fi, cartoon, photo",
+    "mythologique": "modern, futuristic, cartoon",
+    "wuxia": "modern, sci-fi, guns, western",
+    "elfe": "round ears, modern clothes, sci-fi",
+}
+
+# Genre choisi dans l'appli (onglet Femme / Homme) : placé avant la description.
+GENRE_PROMPTS = {
+    "f": "a woman as the main character",
+    "h": "a man as the main character",
+}
+
+# Début du prompt pour les styles « de médium » (peinture, manga...) : le médium passe avant le sujet.
+STYLE_LEAD = {
+    "photorealiste": "a photograph",
+    "peinture": "an oil painting on canvas",
+    "aquarelle": "a watercolor painting",
+    "fusain": "a charcoal drawing",
+    "manga": "a black and white manga illustration with selective color",
+    "anime": "an anime illustration",
+    "cartoon-3d": "a 3D animated movie render",
+    "claymation": "a claymation stop-motion scene",
+    "pixel-art": "a pixel art sprite",
+    "pop-art": "a pop art poster",
+    "estampe-japonaise": "a ukiyo-e Japanese woodblock print",
+    "art-nouveau": "an art nouveau illustration",
+    "annee50-pinup": "a 1950s pin-up illustration",
+    "noir-blanc": "a black and white photograph",
 }
 
 # Filtre de sécurité : refuse certaines descriptions AVANT de lancer la
@@ -587,6 +674,19 @@ def generate():
 
     if prompt_interdit(prompt):
         return jsonify({"error": "Cette description n'est pas autorisée."}), 400
+
+    # >>> genre
+    # Le genre (f / h) vient de l'onglet Femme / Homme de la page des styles : le personnage
+    # principal est une femme / un homme, le reste de la description reste libre.
+    genre_prompt = GENRE_PROMPTS.get(data.get("genre"))
+    lead = STYLE_LEAD.get(normaliser_style(style))
+    if lead and genre_prompt:
+        prompt = f"{lead} of {genre_prompt}, {prompt}"
+    elif lead:
+        prompt = f"{lead}, {prompt}"
+    elif genre_prompt:
+        prompt = f"{genre_prompt}, {prompt}"
+    # <<< genre
 
     if not busy_lock.acquire(blocking=False):
         return jsonify({"error": "Une génération est déjà en cours, réessayez dans un instant."}), 503

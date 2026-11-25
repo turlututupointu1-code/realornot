@@ -243,7 +243,7 @@ const GenererPhoto: React.FC = () => {
             const response = await fetch(`${SERVER_BASE_URL}/generate`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ prompt: description, style: selectedStyle }),
+                body: JSON.stringify({ prompt: description, style: selectedStyle, genre }),
             });
             if (!response.ok) {
                 const errData = await response.json().catch(() => null);
