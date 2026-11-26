@@ -1,8 +1,9 @@
 /* src/pages/ChoisirVoix.tsx */
 import React, { useState } from 'react';
-import { useUiLang, useThemeAssets, BanniereTitre } from '../communs';
+import { useUiLang, useThemeAssets, BanniereTitre, ChevronArrow } from '../communs';
 import NavArrow from '../components/NavArrow';
 import Voice from '../plugins/voice';
+import { useUnSeulOuvert } from '../utils/useUnSeulOuvert';
 import { VOIX_FEMININES, VOIX_MASCULINES, VOIX_NOM_FEMININE, VOIX_NOM_MASCULINE, VOIX_CHOISIE_KEY } from '../utils/voix';
 import type { VoixSection, VoixChoisie } from '../utils/voix';
 
@@ -20,90 +21,92 @@ const IconHautParleur: React.FC = () => (
     </svg>
 );
 
+// Toutes les voix d'un genre dans UNE seule grille, dans l'ordre de utils/voix.ts (pas de trou entre les
+// sections, pas de bouton seul) : petits boutons (nom du trait + haut-parleur), la voix choisie est pleine.
 const VoixSectionList: React.FC<{
-    section: VoixSection;
+    items: VoixSection['items'];
     voiceName: string;
     traits: string[];
     phrase: string;
     langueTag: string;
     voixSelectionnee: string | null;
     onSelect: (cle: string) => void;
-}> = ({ section, voiceName, traits, phrase, langueTag, voixSelectionnee, onSelect }) => {
-    const assets = useThemeAssets();
-    return (
-        <div className="voix-subsection">
-            <div className="voix-list">
-                {section.items.map((voix) => (
-                    <button
-                        type="button"
-                        key={voix.cle}
-                        className="voix-item"
-                        onClick={() => {
-                            onSelect(voix.cle);
-                            const voixChoisie: VoixChoisie = { cle: voix.cle, index: voix.index };
-                            sessionStorage.setItem(VOIX_CHOISIE_KEY, JSON.stringify(voixChoisie));
-                            jouerVoix(voix.pitch, voix.rate, voiceName, phrase, langueTag);
-                        }}
-                    >
-                        <img
-                            src={assets.barre1}
-                            alt=""
-                            className={`details-categories-bg${voixSelectionnee === voix.cle ? ' details-categories-bg-selected' : ''}`}
-                        />
-                        <div className="voix-item-content">
-                            <span className="voix-item-label">{traits[voix.index] ?? voix.cle}</span>
-                            <span className="voix-item-speaker">
-                                <IconHautParleur />
-                            </span>
-                        </div>
-                    </button>
-                ))}
-            </div>
-        </div>
-    );
-};
+}> = ({ items, voiceName, traits, phrase, langueTag, voixSelectionnee, onSelect }) => (
+    <div className="details-suggestions-row voix-grille">
+        {items.map((voix) => (
+            <button
+                type="button"
+                key={voix.cle}
+                className={`details-suggestion-chip voix-chip${voixSelectionnee === voix.cle ? ' details-suggestion-chip-active' : ''}`}
+                onClick={() => {
+                    onSelect(voix.cle);
+                    const voixChoisie: VoixChoisie = { cle: voix.cle, index: voix.index };
+                    sessionStorage.setItem(VOIX_CHOISIE_KEY, JSON.stringify(voixChoisie));
+                    jouerVoix(voix.pitch, voix.rate, voiceName, phrase, langueTag);
+                }}
+            >
+                <span className="voix-chip-label">{traits[voix.index] ?? voix.cle}</span>
+                <span className="voix-chip-speaker">
+                    <IconHautParleur />
+                </span>
+            </button>
+        ))}
+    </div>
+);
 
 const ChoisirVoix: React.FC = () => {
     const t = useUiLang();
     const assets = useThemeAssets();
     const [voixSelectionnee, setVoixSelectionnee] = useState<string | null>(null);
+    // Un seul panneau ouvert à la fois : voix féminines ou voix masculines
+    const panneau = useUnSeulOuvert<'f' | 'h'>();
+
+    // Même système que « Langues parlées » du Profil de rencontre : barre + flèche, cadre dessous
+    const renderGroupe = (code: 'f' | 'h', titre: string, sections: VoixSection[], voiceName: string) => {
+        const ouvert = panneau.estOuvert(code);
+        return (
+            <div className="rencontre-categorie-accordeon details-categorie-accordeon">
+                <button
+                    type="button"
+                    className="details-voix-row rencontre-categorie-toggle"
+                    onClick={() => panneau.basculer(code)}
+                >
+                    <img src={assets.barre1} alt="" className="details-categories-bg" />
+                    <div className="details-voix-content">
+                        <span className="details-voix-label">{titre}</span>
+                        <ChevronArrow sens={ouvert ? 'haut' : 'bas'} className="moi-avatar-chevron" />
+                    </div>
+                </button>
+                <div className={`rencontre-categorie-contenu-wrapper${ouvert ? ' ouvert' : ''}`}>
+                    <div className="rencontre-categorie-contenu-clip">
+                        <div className="create-box rencontre-categorie-contenu">
+                            <VoixSectionList
+                                items={sections.flatMap((section) => section.items)}
+                                voiceName={voiceName}
+                                traits={t.voixTraits}
+                                phrase={t.phraseExemple}
+                                langueTag={t.langueCode}
+                                voixSelectionnee={voixSelectionnee}
+                                onSelect={setVoixSelectionnee}
+                            />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        );
+    };
 
     return (
-        <div className="page-content-container create-page">
-           <div className="titre-ligne">
-               <NavArrow direction="back" />
-               <BanniereTitre texte={t.voix}>
+        <div className="page-content-container create-page voix-page">
+            <div className="titre-ligne">
+                <NavArrow direction="back" />
+                <BanniereTitre texte={t.voix}>
                     <img src={assets.palette} alt="" className="create-banner-icon" />
                 </BanniereTitre>
-           </div>
+            </div>
 
-            <p className="details-field-label voix-section-title">{t.voixFeminines}</p>
-            {VOIX_FEMININES.map((section) => (
-                <VoixSectionList
-                    key={section.titre}
-                    section={section}
-                    voiceName={VOIX_NOM_FEMININE}
-                    traits={t.voixTraits}
-                    phrase={t.phraseExemple}
-                    langueTag={t.langueCode}
-                    voixSelectionnee={voixSelectionnee}
-                    onSelect={setVoixSelectionnee}
-                />
-            ))}
-
-            <p className="details-field-label voix-section-title">{t.voixMasculines}</p>
-            {VOIX_MASCULINES.map((section) => (
-                <VoixSectionList
-                    key={section.titre}
-                    section={section}
-                    voiceName={VOIX_NOM_MASCULINE}
-                    traits={t.voixTraits}
-                    phrase={t.phraseExemple}
-                    langueTag={t.langueCode}
-                    voixSelectionnee={voixSelectionnee}
-                    onSelect={setVoixSelectionnee}
-                />
-            ))}
+            {renderGroupe('f', t.voixFeminines, VOIX_FEMININES, VOIX_NOM_FEMININE)}
+            {renderGroupe('h', t.voixMasculines, VOIX_MASCULINES, VOIX_NOM_MASCULINE)}
         </div>
     );
 };

@@ -578,3 +578,50 @@
   }
 }
 /* <<< details-categorie-accordeon */
+
+/* >>> voix-accordeon */
+// Page « Choisir la voix » : grille de 2 colonnes, boutons plus hauts, texte à la ligne si besoin,
+// haut-parleur à droite. Les couleurs viennent du bloc details-categorie-accordeon.
+.app-root-container .voix-page .voix-grille {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+  margin-top: 0;
+
+  button.details-suggestion-chip {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 6px;
+    min-height: 44px;
+    padding: 6px 10px;
+    text-align: left;
+    white-space: normal;
+    line-height: 1.15;
+  }
+
+  .voix-chip-label {
+    min-width: 0;
+    flex: 1;
+  }
+
+  .voix-chip-speaker {
+    flex-shrink: 0;
+    display: inline-flex;
+  }
+
+  .voix-chip-speaker svg {
+    width: 1.5em;
+    height: 1.5em;
+  }
+}
+
+// Nombre de voix impair (9 voix masculines) : le dernier bouton prend toute la largeur, plus de bouton seul à moitié vide.
+.app-root-container .voix-page .voix-grille button.details-suggestion-chip:last-child:nth-child(odd) {
+  grid-column: 1 / -1;
+}
+
+.app-root-container .voix-page .voix-grille + .voix-grille {
+  margin-top: 8px;
+}
+/* <<< voix-accordeon */
