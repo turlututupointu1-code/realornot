@@ -77,7 +77,7 @@ const RencontreListePage: React.FC = () => {
         : (t.rencontreListeTitre ?? 'Profils');
 
     return (
-        <div className="page-content-container create-page moi-page">
+        <div className="page-content-container create-page moi-page rencontre-liste-page">
             <div className="titre-ligne">
                 <NavArrow direction="back" onClick={() => navigate('/mode-reel')} />
                 <BanniereTitre texte={titre} />

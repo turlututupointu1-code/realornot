@@ -25,13 +25,6 @@
     flex: 1;
     min-width: 0;
 }
-.titre-ligne .create-banner-text {
-    font-family: var(--titre-police, inherit);
-    font-weight: var(--titre-graisse, 700);
-    font-size: var(--titre-taille, 20px);
-    letter-spacing: var(--titre-espace, 1px);
-    text-shadow: var(--titre-ombre, 0 2px 3px rgba(0, 0, 0, 0.6));
-}
 
 // Discussion avec l'IA : le drapeau « Signaler » est à droite dans la barre (symétrique de l'avatar à gauche)
 // et « Personnage non réel » est sous le nom. Réglages par thème, facultatifs :

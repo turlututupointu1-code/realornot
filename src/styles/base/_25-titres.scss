@@ -1,0 +1,93 @@
+// src/styles/base/_25-titres.scss
+// TOUS les titres de pages au même endroit (flèche + titre.webp). Importé en dernier dans base.scss.
+// Ajouter une page : une ligne dans $pages-titre. Réglages par thème : voir les variables --titre-* et --creer-*
+// (liste dans _08-entete-fixe.scss et ci-dessous).
+
+$pages-titre: (
+  '.create-photo-page',
+  '.telecharger-photo-page',
+  '.details-personnage-page',
+  '.generer-photo-page',
+  '.generer-resultat-page',
+  '.rencontre-souspage',
+  '.rencontre-liste-page',
+  '.generer-style-page',
+  '.profil-conversation-page'
+);
+
+@function pages-titre($suffixe) {
+  $liste: ();
+  @each $p in $pages-titre {
+    $liste: append($liste, #{$p} #{$suffixe}, comma);
+  }
+  @return $liste;
+}
+
+// Page « Créer la photo du personnage » : titre long -> deux lignes, un peu plus petit, avec de la place pour l'icône à gauche.
+// Réglages par thème (facultatifs) :
+//   --creer-titre-echelle    : taille du titre par rapport à --titre-taille (défaut 0.85)
+//   --creer-titre-pad-gauche : marge à gauche (défaut 8% = symétrique, texte centré sur la barre)
+//   --creer-titre-pad-droite : marge à droite (défaut 8%)
+//   --creer-titre-interligne : espace entre les deux lignes (défaut 1.05, plus petit = plus serré)
+//   --creer-icone-dx / -dy   : décalage de l'icône dans le cercle du titre, en % de l'icône (positif = droite / bas)
+#{pages-titre('.titre-ligne .create-banner-text')},
+.top-bar-box .create-banner-text {
+
+    white-space: normal;
+    font-size: calc(var(--titre-taille, 20px) * var(--creer-titre-echelle, 0.85));
+    line-height: var(--creer-titre-interligne, 1.05);
+    box-sizing: border-box;
+    transform: translate(var(--creer-titre-dx, 0px), var(--banner-title-dy, 0px)); // ignore --banner-title-dx (réglé pour les autres pages) ; --creer-titre-dx = petit décalage propre à cette page
+    padding: 0 var(--creer-titre-pad-droite, 8%) 0 var(--creer-titre-pad-gauche, 8%);
+}
+
+#{pages-titre('.titre-ligne .create-banner-icon')} {
+
+    translate: var(--creer-icone-dx, 0%) var(--creer-icone-dy, 0%);
+}
+
+// Page « Créer la photo » : icône du titre agrandie (--creer-icone-echelle, 1.5 = +50 %), même centre qu'avant.
+// Réglable par thème (facultatif) : --creer-icone-echelle
+#{pages-titre('.titre-ligne .create-banner-icon')} {
+
+    transform: translate(calc(-50% + var(--icon-profil-dx) + 8%), calc(-50% + var(--icon-profil-dy) + 15%)) scale(var(--creer-icone-echelle, 1.5));
+}
+
+// Police, graisse, espacement et ombre du titre : pages ET barre du haut (Profil de rencontre).
+.top-bar-box .create-banner-text,
+.titre-ligne .create-banner-text {
+
+    font-family: var(--titre-police, inherit);
+    font-weight: var(--titre-graisse, 700);
+    font-size: var(--titre-taille, 20px);
+    letter-spacing: var(--titre-espace, 1px);
+    text-shadow: var(--titre-ombre, 0 2px 3px rgba(0, 0, 0, 0.6));
+}
+
+// --- cadrage (venait de _09-camera-recadrage.scss)
+// Page « Ajustez le cadrage » : même titre et même icône que « Choisir votre photo » (mêmes variables --creer-* par thème).
+.crop-overlay .create-banner-title .create-banner-text {
+    left: 0;
+    right: 0;
+    white-space: normal;
+    font-size: calc(var(--titre-taille, 20px) * var(--creer-titre-echelle, 0.85));
+    line-height: var(--creer-titre-interligne, 1.05);
+    box-sizing: border-box;
+    transform: translate(var(--creer-titre-dx, 0px), var(--banner-title-dy, 0px)); // ignore --banner-title-dx
+    padding: 0 var(--creer-titre-pad-droite, 8%) 0 var(--creer-titre-pad-gauche, 8%);
+    font-family: var(--titre-police, inherit);
+    font-weight: var(--titre-graisse, 700);
+    letter-spacing: var(--titre-espace, 1px);
+    text-shadow: var(--titre-ombre, 0 2px 3px rgba(0, 0, 0, 0.6));
+}
+.crop-overlay .create-banner-title .create-banner-icon {
+    translate: var(--creer-icone-dx, 0%) var(--creer-icone-dy, 0%);
+    transform: translate(calc(-50% + var(--icon-profil-dx) + 8%), calc(-50% + var(--icon-profil-dy) + 15%)) scale(var(--creer-icone-echelle, 1.5));
+}
+
+// --- cyberpunk (venait de _22-utilitaires.scss)
+// Cyberpunk : titres de bannière et textes des boutons PNG en bleu (comme la recherche), graisse normale.
+.theme-cyberpunk .create-banner-title .create-banner-text {
+    color: var(--search-bar-text-color);
+}
+.theme-cyberpunk .create-banner-title .create-banner-text { font-weight: 400 !important; }

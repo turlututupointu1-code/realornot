@@ -30,7 +30,7 @@ const RencontreMessagesPage: React.FC = () => {
     if (chargement) return null;
 
     return (
-        <div className="page-content-container create-page moi-page">
+        <div className="page-content-container create-page moi-page rencontre-liste-page">
             <div className="titre-ligne">
                 <NavArrow direction="back" />
                 <BanniereTitre texte={t.messagesPageTitre ?? 'Messages'} />

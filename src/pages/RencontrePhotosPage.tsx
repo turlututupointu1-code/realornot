@@ -158,11 +158,10 @@ const RencontrePhotosPage: React.FC = () => {
 
     return (
         <div className="page-content-container create-page rencontre-page rencontre-souspage">
-            <div className="profil-conversation-header-fixed">
+            <div className="titre-ligne">
                 <NavArrow direction="back" />
+                <BanniereTitre texte={t.mesPhotosTitre ?? 'Mes photos'} />
             </div>
-
-            <BanniereTitre texte={t.mesPhotosTitre ?? 'Mes photos'} />
 
             <div className="create-box rencontre-bio-box">
                 <p className="details-field-label" style={{ textAlign: 'center' }}>

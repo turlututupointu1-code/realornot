@@ -313,48 +313,7 @@
     color: var(--generating-text-color);
 }
 
-// Page « Créer la photo du personnage » : titre long -> deux lignes, un peu plus petit, avec de la place pour l'icône à gauche.
-// Réglages par thème (facultatifs) :
-//   --creer-titre-echelle    : taille du titre par rapport à --titre-taille (défaut 0.85)
-//   --creer-titre-pad-gauche : marge à gauche (défaut 8% = symétrique, texte centré sur la barre)
-//   --creer-titre-pad-droite : marge à droite (défaut 8%)
-//   --creer-titre-interligne : espace entre les deux lignes (défaut 1.05, plus petit = plus serré)
-//   --creer-icone-dx / -dy   : décalage de l'icône dans le cercle du titre, en % de l'icône (positif = droite / bas)
-.create-photo-page .titre-ligne .create-banner-text,
-.telecharger-photo-page .titre-ligne .create-banner-text,
-.details-personnage-page .titre-ligne .create-banner-text,
-.generer-photo-page .titre-ligne .create-banner-text,
-.generer-resultat-page .titre-ligne .create-banner-text,
-.generer-style-page .titre-ligne .create-banner-text,
-.profil-conversation-page .titre-ligne .create-banner-text {
-    white-space: normal;
-    font-size: calc(var(--titre-taille, 20px) * var(--creer-titre-echelle, 0.85));
-    line-height: var(--creer-titre-interligne, 1.05);
-    box-sizing: border-box;
-    transform: translate(var(--creer-titre-dx, 0px), var(--banner-title-dy, 0px)); // ignore --banner-title-dx (réglé pour les autres pages) ; --creer-titre-dx = petit décalage propre à cette page
-    padding: 0 var(--creer-titre-pad-droite, 8%) 0 var(--creer-titre-pad-gauche, 8%);
-}
-.create-photo-page .titre-ligne .create-banner-icon,
-.telecharger-photo-page .titre-ligne .create-banner-icon,
-.details-personnage-page .titre-ligne .create-banner-icon,
-.generer-photo-page .titre-ligne .create-banner-icon,
-.generer-resultat-page .titre-ligne .create-banner-icon,
-.generer-style-page .titre-ligne .create-banner-icon,
-.profil-conversation-page .titre-ligne .create-banner-icon {
-    translate: var(--creer-icone-dx, 0%) var(--creer-icone-dy, 0%);
-}
 
-// Page « Créer la photo » : icône du titre agrandie (--creer-icone-echelle, 1.5 = +50 %), même centre qu'avant.
-// Réglable par thème (facultatif) : --creer-icone-echelle
-.create-photo-page .titre-ligne .create-banner-icon,
-.telecharger-photo-page .titre-ligne .create-banner-icon,
-.details-personnage-page .titre-ligne .create-banner-icon,
-.generer-photo-page .titre-ligne .create-banner-icon,
-.generer-resultat-page .titre-ligne .create-banner-icon,
-.generer-style-page .titre-ligne .create-banner-icon,
-.profil-conversation-page .titre-ligne .create-banner-icon {
-    transform: translate(calc(-50% + var(--icon-profil-dx) + 8%), calc(-50% + var(--icon-profil-dy) + 15%)) scale(var(--creer-icone-echelle, 1.5));
-}
 
 // Page « Créer la photo » : boutons descendus et texte des boutons légèrement agrandi (le reste de la page ne bouge pas).
 // Réglable par thème (facultatif) : --creer-boutons-bas (descente), --creer-bouton-texte-echelle (taille du texte)

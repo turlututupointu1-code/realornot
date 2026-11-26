@@ -249,25 +249,6 @@
 /* <<< zoom-poignee-rectangle */
 
 /* >>> crop-titre */
-// Page « Ajustez le cadrage » : même titre et même icône que « Choisir votre photo » (mêmes variables --creer-* par thème).
-.crop-overlay .create-banner-title .create-banner-text {
-    left: 0;
-    right: 0;
-    white-space: normal;
-    font-size: calc(var(--titre-taille, 20px) * var(--creer-titre-echelle, 0.85));
-    line-height: var(--creer-titre-interligne, 1.05);
-    box-sizing: border-box;
-    transform: translate(var(--creer-titre-dx, 0px), var(--banner-title-dy, 0px)); // ignore --banner-title-dx
-    padding: 0 var(--creer-titre-pad-droite, 8%) 0 var(--creer-titre-pad-gauche, 8%);
-    font-family: var(--titre-police, inherit);
-    font-weight: var(--titre-graisse, 700);
-    letter-spacing: var(--titre-espace, 1px);
-    text-shadow: var(--titre-ombre, 0 2px 3px rgba(0, 0, 0, 0.6));
-}
-.crop-overlay .create-banner-title .create-banner-icon {
-    translate: var(--creer-icone-dx, 0%) var(--creer-icone-dy, 0%);
-    transform: translate(calc(-50% + var(--icon-profil-dx) + 8%), calc(-50% + var(--icon-profil-dy) + 15%)) scale(var(--creer-icone-echelle, 1.5));
-}
 /* <<< crop-titre */
 
 /* >>> crop-indice */

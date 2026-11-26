@@ -48,7 +48,7 @@ const RencontreVuesPage: React.FC = () => {
     const listeVide = nouvelles.length === 0 && anciennes.length === 0;
 
     return (
-        <div className="page-content-container create-page moi-page">
+        <div className="page-content-container create-page moi-page rencontre-liste-page">
             <div className="titre-ligne">
                 <NavArrow direction="back" />
                 <BanniereTitre texte={t.vuesPageTitre ?? 'Vues de profil'} />
