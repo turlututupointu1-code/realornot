@@ -625,3 +625,19 @@
   margin-top: 8px;
 }
 /* <<< voix-accordeon */
+
+/* >>> details-visibilite */
+// Texte et flèche des barres repliables de « Détails du personnage » et de la page des voix :
+// même couleur que les barres de la page Moi (variable par thème).
+.app-root-container .details-categorie-accordeon .rencontre-categorie-toggle {
+  .details-voix-label,
+  .moi-avatar-chevron {
+    color: var(--moi-bar-text-color);
+  }
+}
+
+// Public / Privé : 2 boutons, donc 2 colonnes.
+.app-root-container .details-categorie-accordeon .rencontre-reponses-verticales .details-suggestions-row.details-suggestions-deux {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+/* <<< details-visibilite */

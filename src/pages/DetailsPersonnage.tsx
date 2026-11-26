@@ -98,6 +98,7 @@ const DetailsPersonnage: React.FC = () => {
     const [bio, setBio] = useState(creationExistante?.bio ?? brouillonInitial.bio);
     const [categorie, setCategorie] = useState(creationExistante?.category ?? brouillonInitial.categorie);
     const [categorieOuverte, setCategorieOuverte] = useState(false);
+    const [visibiliteOuverte, setVisibiliteOuverte] = useState(false);
     const [isPublic, setIsPublic] = useState(creationExistante?.isPublic ?? true);
     const [isSaving, setIsSaving] = useState(false);
     const [saveError, setSaveError] = useState<string | null>(null);
@@ -220,23 +221,36 @@ const DetailsPersonnage: React.FC = () => {
             )}
 
             {isEdition && (
-                <div className="details-categories-row">
-                    <img src={assets.barre1} alt="" className="details-categories-bg" />
-                    <div className="details-suggestions-row details-categories-buttons">
-                        <button
-                            type="button"
-                            className={`details-suggestion-chip${isPublic ? ' details-suggestion-chip-active' : ''}`}
-                            onClick={() => setIsPublic(true)}
-                        >
-                            {t.publicLabel}
-                        </button>
-                        <button
-                            type="button"
-                            className={`details-suggestion-chip${!isPublic ? ' details-suggestion-chip-active' : ''}`}
-                            onClick={() => setIsPublic(false)}
-                        >
-                            {t.priveLabel}
-                        </button>
+                <div className="rencontre-categorie-accordeon details-categorie-accordeon">
+                    <button type="button" className="details-voix-row rencontre-categorie-toggle" onClick={() => setVisibiliteOuverte((o) => !o)}>
+                        <img src={assets.barre1} alt="" className="details-categories-bg" />
+                        <div className="details-voix-content">
+                            {/* La barre affiche le choix actuel ; on l'ouvre pour le changer */}
+                            <span className="details-voix-label">{isPublic ? t.publicLabel : t.priveLabel}</span>
+                            <ChevronArrow sens={visibiliteOuverte ? 'haut' : 'bas'} className="moi-avatar-chevron" />
+                        </div>
+                    </button>
+                    <div className={`rencontre-categorie-contenu-wrapper${visibiliteOuverte ? ' ouvert' : ''}`}>
+                        <div className="rencontre-categorie-contenu-clip">
+                            <div className="create-box rencontre-categorie-contenu rencontre-reponses-verticales">
+                                <div className="details-suggestions-row details-suggestions-deux">
+                                    <button
+                                        type="button"
+                                        className={`details-suggestion-chip${isPublic ? ' details-suggestion-chip-active' : ''}`}
+                                        onClick={() => setIsPublic(true)}
+                                    >
+                                        {t.publicLabel}
+                                    </button>
+                                    <button
+                                        type="button"
+                                        className={`details-suggestion-chip${!isPublic ? ' details-suggestion-chip-active' : ''}`}
+                                        onClick={() => setIsPublic(false)}
+                                    >
+                                        {t.priveLabel}
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             )}
