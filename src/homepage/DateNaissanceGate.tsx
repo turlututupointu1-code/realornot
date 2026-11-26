@@ -125,7 +125,7 @@ export default function DateNaissanceGate({ onConfirme, onRejete }: DateNaissanc
   };
 
   return (
-    <div className="age-gate">
+    <div className="age-gate age-gate--theme">
       <div className="age-gate__card">
         <h2>{t.prenomGateTitre ?? 'Bienvenue !'}</h2>
         <p>{t.prenomGateTexte ?? 'Indique ton prénom pour continuer.'}</p>

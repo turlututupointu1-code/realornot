@@ -131,8 +131,8 @@ $dossier: 'onde-vapeur';
     --style-card-label-border-3: var(--box-border); // couleur de la bordure du libellé n°3 (cycle de 3)
 
     // ---- Discussions ----
-    --discussion-item-bg: #FFF8E780; // fond dégradé d'une conversation
-    --discussion-item-border: 3px solid #C4A876; // bordure d'une conversation (repris de base.scss)
+    --discussion-item-bg: var(--box-bg); // fond dégradé d'une conversation
+    --discussion-item-border: 1px solid var(--box-border); // bordure d'une conversation (repris de base.scss)
     --discussion-item-preview-color: inherit; // aperçu du dernier message (repris de base.scss)
     --discussion-item-title-color: inherit; // nom du personnage dans la liste (repris de base.scss)
 

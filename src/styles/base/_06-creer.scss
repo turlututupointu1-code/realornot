@@ -641,3 +641,70 @@
   grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 /* <<< details-visibilite */
+
+/* >>> gate-theme */
+// Page « Bienvenue ! » (prénom + date de naissance) aux couleurs du thème.
+// Réservé à DateNaissanceGate (classe age-gate--theme) : la vérification d'âge de l'accueil garde le style beige de homepage/AgeGate.css.
+// La carte prend --dossier-onglet-bg (fond opaque estimé de --box-bg sur le fond d'écran) ; les champs et molettes --champ-*.
+.app-root-container .age-gate--theme {
+  background: rgba(0, 0, 0, 0.45);
+
+  .age-gate__card {
+    background: var(--dossier-onglet-bg);
+    border: 1px solid var(--box-border);
+    color: var(--box-text);
+  }
+
+  .age-gate__card h2,
+  .age-gate__card p,
+  .age-gate__wheel-labels span {
+    color: var(--box-text);
+  }
+
+  .age-gate__wheel {
+    background: var(--champ-bg);
+    border: 1px solid var(--champ-border-color);
+  }
+
+  .age-gate__wheel-item {
+    color: var(--box-text-muted);
+  }
+
+  .age-gate__wheel-item.is-selected {
+    color: var(--box-text);
+  }
+
+  .age-gate__wheel-highlight {
+    border-top: 1px solid var(--box-accent);
+    border-bottom: 1px solid var(--box-accent);
+  }
+
+  .prenom-gate__input {
+    background: var(--champ-bg);
+    color: var(--champ-text);
+    border: 1px solid var(--champ-border-color);
+  }
+
+  .prenom-gate__input:focus {
+    background: var(--champ-bg);
+    border-color: var(--champ-focus-border-color);
+  }
+
+  // Bouton : comme le choix actif des boutons de réponse (fond --box-border, texte --box-text)
+  .age-gate__confirm {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid var(--box-border);
+    border-radius: 10px;
+    background: var(--box-border);
+    color: var(--box-text);
+    font-weight: 700;
+    cursor: pointer;
+  }
+
+  .age-gate__confirm:disabled {
+    opacity: 0.5;
+    cursor: default;
+  }
+}
+/* <<< gate-theme */
