@@ -1,7 +1,7 @@
 /* src/pages/DetailsPersonnage.tsx */
 import React, { useEffect, useState } from 'react';
 import * as RouterDom from 'react-router-dom';
-import { useUiLang, useThemeAssets, BanniereTitre } from '../communs';
+import { useUiLang, useThemeAssets, BanniereTitre, ChevronArrow } from '../communs';
 import NavArrow from '../components/NavArrow';
 import SelecteurGenre from '../components/SelecteurGenre';
 import { addUserCreation, blobUrlToDataUrl, modifierUserCreation, type UserCreation } from '../utils/userCreations';
@@ -97,6 +97,7 @@ const DetailsPersonnage: React.FC = () => {
     const [salutation, setSalutation] = useState(creationExistante?.salutation ?? brouillonInitial.salutation);
     const [bio, setBio] = useState(creationExistante?.bio ?? brouillonInitial.bio);
     const [categorie, setCategorie] = useState(creationExistante?.category ?? brouillonInitial.categorie);
+    const [categorieOuverte, setCategorieOuverte] = useState(false);
     const [isPublic, setIsPublic] = useState(creationExistante?.isPublic ?? true);
     const [isSaving, setIsSaving] = useState(false);
     const [saveError, setSaveError] = useState<string | null>(null);
@@ -240,19 +241,32 @@ const DetailsPersonnage: React.FC = () => {
                 </div>
             )}
 
-            <div className="details-categories-row">
-                <img src={assets.barre1} alt="" className="details-categories-bg" />
-                <div className="details-suggestions-row details-categories-buttons">
-                    {CATEGORY_CODES.map((code, i) => (
-                        <button
-                            type="button"
-                            key={code}
-                            className={`details-suggestion-chip${categorie === code ? ' details-suggestion-chip-active' : ''}`}
-                            onClick={() => setCategorie(code)}
-                        >
-                            {t.categories[i + 1]}
-                        </button>
-                    ))}
+            <div className="rencontre-categorie-accordeon details-categorie-accordeon">
+                <button type="button" className="details-voix-row rencontre-categorie-toggle" onClick={() => setCategorieOuverte((o) => !o)}>
+                    <img src={assets.barre1} alt="" className="details-categories-bg" />
+                    <div className="details-voix-content">
+                        <span className="details-voix-label">{t.categorieTitre}</span>
+                        {/* Flèche vers le bas (fermé) ou vers le haut (ouvert), comme « Langues parlées » */}
+                        <ChevronArrow sens={categorieOuverte ? 'haut' : 'bas'} className="moi-avatar-chevron" />
+                    </div>
+                </button>
+                <div className={`rencontre-categorie-contenu-wrapper${categorieOuverte ? ' ouvert' : ''}`}>
+                    <div className="rencontre-categorie-contenu-clip">
+                        <div className="create-box rencontre-categorie-contenu rencontre-reponses-verticales">
+                            <div className="details-suggestions-row">
+                                {CATEGORY_CODES.map((code, i) => (
+                                    <button
+                                        type="button"
+                                        key={code}
+                                        className={`details-suggestion-chip${categorie === code ? ' details-suggestion-chip-active' : ''}`}
+                                        onClick={() => setCategorie(code)}
+                                    >
+                                        {t.categories[i + 1]}
+                                    </button>
+                                ))}
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
 

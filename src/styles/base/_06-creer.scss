@@ -322,6 +322,9 @@
 //   --creer-icone-dx / -dy   : décalage de l'icône dans le cercle du titre, en % de l'icône (positif = droite / bas)
 .create-photo-page .titre-ligne .create-banner-text,
 .telecharger-photo-page .titre-ligne .create-banner-text,
+.details-personnage-page .titre-ligne .create-banner-text,
+.generer-photo-page .titre-ligne .create-banner-text,
+.generer-resultat-page .titre-ligne .create-banner-text,
 .generer-style-page .titre-ligne .create-banner-text,
 .profil-conversation-page .titre-ligne .create-banner-text {
     white-space: normal;
@@ -333,6 +336,9 @@
 }
 .create-photo-page .titre-ligne .create-banner-icon,
 .telecharger-photo-page .titre-ligne .create-banner-icon,
+.details-personnage-page .titre-ligne .create-banner-icon,
+.generer-photo-page .titre-ligne .create-banner-icon,
+.generer-resultat-page .titre-ligne .create-banner-icon,
 .generer-style-page .titre-ligne .create-banner-icon,
 .profil-conversation-page .titre-ligne .create-banner-icon {
     translate: var(--creer-icone-dx, 0%) var(--creer-icone-dy, 0%);
@@ -342,6 +348,9 @@
 // Réglable par thème (facultatif) : --creer-icone-echelle
 .create-photo-page .titre-ligne .create-banner-icon,
 .telecharger-photo-page .titre-ligne .create-banner-icon,
+.details-personnage-page .titre-ligne .create-banner-icon,
+.generer-photo-page .titre-ligne .create-banner-icon,
+.generer-resultat-page .titre-ligne .create-banner-icon,
 .generer-style-page .titre-ligne .create-banner-icon,
 .profil-conversation-page .titre-ligne .create-banner-icon {
     transform: translate(calc(-50% + var(--icon-profil-dx) + 8%), calc(-50% + var(--icon-profil-dy) + 15%)) scale(var(--creer-icone-echelle, 1.5));
@@ -544,3 +553,28 @@
   }
 }
 /* <<< bordures-1px */
+
+/* >>> details-categorie-accordeon */
+// « Détails du personnage » : le cadre de la catégorie (barre « Catégorie ? ») reprend l'aspect des
+// boutons de la page Rencontre (« Langues parlées ? ») : fond --box-bg, bordure --box-border, choix actif plein.
+// Les règles d'origine sont limitées à .rencontre-page : on les redonne ici à cette page.
+.app-root-container .details-categorie-accordeon .rencontre-categorie-contenu {
+  button.details-suggestion-chip {
+    padding: 8px 14px;
+    border: var(--border-width) solid var(--box-border);
+    border-radius: var(--radius-small);
+    background: var(--box-bg) !important;
+    color: var(--box-text);
+    font-size: 0.68em;
+    font-weight: 700;
+    white-space: nowrap;
+    height: auto;
+  }
+
+  button.details-suggestion-chip.details-suggestion-chip-active {
+    background: var(--box-border) !important;
+    color: var(--box-text);
+    border-radius: var(--radius-small);
+  }
+}
+/* <<< details-categorie-accordeon */

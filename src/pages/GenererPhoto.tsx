@@ -1,7 +1,7 @@
 /* src/pages/GenererPhoto.tsx */
 import React, { useState, useEffect, useLayoutEffect, useRef } from 'react';
 import * as RouterDom from 'react-router-dom';
-import { useUiLang, useThemeAssets, HeaderRetour, BanniereTitre, ProgressBar } from '../communs';
+import { useUiLang, useThemeAssets, BanniereTitre, ProgressBar } from '../communs';
 import NavArrow from '../components/NavArrow';
 import { SERVER_BASE_URL } from '../config';
 
@@ -363,9 +363,8 @@ const GenererPhoto: React.FC = () => {
     // Écran 2 : description + bouton Générer
     return (
         <div className="page-content-container create-page generer-photo-page">
-            <HeaderRetour onClick={() => setSelectedStyle(null)} />
-
-            <div className="generer-title-group">
+            <div className="titre-ligne">
+                <NavArrow direction="back" onClick={() => setSelectedStyle(null)} />
                 <BanniereTitre texte={t.generer}>
                     <img src={assets.palette} alt="" className="create-banner-icon" />
                 </BanniereTitre>
