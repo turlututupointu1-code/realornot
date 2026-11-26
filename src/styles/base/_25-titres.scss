@@ -3,6 +3,8 @@
 // Ajouter une page : une ligne dans $pages-titre. Réglages par thème : voir les variables --titre-* et --creer-*
 // (liste dans _08-entete-fixe.scss et ci-dessous).
 
+@use 'sass:list';
+
 $pages-titre: (
   '.create-photo-page',
   '.telecharger-photo-page',
@@ -18,7 +20,7 @@ $pages-titre: (
 @function pages-titre($suffixe) {
   $liste: ();
   @each $p in $pages-titre {
-    $liste: append($liste, #{$p} #{$suffixe}, comma);
+    $liste: list.append($liste, #{$p} #{$suffixe}, comma);
   }
   @return $liste;
 }
@@ -91,3 +93,63 @@ $pages-titre: (
     color: var(--search-bar-text-color);
 }
 .theme-cyberpunk .create-banner-title .create-banner-text { font-weight: 400 !important; }
+
+// --- ligne de titre de base + discussion avec l'IA (venait de _08-entete-fixe.scss)
+// Ligne « flèche retour + barre titre » (toutes les pages sauf la discussion avec l'IA) : même largeur que les boutons (85 %), flèche centrée sur la hauteur de la barre. Réglages par thème (facultatifs) :
+//   --titre-ecart    : espace entre la flèche et la barre (défaut 8px)
+//   --titre-haut     : décalage vertical de la ligne, négatif = vers le haut (défaut -30px)
+//   --titre-taille   : taille du texte du titre (défaut 20px)
+//   --titre-espace   : espacement entre les lettres (défaut 1px)
+//   --titre-police   : police du titre (défaut : celle de l'appli). Mettre la police du thème PUIS un repli : les alphabets absents de la police (arabe, chinois…) utilisent le repli.
+//   --titre-graisse  : graisse du titre (défaut 700)
+//   --titre-ombre    : ombre(s) du titre, valable pour tous les alphabets (défaut : ombre douce)
+.titre-ligne {
+    display: flex;
+    align-items: center;
+    gap: var(--titre-ecart, 8px);
+    width: 85%;
+    margin: var(--titre-haut, -30px) auto 0;
+}
+.titre-ligne .nav-arrow-btn {
+    position: static;
+    flex-shrink: 0;
+}
+.titre-ligne .create-banner-title {
+    flex: 1;
+    min-width: 0;
+}
+// Discussion avec l'IA : le drapeau « Signaler » est à droite dans la barre (symétrique de l'avatar à gauche)
+// et « Personnage non réel » est sous le nom. Réglages par thème, facultatifs :
+//   --sous-titre-haut  : position verticale du sous-titre dans la barre (défaut 66%)
+//   --sous-titre-taille: taille du sous-titre (défaut 11px)
+.titre-ligne .signaler-btn {
+    position: absolute;
+    left: 89.7%;
+    top: 42.2%;
+    transform: translate(-50%, -50%);
+    z-index: 2;
+}
+.personnage-sous-titre {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: var(--sous-titre-haut, 66%);
+    text-align: center;
+    font-size: var(--sous-titre-taille, 11px);
+    font-weight: 600;
+    line-height: 1;
+    pointer-events: none;
+    color: var(--titre-couleur, inherit);
+    text-shadow: var(--titre-ombre, 0 1px 2px rgba(0, 0, 0, 0.6));
+}
+// Discussion : la barre reste collée en haut de l'écran, se cache quand on descend et revient dès qu'on remonte un peu.
+.titre-ligne-collante {
+    position: sticky;
+    top: calc(var(--safe-top, 0px) + 5px);
+    z-index: 20;
+    transition: transform 0.25s ease;
+}
+.titre-ligne-cachee {
+    transform: translateY(calc(-100% - var(--safe-top, 0px) - 40px));
+    pointer-events: none;
+}

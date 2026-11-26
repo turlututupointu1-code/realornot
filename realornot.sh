@@ -1,6 +1,6 @@
 #!/bin/bash
 # realornot.sh - un seul point d'entrée pour tout lancer.
-# Sans argument : affiche un menu. Avec un argument (1 à 7, x, g, a, b, c ou d) : lance directement l'action.
+# Sans argument : affiche un menu. Avec un argument (1 à 7, x, g, n, a, b, c ou d) : lance directement l'action.
 #   1 serveur Stable Diffusion        a tout pour le navigateur (serveur + Vite, 2 onglets)
 #   2 Vite (navigateur)               b tout pour le téléphone  (serveur + adb Wi-Fi + mise à jour, 2 onglets)
 #   3 téléphone : connexion Wi-Fi adb c tout pour l'application du PC (serveur + mise à jour + lancement, 2 onglets)
@@ -9,6 +9,7 @@
 #   6 PC : lancer l'application installée
 #   7 page de téléchargement : ouvrir dans le navigateur (démarre le serveur si besoin)
 #   g GitHub : sauvegarder le projet (commit + push, avec confirmation)
+#   n GitHub : nettoyage (supprime les fichiers .bak / .orig du projet après confirmation, puis commit + push)
 #   d effectuer de 1 à 7 en parallèle : un seul build, puis le téléphone et le PC en même temps (nécessite SANS_BUILD dans les deux scripts)
 
 ROOT="/home/philippe/Documents/Realornot"
@@ -30,12 +31,30 @@ PAGE_URL="https://localhost:5001/telecharger"
 
 # --- Outils ---------------------------------------------------------------
 
-# Ouvre UNE fenêtre Konsole avec plusieurs onglets. Arguments : "Titre|commande" (un par onglet).
-# Konsole lit la liste des onglets dans un fichier temporaire (option --tabs-from-file) : aucun texte n'est envoyé
-# dans un terminal existant, donc pas d'avertissement de sécurité.
+# Ouvre les onglets demandés. Arguments : "Titre|commande" (un par onglet).
+# 1) Si le script tourne dans Konsole (et qu'un outil qdbus est présent) : les onglets s'ouvrent dans la MÊME fenêtre que ce menu
+#    (via D-Bus de Konsole : nouvel onglet, titre, commande), puis on revient sur l'onglet du menu.
+# 2) Sinon : une nouvelle fenêtre Konsole avec tous les onglets (option --tabs-from-file, comme avant).
+QDBUS=""
+for c in qdbus qdbus6 qdbus-qt6 qdbus-qt5; do command -v "$c" >/dev/null 2>&1 && { QDBUS="$c"; break; }; done
+
 ouvrir_onglets() {
-    local f; f=$(mktemp /tmp/realornot-onglets.XXXXXX)
     local t
+    if [ -n "$QDBUS" ] && [ -n "$KONSOLE_DBUS_SERVICE" ] && [ -n "$KONSOLE_DBUS_WINDOW" ]; then
+        local cur id ok=1
+        cur=$("$QDBUS" "$KONSOLE_DBUS_SERVICE" "$KONSOLE_DBUS_WINDOW" org.kde.konsole.Window.currentSession 2>/dev/null)
+        for t in "$@"; do
+            id=$("$QDBUS" "$KONSOLE_DBUS_SERVICE" "$KONSOLE_DBUS_WINDOW" org.kde.konsole.Window.newSession 2>/dev/null)
+            if [ -z "$id" ]; then ok=0; break; fi
+            "$QDBUS" "$KONSOLE_DBUS_SERVICE" "/Sessions/$id" org.kde.konsole.Session.setTitle 1 "${t%%|*}" >/dev/null 2>&1
+            "$QDBUS" "$KONSOLE_DBUS_SERVICE" "/Sessions/$id" org.kde.konsole.Session.sendText "${t#*|}"$'\n' >/dev/null 2>&1
+        done
+        [ -n "$cur" ] && "$QDBUS" "$KONSOLE_DBUS_SERVICE" "$KONSOLE_DBUS_WINDOW" org.kde.konsole.Window.setCurrentSession "$cur" >/dev/null 2>&1
+        [ "$ok" = 1 ] && return 0
+        echo "⚠️  Onglets dans cette fenêtre impossibles : j'ouvre une nouvelle fenêtre."
+    fi
+    # Konsole lit la liste des onglets dans un fichier temporaire : aucun texte n'est envoyé dans un terminal existant.
+    local f; f=$(mktemp /tmp/realornot-onglets.XXXXXX)
     for t in "$@"; do
         printf 'title: %s;; command: %s\n' "${t%%|*}" "${t#*|}" >> "$f"
     done
@@ -96,6 +115,7 @@ scripts_sans_build() {
 # GitHub : montre ce qui a changé, demande un message, fait git add + commit + push. Rien n'est envoyé sans ta confirmation.
 # Sécurité : s'arrête si une clé/certificat (.pem, .key) ou un .env est sur le point d'être ajouté (il faudrait le mettre dans .gitignore).
 sauvegarde_github() {
+    local msg_defaut="${1:-Mise à jour $(date '+%d/%m/%Y %H:%M')}"
     cd "$ROOT" || return 1
     if ! git rev-parse --is-inside-work-tree >/dev/null 2>&1; then
         echo "❌ $ROOT n'est pas un dépôt git."; return 1
@@ -125,12 +145,38 @@ sauvegarde_github() {
         return 1
     fi
     echo
-    read -r -p "Message du commit (Entrée = « Mise à jour $(date '+%d/%m/%Y %H:%M') ») : " MSG
-    [ -z "$MSG" ] && MSG="Mise à jour $(date '+%d/%m/%Y %H:%M')"
+    read -r -p "Message du commit (Entrée = « $msg_defaut ») : " MSG
+    [ -z "$MSG" ] && MSG="$msg_defaut"
     read -r -p "Commit + push de tous ces fichiers ? (o/N) " REP
     [ "$REP" = "o" ] || [ "$REP" = "O" ] || { echo "Annulé."; return 0; }
     git add -A && git commit -m "$MSG" || { echo "❌ Le commit a échoué."; return 1; }
     git push && echo "✅ Sauvegardé sur GitHub." || { echo "❌ Le push a échoué (le commit est fait en local, relance g pour réessayer)."; return 1; }
+}
+
+# GitHub : nettoyage. Liste les copies de sauvegarde du projet (*.bak, *.bak-*, *.orig), les supprime après confirmation,
+# puis propose le commit + push (les fichiers déjà suivis par git apparaissent comme supprimés).
+# node_modules, .git, dist et les dossiers de build Android ne sont pas touchés.
+nettoyage_git() {
+    cd "$ROOT" || return 1
+    echo "=== Nettoyage : copies de sauvegarde du projet ==="
+    local liste
+    liste=$(find . \( -path ./node_modules -o -path ./.git -o -path ./dist -o -path ./android/app/build -o -path ./android/build -o -path ./android/.gradle \) -prune -o \
+        -type f \( -name '*.bak' -o -name '*.bak-*' -o -name '*.orig' \) -print 2>/dev/null | sort)
+    if [ -z "$liste" ]; then
+        echo "Aucun fichier .bak / .orig trouvé."
+    else
+        echo "$liste"; echo
+        echo "$(echo "$liste" | wc -l) fichier(s)."
+        read -r -p "Les supprimer ? (o/N) " REP
+        if [ "$REP" = "o" ] || [ "$REP" = "O" ]; then
+            echo "$liste" | while IFS= read -r f; do rm -f -- "$f"; done
+            echo "✅ Supprimés."
+        else
+            echo "Rien supprimé."
+        fi
+    fi
+    echo
+    sauvegarde_github "Nettoyage : suppression des fichiers .bak"
 }
 
 lancer_serveur() {
@@ -285,6 +331,7 @@ lancer() {
         7) maj_page ;;
         x|X) arreter_serveur ;;
         g|G) sauvegarde_github ;;
+        n|N) nettoyage_git ;;
         a|A) tout_navigateur ;;
         b|B) tout_telephone ;;
         c|C) tout_pc ;;
@@ -322,6 +369,7 @@ while true; do
     echo "  7) Page de téléchargement : ouvrir dans le navigateur"
     echo "  x) Arrêter le serveur Stable Diffusion"
     echo "  g) GitHub : sauvegarder (commit + push)"
+    echo "  n) GitHub : nettoyage (supprimer les .bak, puis commit + push)"
     echo "-----------------------------------------"
     echo "  a) Tout pour le navigateur    (serveur + Vite)"
     echo "  b) Tout pour le téléphone     (serveur + adb + mise à jour)"
