@@ -197,8 +197,8 @@ $dossier: 'laiton';
 
 
     // ======== Images : tout ce qui dépend des dessins de ce thème (src/images/#{$dossier}/) ========
-    --wallpaper: url('../images/#{$dossier}/fondecran.jpg');
-    --wallpaper-reel: url('../images/#{$dossier}/fondecran2.jpg'); // fond d'écran du côté « Personne réelle » (choisi à la place de --wallpaper, voir base.scss)
+    --wallpaper: url('../images/#{$dossier}/fondecran.webp');
+    --wallpaper-reel: url('../images/#{$dossier}/fondecran2.webp'); // fond d'écran du côté « Personne réelle » (choisi à la place de --wallpaper, voir base.scss)
     --img-search-bar: url('../images/#{$dossier}/recherche.webp');
     --img-fleche-haut: url('../images/#{$dossier}/flechehaut.webp'); // flèche du haut de l'ascenseur
     --img-fleche-bas: url('../images/#{$dossier}/flechebas.webp'); // flèche du bas de l'ascenseur

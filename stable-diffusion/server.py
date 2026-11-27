@@ -3909,7 +3909,7 @@ def admin_modifier_changelog(platform, version):
 
 
 OLLAMA_CHAT_URL = "http://localhost:11434/api/chat"
-OLLAMA_MODEL = "qwen2.5:7b"
+OLLAMA_MODEL = "qwen2.5:3b"
 
 # Le modèle ne respecte pas toujours exactement le format demandé : préfixe
 # "ÉTAT:" absent ou déformé, champ "lieu=" parfois carrément omis au lieu
@@ -4091,6 +4091,40 @@ TAG_FORMAT_INSTRUCTION = (
 )
 
 
+# >>> anatomie-sections
+# Texte de référence anatomique : seulement les sections utiles au message (voir anatomie-sections.sh).
+def _sans_accents(txt):
+    import unicodedata
+    return "".join(c for c in unicodedata.normalize("NFD", txt.lower()) if unicodedata.category(c) != "Mn")
+
+_SECTION_RE = re.compile(r"(?m)^[ \t]*\d+[.)][ \t]+\S")
+
+def _decouper_sections(texte):
+    """(préambule, [sections]) d'après les titres numérotés en début de ligne, ou None s'il y en a moins de 2."""
+    debuts = [m.start() for m in _SECTION_RE.finditer(texte)]
+    if len(debuts) < 2:
+        return None
+    fins = debuts[1:] + [len(texte)]
+    return texte[:debuts[0]].strip(), [texte[d:e].strip() for d, e in zip(debuts, fins)]
+
+def texte_anatomie_pertinent(sujet, code_langue, message):
+    complet = charger_texte_reference(sujet, code_langue)
+    try:
+        sec_fr = _decouper_sections(charger_texte_reference(sujet, "fr"))
+        sec_l = _decouper_sections(complet)
+        if not sec_fr or not sec_l or len(sec_fr[1]) != len(sec_l[1]):
+            return complet
+        msg = _sans_accents(message)
+        mots = [m for m in ANATOMIE_MOTS_CLES_PAR_SUJET.get(sujet, []) if re.search(r"\b" + re.escape(m) + r"\b", msg)]
+        choisis = [i for i, s in enumerate(sec_fr[1]) if any(re.search(r"\b" + re.escape(m), _sans_accents(s)) for m in mots)]
+        if not choisis:
+            return complet
+        return "\n\n".join(([sec_l[0]] if sec_l[0] else []) + [sec_l[1][i] for i in choisis])
+    except Exception:
+        return complet
+# <<< anatomie-sections
+
+
 @app.route("/chat", methods=["POST"])
 def chat_with_character():
     data = request.get_json(silent=True) or {}
@@ -4164,7 +4198,7 @@ def chat_with_character():
             "\n\nRéférence anatomique (à consulter pour situer correctement les parties du "
             "corps mentionnées par l'utilisateur et répondre en conséquence, sans jamais la "
             "citer ni la mentionner explicitement) :\n"
-            + "\n\n".join(charger_texte_reference(s, lang_reference) for s in sujets_anatomie)
+            + "\n\n".join(texte_anatomie_pertinent(s, lang_reference, dernier_message_utilisateur) for s in sujets_anatomie)
             + "\n\n" + charger_texte_reference("anatomie_base", lang_reference)
         ) if sujets_anatomie else ""
 
@@ -4182,42 +4216,48 @@ def chat_with_character():
             + "\n\n".join(blocs_choisis)
         ) if blocs_choisis else ""
 
+        # >>> chat-consigne
+        _consignes = (
+            "Tu joues un personnage dans une conversation. Reste toujours dans ce personnage et fais des réponses courtes (1 à 3 phrases).\n"
+            "Actions et pensées : pour décrire une action que tu fais ou une pensée intime, encadre-la entre deux astérisques simples, "
+            "par exemple *je m'assois sur le canapé* ou *je me dis qu'il est charmant*. Jamais pour le dialogue parlé. "
+            "Encadre CHAQUE action et CHAQUE pensée, sans exception, même en tout début de message.\n"
+            "Ce que l'utilisateur écrit : un geste ou un mouvement entre astérisques est une action visible, tu peux y réagir directement. "
+            "Un jugement, un sentiment ou une observation entre astérisques est une pensée intime, non dite à voix haute : "
+            "tu ne l'as pas entendue, donc tu ne réponds JAMAIS à son contenu avec des mots. Mais tu t'en sers : elle guide ta façon "
+            "d'agir et de réagir (rougir, sourire, détourner le regard, te rapprocher...), sans jamais en parler.\n"
+            "Exemple : si l'utilisateur écrit « *il s'assoit sur le canapé* Tu vas bien aujourd'hui ? *elle est vraiment jolie* », "
+            "tu réagis au fait qu'il s'assoit, tu réponds à « Tu vas bien aujourd'hui ? », et tu ne dis RIEN sur le fait d'être jolie : "
+            "tu peux seulement rougir ou sourire."
+        )
+        _perso = f"Nom : {name}.\n"
+        if description:
+            _perso += f"Caractère et ce que tu veux : {description}\n"
+        if histoire:
+            _perso += f"Histoire : {histoire}\n"
+        if bio:
+            _perso += f"Bio : {bio}\n"
+        _perso += "Cela guide ce que tu fais et ce que tu dis ; tu n'as pas à le réciter."
+        _user = ""
+        if profil_lignes:
+            _user = "\n\nLA PERSONNE À QUI TU PARLES\n" + "\n".join(profil_lignes) + "\nAdapte ton discours à cette personne."
         system_prompt = (
-            f"Tu incarnes le personnage {name}. "
-            f"Histoire de fond : {histoire} "
-            f"Bio : {bio} "
-            + description_resume +
-            f"Reste toujours dans ce personnage, réponds uniquement en {lang_nom}, "
-            "et fais des réponses courtes (1 à 3 phrases). "
-            "Pour décrire une action que tu fais ou une pensée intime, encadre-la entre "
-            "deux astérisques simples, par exemple *je m'assois sur le canapé* ou "
-            "*je me dis qu'il est charmant* - jamais pour du dialogue parlé, "
-            "uniquement pour les actions/pensées. Encadre ABSOLUMENT CHAQUE action et "
-            "CHAQUE pensée que tu écris, sans exception : n'en laisse jamais une seule "
-            "en texte normal, même s'il y en a plusieurs dans la même réponse ou "
-            "qu'elle vient en tout début de message. "
-            "Distingue bien les deux, MÊME quand il y en a plusieurs dans le même "
-            "message : un geste ou un mouvement physique est une action visible, tu "
-            "peux y réagir directement. Un jugement, un sentiment ou une observation "
-            "sur toi ou sur la situation est une pensée intime, non dite à voix haute : "
-            "tu ne dois JAMAIS répondre directement à son contenu ni faire comme si tu "
-            "l'avais entendue, seulement y réagir de façon indirecte et discrète "
-            "(rougir, sourire, détourner le regard), jamais en y répondant par des mots. "
-            "Exemple à imiter EXACTEMENT sur ce point : si l'utilisateur écrit "
-            "\"*il s'assoit sur le canapé* Tu vas bien aujourd'hui ? *elle est "
-            "vraiment jolie*\", tu réagis au fait qu'il s'assoit (action visible), tu "
-            "réponds à \"Tu vas bien aujourd'hui ?\" (dialogue), et tu NE DIS RIEN sur "
-            "le fait d'être jolie - tu peux seulement rougir ou sourire sans un mot à "
-            "ce sujet, même si cette pensée est la dernière chose écrite dans le message."
-            + profil_resume
+            _consignes
+            + f"\n\nRéponds uniquement en {lang_nom}."
+            + "\n\nTON PERSONNAGE\n" + _perso
+            + _user
+            + "\n\nLIEU ET TENUE\nTon lieu et tes vêtements sont ceux décrits dans ton histoire, ta bio ou ta description, "
+              "ou ceux de la conversation. Respecte-les, et suis la conversation si elle les change."
             + etat_resume
             + anatomie_resume
             + meubles_resume +
             "\n\nÀ LA TOUTE FIN de ta réponse, sur une nouvelle ligne, ajoute "
             "obligatoirement un tag exactement dans ce format : " + TAG_FORMAT_INSTRUCTION +
             " en te basant sur ce que l'utilisateur vient de dire ET sur ta propre réponse. "
+            "Si la tenue de l'un de vous change, note-le dans fait= (ex : fait=elle a retiré sa veste). "
             "Ce tag est technique, il ne doit contenir que ces 4 champs."
         )
+        # <<< chat-consigne
 
         messages = [{"role": "system", "content": system_prompt}]
         if salutation:
@@ -4246,6 +4286,9 @@ def chat_with_character():
         secours_reply, secours_delta, secours_score = "", None, -1.0  # meilleure réponse obtenue même si mauvais alphabet
         messages_tentative = messages
         for _ in range(tentatives_max):
+            # >>> chat-mesure
+            import time as _tchat; _t0 = _tchat.time()
+            # <<< chat-mesure
             response = requests.post(
                 OLLAMA_CHAT_URL,
                 json={
@@ -4270,6 +4313,9 @@ def chat_with_character():
                 timeout=300,
             )
             response.raise_for_status()
+            # >>> chat-mesure
+            print(f"[chat] mode={mode} lang={data.get('lang')} : {_tchat.time()-_t0:.1f}s, prompt={sum(len(m['content']) for m in messages_tentative)} car., anatomie={sujets_anatomie if mode != 'etat_seul' else '-'}", flush=True)
+            # <<< chat-mesure
             reply_brute = response.json().get("message", {}).get("content", "").strip()
             if not reply_brute:
                 continue

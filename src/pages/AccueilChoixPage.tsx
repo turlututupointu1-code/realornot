@@ -2,7 +2,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../homepage/HomePage.css';
-import homeImage from '../homepage/homepage_with_logo.png';
+import homeImage from '../homepage/homepage_with_logo.webp';
 import PopupPseudo from '../components/PopupPseudo';
 import PageDuBas from '../components/PageDuBas';
 import { marquerMotDePasseConfirme, motDePasseDejaConfirme } from './useModeReelAcces';
