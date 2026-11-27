@@ -1,0 +1,155 @@
+// src/styles/base/_25-titres.scss
+// TOUS les titres de pages au même endroit (flèche + titre.webp). Importé en dernier dans base.scss.
+// Ajouter une page : une ligne dans $pages-titre. Réglages par thème : voir les variables --titre-* et --creer-*
+// (liste dans _08-entete-fixe.scss et ci-dessous).
+
+@use 'sass:list';
+
+$pages-titre: (
+  '.create-photo-page',
+  '.telecharger-photo-page',
+  '.details-personnage-page',
+  '.generer-photo-page',
+  '.generer-resultat-page',
+  '.rencontre-souspage',
+  '.rencontre-liste-page',
+  '.generer-style-page',
+  '.profil-conversation-page'
+);
+
+@function pages-titre($suffixe) {
+  $liste: ();
+  @each $p in $pages-titre {
+    $liste: list.append($liste, #{$p} #{$suffixe}, comma);
+  }
+  @return $liste;
+}
+
+// Page « Créer la photo du personnage » : titre long -> deux lignes, un peu plus petit, avec de la place pour l'icône à gauche.
+// Réglages par thème (facultatifs) :
+//   --creer-titre-echelle    : taille du titre par rapport à --titre-taille (défaut 0.85)
+//   --creer-titre-pad-gauche : marge à gauche (défaut 8% = symétrique, texte centré sur la barre)
+//   --creer-titre-pad-droite : marge à droite (défaut 8%)
+//   --creer-titre-interligne : espace entre les deux lignes (défaut 1.05, plus petit = plus serré)
+//   --creer-icone-dx / -dy   : décalage de l'icône dans le cercle du titre, en % de l'icône (positif = droite / bas)
+#{pages-titre('.titre-ligne .create-banner-text')},
+.top-bar-box .create-banner-text {
+
+    white-space: normal;
+    font-size: calc(var(--titre-taille, 20px) * var(--creer-titre-echelle, 0.85));
+    line-height: var(--creer-titre-interligne, 1.05);
+    box-sizing: border-box;
+    transform: translate(var(--creer-titre-dx, 0px), var(--banner-title-dy, 0px)); // ignore --banner-title-dx (réglé pour les autres pages) ; --creer-titre-dx = petit décalage propre à cette page
+    padding: 0 var(--creer-titre-pad-droite, 8%) 0 var(--creer-titre-pad-gauche, 8%);
+}
+
+#{pages-titre('.titre-ligne .create-banner-icon')} {
+
+    translate: var(--creer-icone-dx, 0%) var(--creer-icone-dy, 0%);
+}
+
+// Page « Créer la photo » : icône du titre agrandie (--creer-icone-echelle, 1.5 = +50 %), même centre qu'avant.
+// Réglable par thème (facultatif) : --creer-icone-echelle
+#{pages-titre('.titre-ligne .create-banner-icon')} {
+
+    transform: translate(calc(-50% + var(--icon-profil-dx) + 8%), calc(-50% + var(--icon-profil-dy) + 15%)) scale(var(--creer-icone-echelle, 1.5));
+}
+
+// Police, graisse, espacement et ombre du titre : pages ET barre du haut (Profil de rencontre).
+.top-bar-box .create-banner-text,
+.titre-ligne .create-banner-text {
+
+    font-family: var(--titre-police, inherit);
+    font-weight: var(--titre-graisse, 700);
+    font-size: var(--titre-taille, 20px);
+    letter-spacing: var(--titre-espace, 1px);
+    text-shadow: var(--titre-ombre, 0 2px 3px rgba(0, 0, 0, 0.6));
+}
+
+// --- cadrage (venait de _09-camera-recadrage.scss)
+// Page « Ajustez le cadrage » : même titre et même icône que « Choisir votre photo » (mêmes variables --creer-* par thème).
+.crop-overlay .create-banner-title .create-banner-text {
+    left: 0;
+    right: 0;
+    white-space: normal;
+    font-size: calc(var(--titre-taille, 20px) * var(--creer-titre-echelle, 0.85));
+    line-height: var(--creer-titre-interligne, 1.05);
+    box-sizing: border-box;
+    transform: translate(var(--creer-titre-dx, 0px), var(--banner-title-dy, 0px)); // ignore --banner-title-dx
+    padding: 0 var(--creer-titre-pad-droite, 8%) 0 var(--creer-titre-pad-gauche, 8%);
+    font-family: var(--titre-police, inherit);
+    font-weight: var(--titre-graisse, 700);
+    letter-spacing: var(--titre-espace, 1px);
+    text-shadow: var(--titre-ombre, 0 2px 3px rgba(0, 0, 0, 0.6));
+}
+.crop-overlay .create-banner-title .create-banner-icon {
+    translate: var(--creer-icone-dx, 0%) var(--creer-icone-dy, 0%);
+    transform: translate(calc(-50% + var(--icon-profil-dx) + 8%), calc(-50% + var(--icon-profil-dy) + 15%)) scale(var(--creer-icone-echelle, 1.5));
+}
+
+// --- cyberpunk (venait de _22-utilitaires.scss)
+// Cyberpunk : titres de bannière et textes des boutons PNG en bleu (comme la recherche), graisse normale.
+.theme-cyberpunk .create-banner-title .create-banner-text {
+    color: var(--search-bar-text-color);
+}
+.theme-cyberpunk .create-banner-title .create-banner-text { font-weight: 400 !important; }
+
+// --- ligne de titre de base + discussion avec l'IA (venait de _08-entete-fixe.scss)
+// Ligne « flèche retour + barre titre » (toutes les pages sauf la discussion avec l'IA) : même largeur que les boutons (85 %), flèche centrée sur la hauteur de la barre. Réglages par thème (facultatifs) :
+//   --titre-ecart    : espace entre la flèche et la barre (défaut 8px)
+//   --titre-haut     : décalage vertical de la ligne, négatif = vers le haut (défaut -30px)
+//   --titre-taille   : taille du texte du titre (défaut 20px)
+//   --titre-espace   : espacement entre les lettres (défaut 1px)
+//   --titre-police   : police du titre (défaut : celle de l'appli). Mettre la police du thème PUIS un repli : les alphabets absents de la police (arabe, chinois…) utilisent le repli.
+//   --titre-graisse  : graisse du titre (défaut 700)
+//   --titre-ombre    : ombre(s) du titre, valable pour tous les alphabets (défaut : ombre douce)
+.titre-ligne {
+    display: flex;
+    align-items: center;
+    gap: var(--titre-ecart, 8px);
+    width: 85%;
+    margin: var(--titre-haut, -30px) auto 0;
+}
+.titre-ligne .nav-arrow-btn {
+    position: static;
+    flex-shrink: 0;
+}
+.titre-ligne .create-banner-title {
+    flex: 1;
+    min-width: 0;
+}
+// Discussion avec l'IA : le drapeau « Signaler » est à droite dans la barre (symétrique de l'avatar à gauche)
+// et « Personnage non réel » est sous le nom. Réglages par thème, facultatifs :
+//   --sous-titre-haut  : position verticale du sous-titre dans la barre (défaut 66%)
+//   --sous-titre-taille: taille du sous-titre (défaut 11px)
+.titre-ligne .signaler-btn {
+    position: absolute;
+    left: 89.7%;
+    top: 42.2%;
+    transform: translate(-50%, -50%);
+    z-index: 2;
+}
+.personnage-sous-titre {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: var(--sous-titre-haut, 66%);
+    text-align: center;
+    font-size: var(--sous-titre-taille, 11px);
+    font-weight: 600;
+    line-height: 1;
+    pointer-events: none;
+    color: var(--titre-couleur, inherit);
+    text-shadow: var(--titre-ombre, 0 1px 2px rgba(0, 0, 0, 0.6));
+}
+// Discussion : la barre reste collée en haut de l'écran, se cache quand on descend et revient dès qu'on remonte un peu.
+.titre-ligne-collante {
+    position: sticky;
+    top: calc(var(--safe-top, 0px) + 5px);
+    z-index: 20;
+    transition: transform 0.25s ease;
+}
+.titre-ligne-cachee {
+    transform: translateY(calc(-100% - var(--safe-top, 0px) - 40px));
+    pointer-events: none;
+}

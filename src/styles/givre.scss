@@ -207,6 +207,13 @@ $dossier: 'givre';
   --avatar-titre-dx: 33.5%;
   --avatar-titre-dy: 18.5%;
   /* <<< avatar-titre */
+  /* >>> icone-titre */
+  --icone-titre-x: 9%;
+  --icone-titre-y: 39.7%;
+  --icone-titre-taille: 12.2%;
+  --icone-titre-dx: 32%;
+  --icone-titre-dy: 15.5%;
+  /* <<< icone-titre */
     --wallpaper: url('../images/#{$dossier}/fondecran.webp');
     --wallpaper-reel: url('../images/#{$dossier}/fondecran2.webp'); // fond d'écran du côté « Personne réelle » (choisi à la place de --wallpaper, voir base.scss)
     --img-search-bar: url('../images/#{$dossier}/recherche.webp');

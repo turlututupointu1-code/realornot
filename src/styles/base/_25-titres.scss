@@ -153,3 +153,21 @@ $pages-titre: (
     transform: translateY(calc(-100% - var(--safe-top, 0px) - 40px));
     pointer-events: none;
 }
+
+/* >>> icone-titre */
+// Icône de TOUTES les barres de titre : une seule règle, en pourcentage (réglée par thème avec avatar-icone-titre.sh).
+// Remplace les anciens empilements (position de base, +8%/+15%, translate, scale x1.5, cadrage, Vos créations).
+//   --icone-titre-x / -y   : centre de l'icône, en % de la largeur / hauteur de la barre
+//   --icone-titre-taille   : largeur de l'icône, en % de la largeur de la barre
+//   --icone-titre-dx / -dy : décalage fin, en % de la taille de l'icône
+body .create-banner-title .create-banner-icon.create-banner-icon {
+    position: absolute;
+    left: var(--icone-titre-x, 10.3%);
+    top: var(--icone-titre-y, 42.2%);
+    width: var(--icone-titre-taille, 9%);
+    height: auto;
+    translate: none;
+    scale: none;
+    transform: translate(calc(-50% + var(--icone-titre-dx, 0%)), calc(-50% + var(--icone-titre-dy, 0%)));
+}
+/* <<< icone-titre */
