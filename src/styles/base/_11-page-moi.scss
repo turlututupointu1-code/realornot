@@ -4,7 +4,7 @@
 // --- Page moi ---
 // Avatar de la barre titre de la page Moi : taille réglable par thème (--moi-titre-avatar, défaut 34px) ; sa position se règle avec --avatar-profil-dx / -dy.
 .moi-page .profil-conversation-avatar-btn {
-    width: var(--moi-titre-avatar, 34px); // la barre est plus étroite qu'avant : taille en px au lieu de 9 % de la barre
+    width: var(--avatar-titre-taille, var(--moi-titre-avatar, 34px)); // la barre est plus étroite qu'avant : taille en px au lieu de 9 % de la barre
 }
 // Boîte d'info et champs de saisie (pseudo, caractère) : MÊME style (bordure 1px, fond en partie transparent), mêmes variables --champ-* déclarées dans chaque thème.
 // Sélecteur renforcé pour la boîte d'info : sinon « .theme-xxx .create-box » (même spécificité, chargé après) écraserait la bordure.

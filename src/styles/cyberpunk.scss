@@ -198,6 +198,13 @@ $dossier: 'cyberpunk';
 
 
     // ======== Images : tout ce qui dépend des dessins de ce thème (src/images/#{$dossier}/) ========
+  /* >>> avatar-titre */
+  --avatar-titre-x: 8.5%;
+  --avatar-titre-y: 34.7%;
+  --avatar-titre-taille: 16.7%;
+  --avatar-titre-dx: 11.1%;
+  --avatar-titre-dy: 21.5%;
+  /* <<< avatar-titre */
     --wallpaper: url('../images/#{$dossier}/fondecran.webp');
     --wallpaper-reel: url('../images/#{$dossier}/fondecran2.webp'); // fond d'écran du côté « Personne réelle » (choisi à la place de --wallpaper, voir base.scss)
     --img-search-bar: url('../images/#{$dossier}/recherche.webp');
