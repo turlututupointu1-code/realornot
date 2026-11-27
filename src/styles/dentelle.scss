@@ -211,6 +211,25 @@ $dossier: 'dentelle';
   --icone-titre-dx: 14%;
   --icone-titre-dy: 20.5%;
   /* <<< icone-titre */
+  /* >>> texte-btn */
+  --texte-btn-x: 55.75%;
+  --texte-btn-y: 50.6%;
+  --texte-btn-largeur: 74.5%;
+  --texte-btn-taille: 4cqw;
+  /* <<< texte-btn */
+  /* >>> texte-titre */
+  --texte-titre-x: 56.5%;
+  --texte-titre-y: 50%;
+  --texte-titre-largeur: 81%;
+  --texte-titre-taille: 6.1cqw;
+  /* <<< texte-titre */
+  /* >>> icone-btn */
+  --icone-btn-x: 10.3%;
+  --icone-btn-y: 42.2%;
+  --icone-btn-taille: 12.1%;
+  --icone-btn-dx: 4%;
+  --icone-btn-dy: 14%;
+  /* <<< icone-btn */
     --wallpaper: url('../images/#{$dossier}/fondecran.webp');
     --wallpaper-reel: url('../images/#{$dossier}/fondecran2.webp'); // fond d'écran du côté « Personne réelle » (choisi à la place de --wallpaper, voir base.scss)
     --img-search-bar: url('../images/#{$dossier}/recherche.webp');

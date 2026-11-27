@@ -1,0 +1,669 @@
+// src/styles/base/_06-creer.scss
+// Pages de création : titres, boutons-images, boîtes, ascenseurs, choix de photo.
+
+.create-page {
+    @extend %flex-col;
+    padding-bottom: calc(24px + var(--safe-bottom));
+    padding-top: calc(40px + var(--safe-top));
+    min-height: 100vh;
+    box-sizing: border-box;
+    position: relative;
+}
+.style-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 14px;
+    padding: 0 24px;
+    margin-top: 32px;
+}
+.style-card {
+    @extend %btn-reset-icon2;
+    @extend %flex-col-center;
+    gap: 0;
+    padding: 0;
+    cursor: pointer;
+}
+.style-card-image-wrap {
+    display: block;
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    border-radius: var(--radius-box) var(--radius-box) 0 0;
+    border: var(--border-width) solid var(--box-border);
+    overflow: hidden;
+}
+.style-card-label {
+    font-weight: bold;
+    font-size: 0.8em;
+    // Communes aux 4 thèmes (le reste est piloté par leurs variables --style-card-*).
+    padding: 8px 10px;
+    width: 100%;
+    box-sizing: border-box;
+    text-align: center;
+    background: var(--style-card-gradient);
+    color: var(--style-card-label-color);
+    border: var(--style-card-border);
+    border-radius: var(--style-card-radius);
+    text-shadow: var(--style-card-text-shadow);
+    // Jamais de trait entre l'image et le libellé : un seul bloc visuel.
+    border-top: none;
+}
+.create-buttons {
+    @extend %flex-col;
+    gap: 14px;
+    padding: 0 24px;
+}
+.create-btn {
+    padding: 14px;
+    border-radius: var(--radius-large);
+    border: none;
+    font-size: 1em;
+    font-weight: bold;
+    cursor: pointer;
+    text-align: center;
+    display: block;
+}
+.create-btn-image {
+    position: relative;
+    padding: 0;
+    border-radius: var(--radius-large);
+    overflow: hidden;
+    display: block;
+    line-height: 0;
+    background: none;
+    width: 100%;
+}
+.create-btn-faded {
+    opacity: 0.45;
+    filter: grayscale(1);
+    transition: opacity 0.3s ease, filter 0.3s ease;
+}
+.create-btn-image img.create-banner-icon {
+    width: 7.5%;
+    height: auto;
+    object-fit: contain;
+    // Position de l'icône dans les boutons-images, réglée par thème dans le fichier du thème (indépendante de l'icône du titre).
+    transform: translate(calc(-50% + var(--btn-icone-dx)), calc(-50% + var(--btn-icone-dy)));
+}
+.create-btn-caption {
+    @extend %flex-col-center;
+    position: absolute;
+    top: 18%;
+    right: 7%;
+    bottom: 36%;
+    left: 18.5%;
+    justify-content: center;
+    text-align: center;
+}
+.create-btn-title {
+    color: $c-white;
+    font-weight: 800;
+    font-size: clamp(11px, 3.4vw, 15px);
+    line-height: 1.15;
+    text-shadow: 0 1px 3px rgba(0,0,0,0.35);
+}
+.create-silhouette-wrapper {
+    @extend %flex-center;
+    flex: 1;
+    min-height: 0;
+}
+.create-silhouette {
+    display: block;
+    width: 100%;
+    height: 500px;
+    object-fit: contain;
+    padding: 0 24px;
+    box-sizing: border-box;
+}
+.telecharger-photo-page .create-silhouette {
+    height: 400px;
+    margin-top: -50px;
+    // Décalage vertical direct de l'illustration (positif = vers le bas), sans changer la mise en page autour.
+    position: relative;
+    top: 30px;
+    // Même décalage par thème que la page « Créer la photo » (positif = vers le bas).
+    translate: 0 var(--silhouette-dy, 0px);
+}
+.create-banner-icon {
+    position: absolute;
+    left: 10.3%;
+    top: 42.2%;
+    width: 7.5%;
+    height: auto;
+    transform: translate(calc(-50% + var(--icon-profil-dx)), calc(-50% + var(--icon-profil-dy)));
+    @extend %icon-contain-static;
+}
+// Page "Vos créations" : décale l'icône palette de la bannière (2px droite, 4px bas).
+.vos-creations-page .create-banner-icon {
+    transform: translate(calc(-50% + var(--icon-profil-dx) + 8%), calc(-50% + var(--icon-profil-dy) + 15%)); // 8% et 15% de l'icône (≈ 2px et 4px sur téléphone) : suit la taille de la bannière
+}
+.create-banner-text {
+    @extend %flex-center;
+    // Centrage simple sur toute la bannière titre, sans réserver de place pour l'icône.
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    text-align: center;
+    color: $c-white;
+    font-weight: 800;
+    font-size: clamp(10px, 3.3vw, 14px);
+    line-height: 1.15;
+    white-space: nowrap;
+    text-shadow: 0 1px 3px rgba(0,0,0,0.35);
+    // Décalage du titre, réglé par thème dans le fichier du thème : dx horizontal (négatif = vers la gauche), dy vertical (négatif = vers le haut).
+    transform: translate(var(--banner-title-dx), var(--banner-title-dy));
+}
+.create-box {
+    border-radius: var(--radius-box);
+    border: var(--box-border-width) solid var(--box-border);
+    padding: 12px;
+}
+// Boîte de la bannière titre : sert de repère à l'icône et au titre (position absolue), pour qu'ils restent dans la barre et pas dans la page.
+.create-banner-title {
+    position: relative;
+}
+// Ascenseurs (barres de défilement) : même style que le graphisme actif. Seulement avec une souris (PC, navigateur), pas sur le téléphone. Les couleurs se règlent par thème dans le fichier du thème.
+@media (hover: hover) and (pointer: fine) {
+    *::-webkit-scrollbar {
+        width: 14px;
+        height: 14px;
+    }
+    *::-webkit-scrollbar-track {
+        background: var(--pagination-bar-bg);
+        border-radius: 8px;
+        box-shadow: inset 0 0 4px rgba(0, 0, 0, 0.6);
+    }
+    *::-webkit-scrollbar-thumb {
+        background: var(--pagination-label-bg);
+        border: 1px solid var(--pagination-label-border-color);
+        border-radius: 8px;
+    }
+    *::-webkit-scrollbar-thumb:hover {
+        background: var(--pagination-label-color);
+    }
+    // Flèches de l'ascenseur vertical : les images du thème (haut et bas). Les flèches de l'ascenseur horizontal sont cachées.
+    *::-webkit-scrollbar-button:single-button {
+        display: block;
+        width: 18px;
+        height: 18px;
+        background-color: var(--pagination-bar-bg);
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: contain;
+    }
+    *::-webkit-scrollbar-button:single-button:vertical:decrement {
+        background-image: var(--img-fleche-haut);
+    }
+    *::-webkit-scrollbar-button:single-button:vertical:increment {
+        background-image: var(--img-fleche-bas);
+    }
+    *::-webkit-scrollbar-button:single-button:horizontal {
+        display: none;
+    }
+    *::-webkit-scrollbar-corner {
+        background: var(--scroll-track, #222);
+    }
+}
+// Firefox ne connaît pas les règles ci-dessus : couleurs simples seulement.
+@supports not selector(::-webkit-scrollbar) {
+    * {
+        scrollbar-color: var(--scroll-thumb, #888) var(--scroll-track, #222);
+    }
+}
+// Ces 3 variantes gardent une variable qui contient la bordure entière (largeur incluse, pas juste la couleur).
+.create-box.personnage-histoire-box {
+    background-color: var(--histoire-box-bg);
+    border: var(--border-width) solid var(--histoire-box-border-color);
+}
+.create-box.personnage-salutation-box {
+    background-color: var(--salutation-box-bg);
+    border: var(--border-width) solid var(--salutation-box-border-color);
+}
+.create-box.personnage-user-box {
+    background-color: var(--user-box-bg);
+    border: var(--border-width) solid var(--user-box-border-color);
+}
+.search-bar::placeholder {
+    color: var(--search-bar-placeholder-color);
+    opacity: var(--search-bar-placeholder-opacity);
+    font-size: var(--search-bar-placeholder-size, inherit);
+}
+// Fond uniquement sur les boîtes de saisie "nues", pas sur les bulles/aperçus qui restent transparents.
+.create-box:not(.personnage-bubble):not(.personnage-histoire-box):not(.create-preview-box):not(.moi-info-box):not(.create-upload-box) {
+    background-color: var(--box-bg);
+}
+.upload-choice-row {
+    display: flex;
+    align-items: flex-start; // les deux téléphones restent alignés en haut, même si un texte est plus long
+    gap: 16px;
+    margin: 12px 24px 0; // avant : -50px, quand le bouton faisait 220px de haut avec l'image centrée dedans (62px de plus)
+}
+// Un choix = le téléphone (bouton) et son texte en dessous.
+.upload-choice {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px; // espace entre l'image du téléphone et son texte
+}
+.upload-choice .upload-choice-box {
+    flex: 0 0 auto; // le bouton garde sa hauteur : il ne s'étire plus avec le texte
+    width: 100%;
+    min-height: 0; // la hauteur suit l'image (sinon du vide s'ajoute sous le téléphone)
+}
+// Textes sous les téléphones : même couleur et même ombre que le texte posé sur les photos des vignettes (lisible sur tout fond).
+.upload-choice .upload-choice-label {
+    color: var(--creation-card-creator-color);
+    text-shadow: var(--creation-card-creator-shadow);
+}
+// Avertissement sous les deux choix : rouge (couleur réglée par thème), centré sur toute la largeur.
+.upload-choice-note {
+    margin: 14px 24px 0;
+    font-size: 0.8rem;
+    line-height: 1.3;
+    text-align: center;
+    color: var(--upload-note-color);
+}
+.upload-choice-box {
+    @extend %flex-col-center;
+    flex: 1;
+    min-height: 220px;
+    justify-content: center;
+    gap: 12px;
+    border-radius: var(--radius-box);
+    cursor: pointer;
+}
+.upload-choice-icon {
+    width: 96px;
+    height: 96px;
+    object-fit: contain;
+}
+.upload-choice-label {
+    font-size: 0.95rem;
+    font-weight: 600;
+    text-align: center;
+}
+
+.create-textarea {
+    width: 100%;
+    background-color: transparent;
+    color: var(--box-text);
+    border: none;
+    outline: none;
+    font-size: 0.9em;
+    resize: none;
+    box-sizing: border-box;
+}
+.create-textarea::placeholder {
+    color: var(--textarea-placeholder-color);
+}
+.create-preview-box {
+    position: relative;
+    display: block;
+    padding: 0;
+    overflow: hidden;
+}
+
+
+.generating-text {
+    text-align: center;
+    margin-top: 10px;
+    color: var(--generating-text-color);
+}
+
+
+
+// Page « Créer la photo » : boutons descendus et texte des boutons légèrement agrandi (le reste de la page ne bouge pas).
+// Réglable par thème (facultatif) : --creer-boutons-bas (descente), --creer-bouton-texte-echelle (taille du texte)
+.create-photo-page .create-buttons {
+    translate: 0 var(--creer-boutons-bas, 30px);
+}
+.create-photo-page .create-btn-title {
+    display: inline-block;
+    scale: var(--creer-bouton-texte-echelle, 1.15);
+}
+
+// Page « Créer la photo » : silhouettes de proportions différentes -> même boîte, image entière (contain), pieds alignés en bas.
+// Réglable par thème (facultatif) :
+//   --silhouette-hauteur : hauteur de la boîte (défaut 400px) ; une silhouette large est limitée par la largeur de l'écran
+//   --silhouette-marge   : marge gauche/droite (défaut 8px)
+//   --silhouette-dy      : décalage vertical, positif = vers le bas (défaut 0px), sans changer la mise en page autour
+.create-photo-page .create-silhouette {
+    height: var(--silhouette-hauteur, 400px);
+    padding: 0 var(--silhouette-marge, 8px);
+    object-fit: contain;
+    object-position: center bottom;
+    translate: 0 var(--silhouette-dy, 0px);
+}
+
+// Page « Créer la photo » : texte des boutons centré verticalement sur le milieu du bouton.
+// Réglable par thème (facultatif) : --creer-bouton-texte-dy (décalage fin, positif = vers le bas), utile si le dessin du bouton n'est pas symétrique.
+.create-photo-page .create-buttons .btn-bouton-png .create-btn-caption {
+    top: 0;
+    bottom: 0;
+    height: auto;
+    padding-top: 0;
+    padding-bottom: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.create-photo-page .create-buttons .btn-bouton-png .create-btn-title {
+    translate: 0 var(--creer-bouton-texte-dy, 0px);
+}
+
+// Page « Créer la photo » : décalage des icônes à gauche des boutons, propre à cette page.
+// Réglable par thème (facultatif) : --creer-btn-icone-dx / --creer-btn-icone-dy, en % de l'icône (négatif = gauche / haut).
+.create-photo-page .create-buttons .create-banner-icon {
+    translate: var(--creer-btn-icone-dx, 0%) var(--creer-btn-icone-dy, 0%);
+}
+
+
+
+
+/* >>> style-fond-champ */
+// Page « Choisir le style artistique » : cadre et onglets aux couleurs des champs
+// (comme le bloc « Ces informations… » de la page Moi).
+// --style-onglet-bg (par thème) : fond OPAQUE de l'onglet, doit ressembler au fond du cadre.
+// !important : 7 thèmes ont encore une règle .theme-x .create-box copiée de dentelle (couleurs en dur).
+// Réglages facultatifs par thème : --style-cadre-opacite (0.65 : plus petit = plus transparent),
+// --style-vignette-bordure (défaut --champ-border-color), --style-vignette-fond (défaut transparent).
+.generer-style-page {
+  // Cadre : le fond est porté par un pseudo-élément, pour pouvoir baisser son opacité
+  // sans toucher au contenu (--champ-bg garde sa propre transparence, multipliée par l'opacité).
+  .profil-dossier .create-box {
+    position: relative;
+    isolation: isolate;
+    background: transparent !important;
+    border-color: var(--champ-border-color) !important;
+    color: var(--champ-text);
+  }
+
+  .profil-dossier .create-box::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    border-radius: inherit;
+    background: var(--champ-bg);
+    opacity: var(--style-cadre-opacite, 0.65);
+    pointer-events: none;
+  }
+
+  // Vignettes : fond léger et bordure de 1px aux couleurs du thème, sur les éléments qui ont déjà
+  // une bordure (image, cadre de l'image, libellé) ; aucune bordure n'est ajoutée autour de la carte.
+  .style-grid .style-card {
+    background: var(--style-vignette-fond, transparent) !important;
+  }
+
+  .style-grid .style-card-image-wrap,
+  .style-grid .style-card-preview,
+  .style-grid .style-card-label {
+    border-color: var(--style-vignette-bordure, var(--champ-border-color)) !important;
+    border-width: 1px !important;
+    border-image: none !important;
+  }
+
+  .style-onglet {
+    background: var(--style-onglet-bg, var(--dossier-onglet-bg));
+    border-color: var(--champ-border-color);
+    color: var(--champ-text);
+  }
+}
+/* <<< style-fond-champ */
+
+/* >>> style-bordures-thumb */
+// Vignette + texte : une seule ligne de chaque côté de la jonction.
+// Bordure basse de la vignette (.style-card-image-wrap) + bordure haute du texte (.style-card-label),
+// collées l'une à l'autre. L'image intérieure (.style-card-preview) n'a pas de bordure.
+.generer-style-page {
+  .style-grid .style-card {
+    gap: 0 !important;
+    row-gap: 0 !important;
+    border: 0 !important;
+  }
+
+  .style-grid .style-card-image-wrap {
+    margin-bottom: 0 !important;
+    border-bottom-width: 1px !important;
+    border-bottom-left-radius: 0 !important;
+    border-bottom-right-radius: 0 !important;
+  }
+
+  .style-grid .style-card-preview {
+    border: 0 !important;
+  }
+
+  .style-grid .style-card-label {
+    margin-top: 0 !important;
+    border-top-width: 1px !important;
+    border-top-left-radius: 0 !important;
+    border-top-right-radius: 0 !important;
+  }
+}
+/* <<< style-bordures-thumb */
+
+/* >>> style-onglets */
+// Page « Choisir le style artistique » : onglets Femme / Homme avec le même système que
+// « Détails du personnage » (.profil-dossier + .profil-dossier-onglet, couleur --dossier-onglet-bg
+// de chaque thème), grille de 24 styles sur 3 colonnes.
+// Variables facultatives : --style-grid-gap (8px), --style-card-label-taille (0.78em),
+// --style-onglet-inactif-opacite (0.7)
+.generer-style-page {
+  .style-onglets {
+    display: flex;
+    align-items: flex-end;
+    gap: 6px;
+    max-width: 100%;
+  }
+
+  .style-onglet {
+    cursor: pointer;
+    user-select: none;
+  }
+
+  // Onglet non choisi : posé derrière, la bordure du cadre reste visible dessous
+  .style-onglet:not(.style-onglet-actif) {
+    margin-bottom: 0;
+    z-index: 0;
+    opacity: var(--style-onglet-inactif-opacite, 0.7);
+  }
+
+  .style-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: var(--style-grid-gap, 8px);
+  }
+
+  // Libellé centré ; GenererPhoto.tsx le réduit tout seul (jusqu'à moitié) si un mot dépasse la carte
+  .style-card .style-card-label {
+    display: block;
+    width: 100%;
+    box-sizing: border-box;
+    text-align: center;
+    white-space: normal;
+    overflow-wrap: normal;
+    overflow: hidden;
+    font-size: var(--style-card-label-taille, 0.78em);
+    line-height: 1.1;
+  }
+}
+/* <<< style-onglets */
+
+/* >>> bordures-1px */
+// Toutes les bordures à 1px. !important : les variables sont posées par chaque thème,
+// celle-ci gagne quel que soit l'élément qui porte la classe du thème.
+// Le recul négatif des onglets dossier (max(--box-border-width, --border-width)) suit tout seul.
+.app-root-container {
+  --border-width: 1px !important;
+  --box-border-width: 1px !important;
+
+  .create-box,
+  .create-preview-box,
+  .profil-dossier-onglet {
+    border-width: 1px !important;
+  }
+
+  .rencontre-photo-case--vide,
+  .personnage-user-avatar-pencil {
+    border-width: 1px !important;
+  }
+}
+/* <<< bordures-1px */
+
+/* >>> details-categorie-accordeon */
+// « Détails du personnage » : le cadre de la catégorie (barre « Catégorie ? ») reprend l'aspect des
+// boutons de la page Rencontre (« Langues parlées ? ») : fond --box-bg, bordure --box-border, choix actif plein.
+// Les règles d'origine sont limitées à .rencontre-page : on les redonne ici à cette page.
+.app-root-container .details-categorie-accordeon .rencontre-categorie-contenu {
+  button.details-suggestion-chip {
+    padding: 8px 14px;
+    border: var(--border-width) solid var(--box-border);
+    border-radius: var(--radius-small);
+    background: var(--box-bg) !important;
+    color: var(--box-text);
+    font-size: 0.68em;
+    font-weight: 700;
+    white-space: nowrap;
+    height: auto;
+  }
+
+  button.details-suggestion-chip.details-suggestion-chip-active {
+    background: var(--box-border) !important;
+    color: var(--box-text);
+    border-radius: var(--radius-small);
+  }
+}
+/* <<< details-categorie-accordeon */
+
+/* >>> voix-accordeon */
+// Page « Choisir la voix » : grille de 2 colonnes, boutons plus hauts, texte à la ligne si besoin,
+// haut-parleur à droite. Les couleurs viennent du bloc details-categorie-accordeon.
+.app-root-container .voix-page .voix-grille {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+  margin-top: 0;
+
+  button.details-suggestion-chip {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 6px;
+    min-height: 44px;
+    padding: 6px 10px;
+    text-align: left;
+    white-space: normal;
+    line-height: 1.15;
+  }
+
+  .voix-chip-label {
+    min-width: 0;
+    flex: 1;
+  }
+
+  .voix-chip-speaker {
+    flex-shrink: 0;
+    display: inline-flex;
+  }
+
+  .voix-chip-speaker svg {
+    width: 1.5em;
+    height: 1.5em;
+  }
+}
+
+// Nombre de voix impair (9 voix masculines) : le dernier bouton prend toute la largeur, plus de bouton seul à moitié vide.
+.app-root-container .voix-page .voix-grille button.details-suggestion-chip:last-child:nth-child(odd) {
+  grid-column: 1 / -1;
+}
+
+.app-root-container .voix-page .voix-grille + .voix-grille {
+  margin-top: 8px;
+}
+/* <<< voix-accordeon */
+
+/* >>> details-visibilite */
+// Texte et flèche des barres repliables de « Détails du personnage » et de la page des voix :
+// même couleur que les barres de la page Moi (variable par thème).
+.app-root-container .details-categorie-accordeon .rencontre-categorie-toggle {
+  .details-voix-label,
+  .moi-avatar-chevron {
+    color: var(--moi-bar-text-color);
+  }
+}
+
+// Public / Privé : 2 boutons, donc 2 colonnes.
+.app-root-container .details-categorie-accordeon .rencontre-reponses-verticales .details-suggestions-row.details-suggestions-deux {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+/* <<< details-visibilite */
+
+/* >>> gate-theme */
+// Page « Bienvenue ! » (prénom + date de naissance) aux couleurs du thème.
+// Réservé à DateNaissanceGate (classe age-gate--theme) : la vérification d'âge de l'accueil garde le style beige de homepage/AgeGate.css.
+// La carte prend --dossier-onglet-bg (fond opaque estimé de --box-bg sur le fond d'écran) ; les champs et molettes --champ-*.
+.app-root-container .age-gate--theme {
+  background: rgba(0, 0, 0, 0.45);
+
+  .age-gate__card {
+    background: var(--dossier-onglet-bg);
+    border: 1px solid var(--box-border);
+    color: var(--box-text);
+  }
+
+  .age-gate__card h2,
+  .age-gate__card p,
+  .age-gate__wheel-labels span {
+    color: var(--box-text);
+  }
+
+  .age-gate__wheel {
+    background: var(--champ-bg);
+    border: 1px solid var(--champ-border-color);
+  }
+
+  .age-gate__wheel-item {
+    color: var(--box-text-muted);
+  }
+
+  .age-gate__wheel-item.is-selected {
+    color: var(--box-text);
+  }
+
+  .age-gate__wheel-highlight {
+    border-top: 1px solid var(--box-accent);
+    border-bottom: 1px solid var(--box-accent);
+  }
+
+  .prenom-gate__input {
+    background: var(--champ-bg);
+    color: var(--champ-text);
+    border: 1px solid var(--champ-border-color);
+  }
+
+  .prenom-gate__input:focus {
+    background: var(--champ-bg);
+    border-color: var(--champ-focus-border-color);
+  }
+
+  // Bouton : comme le choix actif des boutons de réponse (fond --box-border, texte --box-text)
+  .age-gate__confirm {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid var(--box-border);
+    border-radius: 10px;
+    background: var(--box-border);
+    color: var(--box-text);
+    font-weight: 700;
+    cursor: pointer;
+  }
+
+  .age-gate__confirm:disabled {
+    opacity: 0.5;
+    cursor: default;
+  }
+}
+/* <<< gate-theme */

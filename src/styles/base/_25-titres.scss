@@ -171,3 +171,55 @@ body .create-banner-title .create-banner-icon.create-banner-icon {
     transform: translate(calc(-50% + var(--icone-titre-dx, 0%)), calc(-50% + var(--icone-titre-dy, 0%)));
 }
 /* <<< icone-titre */
+
+/* >>> texte-btn */
+// Texte des boutons-images : zone de texte et taille proportionnelles au bouton (1cqw = 1 % de la largeur du bouton).
+//   --texte-btn-x / -y : centre du texte, en % du bouton ; --texte-btn-largeur : largeur de la zone ; --texte-btn-taille : taille du texte (cqw)
+body .create-btn-image { container-type: inline-size; }
+body .create-btn-image .create-btn-caption.create-btn-caption {
+    left: var(--texte-btn-x, 55.75%);
+    top: var(--texte-btn-y, 41%);
+    right: auto;
+    bottom: auto;
+    width: var(--texte-btn-largeur, 74.5%);
+    height: auto;
+    transform: translate(-50%, -50%);
+}
+body .create-btn-image .create-btn-title.create-btn-title {
+    font-size: var(--texte-btn-taille, 4cqw);
+}
+/* <<< texte-btn */
+
+/* >>> texte-titre */
+// Texte de TOUS les titres (barres de page et barre du haut) : zone et taille proportionnelles à la barre (1cqw = 1 % de sa largeur).
+//   --texte-titre-x / -y : centre du texte, en % de la barre ; --texte-titre-largeur : largeur de la zone ; --texte-titre-taille : taille (cqw)
+body .create-banner-title { container-type: inline-size; width: 100%; }
+body .create-banner-title .create-banner-text.create-banner-text {
+    left: var(--texte-titre-x, 50%);
+    top: var(--texte-titre-y, 50%);
+    right: auto;
+    bottom: auto;
+    width: var(--texte-titre-largeur, 80%);
+    height: auto;
+    padding: 0;
+    box-sizing: border-box;
+    white-space: normal;
+    transform: translate(-50%, -50%);
+    font-size: var(--texte-titre-taille, 6cqw);
+}
+/* <<< texte-titre */
+
+/* >>> icone-btn */
+// Icône à gauche des boutons-images : une seule règle, en pourcentage (réglée par thème avec mise-en-page.sh).
+//   --icone-btn-x / -y : centre, en % de la largeur / hauteur du bouton ; --icone-btn-taille : largeur en % du bouton ; -dx / -dy : décalage fin en % de l'icône
+body .create-btn-image .create-banner-icon.create-banner-icon {
+    position: absolute;
+    left: var(--icone-btn-x, 10.3%);
+    top: var(--icone-btn-y, 42.2%);
+    width: var(--icone-btn-taille, 7.5%);
+    height: auto;
+    translate: none;
+    scale: none;
+    transform: translate(calc(-50% + var(--icone-btn-dx, var(--btn-icone-dx, 0%))), calc(-50% + var(--icone-btn-dy, var(--btn-icone-dy, 0%))));
+}
+/* <<< icone-btn */

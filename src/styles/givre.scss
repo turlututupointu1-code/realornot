@@ -214,6 +214,25 @@ $dossier: 'givre';
   --icone-titre-dx: 32%;
   --icone-titre-dy: 15.5%;
   /* <<< icone-titre */
+  /* >>> texte-btn */
+  --texte-btn-x: 57.4%;
+  --texte-btn-y: 50.6%;
+  --texte-btn-largeur: 69%;
+  --texte-btn-taille: 4cqw;
+  /* <<< texte-btn */
+  /* >>> texte-titre */
+  --texte-titre-x: 58.5%;
+  --texte-titre-y: 50%;
+  --texte-titre-largeur: 77%;
+  --texte-titre-taille: 4.4cqw;
+  /* <<< texte-titre */
+  /* >>> icone-btn */
+  --icone-btn-x: 10.3%;
+  --icone-btn-y: 39.2%;
+  --icone-btn-taille: 14.2%;
+  --icone-btn-dx: 26%;
+  --icone-btn-dy: 14%;
+  /* <<< icone-btn */
     --wallpaper: url('../images/#{$dossier}/fondecran.webp');
     --wallpaper-reel: url('../images/#{$dossier}/fondecran2.webp'); // fond d'écran du côté « Personne réelle » (choisi à la place de --wallpaper, voir base.scss)
     --img-search-bar: url('../images/#{$dossier}/recherche.webp');

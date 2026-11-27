@@ -315,14 +315,10 @@
 
 
 
-// Page « Créer la photo » : boutons descendus et texte des boutons légèrement agrandi (le reste de la page ne bouge pas).
-// Réglable par thème (facultatif) : --creer-boutons-bas (descente), --creer-bouton-texte-echelle (taille du texte)
+// Page « Créer la photo » : boutons descendus (le reste de la page ne bouge pas).
+// Réglable par thème (facultatif) : --creer-boutons-bas (descente)
 .create-photo-page .create-buttons {
     translate: 0 var(--creer-boutons-bas, 30px);
-}
-.create-photo-page .create-btn-title {
-    display: inline-block;
-    scale: var(--creer-bouton-texte-echelle, 1.15);
 }
 
 // Page « Créer la photo » : silhouettes de proportions différentes -> même boîte, image entière (contain), pieds alignés en bas.
@@ -338,21 +334,6 @@
     translate: 0 var(--silhouette-dy, 0px);
 }
 
-// Page « Créer la photo » : texte des boutons centré verticalement sur le milieu du bouton.
-// Réglable par thème (facultatif) : --creer-bouton-texte-dy (décalage fin, positif = vers le bas), utile si le dessin du bouton n'est pas symétrique.
-.create-photo-page .create-buttons .btn-bouton-png .create-btn-caption {
-    top: 0;
-    bottom: 0;
-    height: auto;
-    padding-top: 0;
-    padding-bottom: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-.create-photo-page .create-buttons .btn-bouton-png .create-btn-title {
-    translate: 0 var(--creer-bouton-texte-dy, 0px);
-}
 
 // Page « Créer la photo » : décalage des icônes à gauche des boutons, propre à cette page.
 // Réglable par thème (facultatif) : --creer-btn-icone-dx / --creer-btn-icone-dy, en % de l'icône (négatif = gauche / haut).

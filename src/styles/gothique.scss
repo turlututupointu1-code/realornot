@@ -211,6 +211,25 @@ $dossier: 'gothique';
   --icone-titre-dx: 7.4%;
   --icone-titre-dy: 3.7%;
   /* <<< icone-titre */
+  /* >>> texte-btn */
+  --texte-btn-x: 55.75%;
+  --texte-btn-y: 48.1%;
+  --texte-btn-largeur: 70.5%;
+  --texte-btn-taille: 4cqw;
+  /* <<< texte-btn */
+  /* >>> texte-titre */
+  --texte-titre-x: 55.9%;
+  --texte-titre-y: 44.7%;
+  --texte-titre-largeur: 68.5%;
+  --texte-titre-taille: 4.6cqw;
+  /* <<< texte-titre */
+  /* >>> icone-btn */
+  --icone-btn-x: 10.3%;
+  --icone-btn-y: 42.2%;
+  --icone-btn-taille: 11.7%;
+  --icone-btn-dx: 22.5%;
+  --icone-btn-dy: 10%;
+  /* <<< icone-btn */
     --wallpaper: url('../images/#{$dossier}/fondecran.webp');
     --wallpaper-reel: url('../images/#{$dossier}/fondecran2.webp'); // fond d'écran du côté « Personne réelle » (choisi à la place de --wallpaper, voir base.scss)
     --img-search-bar: url('../images/#{$dossier}/recherche.webp');
